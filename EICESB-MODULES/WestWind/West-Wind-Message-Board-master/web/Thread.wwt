@@ -1,0 +1,165 @@
+<!-- SourceFile="~/../Deploy/wwThreadProcess.prg" -->
+<%
+    pcPageTitle = STRCONV(subject,9) + " - West Wind Message Board"
+    pcThreadId = Threadid
+%>
+<% Layout="~/views/_layoutpage.wcs" %>
+
+<% if .f. %>
+<!-- only for intellisense to work better -->
+<link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="lib/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+<link href="css/application.css" rel="stylesheet" />
+<% endif  %>
+
+<!-- begin message content -->
+<div class="main-content">
+    <div class="forum-header page-header-text">
+        <%= STRCONV(forum,9) %>
+    </div>
+
+    <div id="SortContainer" class="float-end" style="margin-right: 5px;">
+        <i id="MessageOrderDown" class="far fa-sort-numeric-up" style="font-size: 1.2em; opacity: 0.80;padding: 7px; margin: 1px; cursor: pointer;"
+           title="Display messages oldest messages first"></i>
+
+        <i id="MessageOrderUp" class="far fa-sort-numeric-down" style="font-size: 1.2em; opacity: 0.80;padding: 7px; margin: 2px; cursor: pointer;"
+           title="Display messages latest messages first"></i>
+    </div>
+
+    <div class="thread-title page-header-text" style="margin-bottom: 0;">
+       <%= STRCONV(EncodeHtml(TRIM(Subject)),9) %>
+    </div>
+ 
+    <%
+    lnI = 0
+    SCAN
+    lnI = lnI + 1
+    %>
+
+    <div id="ThreadMessageList">
+        <article id="<%= MsgId %>" class="message-list-item" data-id="<%= msgId %>" data-sort="<%= lnI %>">
+            <div class="message-list-header">
+                
+                <div style="font-size: 0.825em">
+                    <a href="http://gravatar.com" target="wwthreadsexternal">
+                        <img class="gravatar" src="<%= GravatarLink(TRIM(FromEmail),150) %>"
+                             alt="Gravatar is a globally recognized avatar based on your email address." />
+                    </a>
+
+                    <b style="font-size: 1.2em;"><%= STRCONV(EncodeHtml(Subject),9) %></b><br />
+
+                    <i class="fas fa-user fa-fw"></i>&nbsp;
+                    <%= STRCONV(EncodeHtml(FromName),9) %><br />
+
+                    <i class="fas fa-reply fa-fw"></i>&nbsp;
+                    <%= STRCONV(EncodeHtml(Process.GetRecipient(To)),9) %><br />
+
+                    <div class="float-end hidable-xs small">
+
+                        <i class="fa fa-external-link"></i>
+                        <a href="#<%= MsgId %>" title="Message id - click to update the URL for a pasteable link.">
+                            <%= MsgId %>
+                        </a>
+                    </div>
+
+                    <i class="far fa-clock fa-fw"></i>&nbsp;
+                    <%=ShortDate(TimeStamp,1 )%>  @ <%=ShortTime(TimeStamp)%><br />
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="message-toolbar">
+                <a href="ReplyMessage.wwt?id=<%= MsgId %>" class="hover-dark">
+                    <i class="fa fa-reply" style="color: lightgreen"></i>
+                    Reply
+                </a>
+                <% if UserId == Process.cAuthenticatedUserId OR Process.lAuthenticatedAdmin %>
+                <a href="EditMessage.wwt?id=<%= MsgId %>" class="hover-dark">
+                    <i class="fa fa-edit"></i>
+                    Edit
+                </a>
+                <a href="DeleteMessage.wwt?id=<%= MsgId %>" class="hover-dark">
+                    <i class="fas fa-times"></i>
+                    Delete
+                </a>
+                <% endif %>
+                <% if Process.lAuthenticatedAdmin %>
+                <a href="javascript:{}" data-href="DeleteUser.wwt?msgid=<%= MsgId %>"
+                   id="DeleteUser" class="hover-dark">
+                    <i class="fas fa-times"></i>
+                    Delete User
+                </a>
+                <% endif %>
+                <% if Pinned %>
+                <a class="hover-dark  float-end">
+                    <i class="fa fa-star" style="color: goldenrod" title="This thread is pinned."></i>
+                </a>
+
+                <% endif %>
+            </div>
+
+
+            <div class="message-list-body">
+                <%=  iif(format=2,poMarkdown.Parse(Message,.T.),DisplayMemo(Message) ) %>
+            </div>
+<% #if .F. %> 
+
+            <% if lnI = 1 OR lnI = 3 or lnI=6 %>
+            <!-- script in layout and on bottom and ajax refresh in loadTopicAjax()
+            <!-- MessageBoard Thread Responsive Ad -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-2013123155768157"
+                 data-ad-slot="6363211617"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <% endif %>
+
+<% #endif %>            
+        </article>
+
+    </div>
+    <% ENDSCAN %>
+
+</div>
+<!-- end message content -->
+<!-- remove sections if you're not using them -->
+<% section="headers" %>
+<% endsection %>
+
+<% section="scripts" %>
+
+
+<script>
+    // show the thread highlighted in the list
+    setTimeout(function () {
+        var $el = $(".message-item[data-id=<%= pcThreadId %>]");
+        if ($el.length < 1)
+            return;
+        $el.addClass("selected");
+        $el[0].scrollIntoView();
+    }, 500);
+
+    // if specific MsgId was specified scroll to it
+    setTimeout(function () {
+        var msgId = "<%= pcMsgId %>"
+        if (msgId) {
+            window.location.href = "#" + msgId;
+        }
+    }, 50);
+
+    <% if Process.lAuthenticatedAdmin %>
+
+        $("body").on("click","#DeleteUser", function () {                
+            if (confirm("Are you sure you want to delete this user and all of their messages?")) {
+                var href = $(this).data("href");                
+                window.location.href = href;
+            }
+            return false;
+        });
+      
+    <% endif %>
+</script>
+
+<% endsection %>

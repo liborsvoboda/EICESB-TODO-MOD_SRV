@@ -1,0 +1,627 @@
+﻿<controls:MetroWindow 
+        x:Class="WeblogAddin.WeblogForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster;assembly=MarkdownMonster"
+        xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
+        
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+
+        mc:Ignorable="d"        
+        Icon="icon.png"
+        Title="Markdown Monster Weblog Publishing" 
+        TitleCharacterCasing="Normal" 
+        TitleBarHeight="32"
+        WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"                      
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="800" Height="780" MinHeight="768" MinWidth="700">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <windows:StringComparisonToBooleanConverter x:Key="StringComparisonToBooleanConverter" />
+        <ContextMenu x:Key="BlogsContextMenu" Name="BlogsContextMenu">
+        </ContextMenu>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.HelpCommand}" CommandParameter="_4rg0r0hmd.htm"/>
+    </Window.InputBindings>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <dragablz:TabablzControl x:Name="TabControl" Margin="0,10,0,0" 
+                                 BorderThickness="0" ShowDefaultCloseButton="False"  
+                                 ShowDefaultAddButton="False" >
+
+            <dragablz:TabablzControl.Resources>
+                <Style x:Key="HeaderStyle" TargetType="TextBox"  BasedOn="{StaticResource {x:Type TextBox}}">
+                    <Setter Property="controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
+                    <Setter Property="FontSize" Value="17" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Foreground" Value="SteelBlue" />
+                    <Setter Property="Padding" Value="5,4,5,6" />
+                </Style>
+            </dragablz:TabablzControl.Resources>
+
+            <controls:MetroTabItem Name="TabPublish" Header="Post to Weblog " Margin="0,0,5,0" CloseButtonEnabled="False"                                   
+                               controls:HeaderedControlHelper.HeaderFontSize="16"  
+                               AutomationProperties.HelpText="Post to Weblog Tab"
+                               AutomationProperties.Name="WeblogPostTab">
+
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
+                    <Label>Title:</Label>
+                    <TextBox Text="{Binding ActivePostMetadata.Title}"  Style="{StaticResource HeaderStyle}" SpellCheck.IsEnabled="True" />
+
+                    <Label Margin="0,5,0,0"  IsEnabled="{Binding IsAbstractVisible}">Abstract:</Label>
+                    <TextBox TextWrapping="Wrap" Height="100" AutomationProperties.HelpText="Post Abstract"
+                	         Text="{Binding ActivePostMetadata.Abstract}" SpellCheck.IsEnabled="True" 
+                             IsEnabled="{Binding IsAbstractVisible}" 
+                             controls:TextBoxHelper.Watermark="Short text abstract for this post"  />
+
+                    <Label Margin="0,5,0,0" IsEnabled="{Binding IsCategoriesVisible}">Categories:</Label>
+                    <TextBox  Text="{Binding ActivePostMetadata.Categories}" IsEnabled="{Binding IsCategoriesVisible}" 
+                              AutomationProperties.HelpText="Post Categories"
+                              controls:TextBoxHelper.Watermark="Comma delimited list of categories for this post"/>
+
+                    <Label Margin="0,5,0,0">Keywords:</Label>
+                    <TextBox Text="{Binding ActivePostMetadata.Keywords}"  
+                             AutomationProperties.HelpText="Post Keywords"
+                             controls:TextBoxHelper.Watermark="Comma delimited list of keywords for this post" />
+
+
+					<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+						<StackPanel.Resources>
+							<Style TargetType="Button">
+								<Setter Property="Margin" Value="12,0,0,0" />
+								<Setter Property="BorderThickness" Value="0" />
+								<Setter Property="Background" Value="Transparent" />
+								<Setter Property="FontSize" Value="16" />
+							</Style>
+						</StackPanel.Resources>
+		                <TextBlock>Custom Fields:</TextBlock>
+		                <Button fa:Awesome.Content="PlusCircle" 								
+		                        Foreground="ForestGreen" 
+								ToolTip="Add a new Custom Field"
+								Click="ButtonAddCustomField_Click"/>
+						<Button fa:Awesome.Content="Remove" 
+		                        Foreground="Firebrick" 
+								ToolTip="Remove the selected Custom Field"
+								Click="ButtonDeleteCustomField_Click"/>
+                        <Button Name="ButtonCustomFieldHelp" 
+								fa:Awesome.Content="InfoCircle" 
+								Foreground="SteelBlue"
+								ToolTip="More info on Custom Fields"
+								Click="ButtonCustomFieldHelp_Click"/>
+                    </StackPanel>
+
+	                
+	                <ListBox Name="ListCustomFields" IsSynchronizedWithCurrentItem="True"
+	                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+	                         Height="65"
+	                         ItemsSource="{Binding MetadataCustomFields}"
+	                         Visibility="{Binding MetadataHasCustomFields,Converter={StaticResource BooleanToVisibilityConverter}}">
+		                <ListBox.ItemTemplate>
+                            <DataTemplate>
+				                <Grid Name="GridCustomFields" >
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="150"/>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="100" />
+									</Grid.ColumnDefinitions>
+
+									<TextBox Text="{Binding Key}"  BorderThickness="0" controls:TextBoxHelper.SelectAllOnFocus="True" />
+					                <TextBox Grid.Column="1" Padding="5,0,5,0"  BorderThickness="0"
+					                         Text="{Binding Value}"  controls:TextBoxHelper.SelectAllOnFocus="True" />
+					                <TextBox Grid.Column="2" Text="{Binding Id}" BorderThickness="0" />
+				                </Grid>
+			                </DataTemplate>
+                        </ListBox.ItemTemplate>
+	                </ListBox>
+
+					<Grid Name="PostToWeblogSiteGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="85"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Margin="0,5,0,0" Target="{Binding ElementName=ComboWebLogSite}">Web Site to post to:</Label>
+                        <ComboBox  Grid.Row="1" Grid.Column="0" ToolTip="Weblog selection" Name="ComboWebLogSite"   
+                                   AutomationProperties.Name="{Binding ActivePostMetadata.WeblogName}"                                   
+                           SelectedValuePath="Value.Name"
+                           DisplayMemberPath="Value.Name"
+                           SelectedValue="{Binding ActivePostMetadata.WeblogName}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding Configuration.Weblogs}"
+                           DropDownOpened="ComboWebLogSite_DropDownOpened">
+                            <ComboBox.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="AutomationProperties.Name"  Value="{Binding Value.Name}"/>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>                          
+
+                        <Label Grid.Row="0"  Grid.Column="1" Margin="0,5,0,0" HorizontalAlignment="Right">Post Id:</Label>
+                        <TextBox Name="TextAbstract" Grid.Row="1"  IsEnabled="{Binding IsAbstractVisible}" Grid.Column="1"  Text="{Binding ActivePostMetadata.PostId}"  Margin="10,0,0,0"/>
+
+						<StackPanel Orientation="Horizontal" Margin="0,15,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
+							<CheckBox Name="InferFeaturedImage"  Margin="0,0,0,0"  
+                                  Content="Don't infer Featured Image"  IsChecked="{Binding ActivePostMetadata.DontInferFeaturedImage}" 
+                                  ToolTip="If checked won't infer a featured image from the first linked image in the post content.">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+							<CheckBox Name="StripH1Header"  Margin="20,0,0,0" 
+                                  Content="Strip Document Header"  IsChecked="{Binding ActivePostMetadata.DontStripH1Header}" 
+                                  ToolTip="If checked strips the first H1 link in the post.">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                         
+						</StackPanel>
+					</Grid>
+
+					
+
+
+					<Grid   Margin="0,30 0 10" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0 0 50 0" HorizontalAlignment="Left">
+                            <ComboBox Name="ComboPostStatus" Width="187"
+                                      SelectedValue="{Binding ActivePostMetadata.PostStatus, Mode=TwoWay}"                                       
+                                      SelectedValuePath="Tag">
+                                <ComboBoxItem Content="Publish Post" Tag="publish" />
+                                <ComboBoxItem Content="Publish as Draft"  Tag="draft"/>
+                                <ComboBoxItem Content="Publish as Private" Tag="private" 
+                                              IsEnabled="{Binding ActiveWeblogInfo.Type, Converter={StaticResource StringComparisonToBooleanConverter},ConverterParameter='Wordpress'}"/>
+                            </ComboBox>
+
+                            <CheckBox Content="Auto-save to Disk" FontSize="13"
+                                      IsChecked="{Binding Configuration.AutoSavePost}" 
+                                      Margin="0,8,0,0"
+                                      ToolTip="Automatically saves the post to disk after uploading or saving meta data. Otherwise you have to manually save."
+                            >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        </StackPanel>
+
+
+                        <Button  Grid.Column="1"  Height="40" Width="175" VerticalAlignment="Top" Click="ButtonPostBlog_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <TextBlock Margin="10,0,0,0" FontSize="14">Post to Weblog</TextBlock>
+                            </StackPanel>
+                       </Button>
+                         
+                        
+                        <Button Grid.Column="2" Margin="10,0,0,0" Height="40" Width="175"  VerticalAlignment="Top" Click="ButtonSaveMeta_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <TextBlock Margin="10,0,0,0" FontSize="14">Save Metadata</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    
+
+
+					
+				</StackPanel>
+            </controls:MetroTabItem>
+
+
+
+
+
+            <controls:MetroTabItem Margin="0,0,5,0" Header="New Weblog Entry"
+                                   FontSize="16" CloseButtonEnabled="False"                                  
+                                   controls:HeaderedControlHelper.HeaderFontSize="16">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,15">
+                    <Label>Title:</Label>
+                    <TextBox Text="{Binding NewTitle, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource HeaderStyle}"    />
+
+                    <Label Margin="0,10,0,0">Filename:</Label>
+                    <TextBox Text="{Binding NewFilename}" />
+
+                    <Label Margin="0,10,0,0">WebLog to post to:</Label>
+                    <ComboBox  ToolTip="Weblog selection"
+                           DisplayMemberPath="Value.Name"
+                           SelectedValuePath="Value.Name"
+                           SelectedValue="{Binding Configuration.LastWeblogAccessed}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding Configuration.Weblogs}"
+                           DropDownOpened="ComboWebLogSite_DropDownOpened"
+                           />
+
+                    
+                    <Button Margin="0,40" Height="45" Width="180" HorizontalAlignment="Right" 
+                        Click="ButtonNewPost_Click" IsDefault="True">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <TextBlock Margin="10,0,0,0" FontSize="14">Create new Post</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+            </controls:MetroTabItem>
+
+
+            <controls:MetroTabItem Header="Download Blog Post " Margin="0,0,5,0" controls:HeaderedControlHelper.HeaderFontSize="16">
+                <Grid Margin="40,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--<Label Grid.Row="0" Foreground="#626262" FontSize="45" FontWeight="Bold" Margin="0,0,0,3">Experimental</Label>-->
+
+                    <Label Grid.Row="1">Select Blog</Label>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="*"/>
+                            <ColumnDefinition  Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox  Grid.Column="0" ToolTip="Weblog selection"
+                           DisplayMemberPath="Value.Name"
+                           SelectedValuePath="Value.Name"
+                           SelectedValue="{Binding ActivePostMetadata.WeblogName}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           
+                           ItemsSource="{Binding Configuration.Weblogs}" 
+                           />
+                        <TextBox Grid.Column="1" Name="TextNumberOfPosts" Text="{Binding NumberOfPostsToRetrieve}" TextAlignment="Right" Margin="6,0,0,0" />
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+          
+
+                        <Button Margin="0,10" Height="40" Width="175" HorizontalAlignment="Left" 
+                        Click="Button_DownloadPosts_Click" >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Download" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                                <TextBlock Margin="10,0,0,0" FontSize="14">List Posts</TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Label Grid.Column="1" Margin="20,0,0,0" HorizontalAlignment="Right" Height="35">Search:</Label>
+                        <TextBox Grid.Column="2" Margin="5,0,0,0" Height="35"
+                                 Text="{Binding PostListSearch, UpdateSourceTrigger=PropertyChanged}"
+                                 />
+                    </Grid>
+                    
+                    <ListBox Grid.Row="4" Name="ListViewPosts" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             MouseDoubleClick="ListViewPosts_MouseDoubleClick" 
+                             ItemsSource="{Binding PostList}"
+                             KeyDown="ListViewPosts_KeyDown" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="AutomationProperties.HelpText" Value="{Binding Title}"/>
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" Background="#10FFFFFF" 
+                                      Margin="0,0,0,1"
+                                      ToolTip="To download either click the download button or double click this item.">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                
+                                    <TextBlock Grid.Column="0" Grid.Row="0"
+                                            Padding="10,2,10,2"
+                                            TextTrimming="WordEllipsis"
+                                            Text="{Binding Title}" 
+                                            FontWeight="SemiBold" Foreground="{DynamicResource HeadlineColor}"  FontSize="16.5" />
+                                    
+                                    <TextBlock Grid.Row="0" Grid.Column="1" 
+                                               Text="{Binding DateCreated,StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                                FontStyle="Italic" FontSize="11" HorizontalAlignment="Right" Margin="0,3,7,0" />
+
+
+                                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Margin="0,0,0,10">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button fa:Awesome.Content="CloudDownload" 
+                                                Foreground="#00A100" Name="ButtonDownloadPost" 
+                                                Height="32" Width="32" FontSize="17" Margin="15,0,5,0" 
+                                                Click="ButtonDownloadPost_Click"
+                                                BorderThickness="0" ToolTip="Download Weblog post"/>
+
+                                        <TextBlock Grid.Column="1"
+                                                   Padding="20,0,0,0" 
+                                                   Text="{Binding mt_excerpt}" 
+                                                   TextWrapping="WrapWithOverflow"
+                                                   HorizontalAlignment="Left"
+                                                   AutomationProperties.Name="{Binding mt_excerpt}"
+                                                   FontSize="14" MaxWidth="700"/>
+                                    </Grid>
+                                    
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:MetroTabItem>
+            
+
+            <controls:MetroTabItem Header="Web Logs " Margin="0,0,5,0" 
+                                   FontSize="16" Name="TabWeblogs"
+                                   controls:HeaderedControlHelper.HeaderFontSize="16"
+                                   CloseButtonEnabled="False">
+                
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50,35,50,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="*"/>
+                            <ColumnDefinition  Width="80"/>
+                            <ColumnDefinition  Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox  Name="ComboWebLogName" ToolTip="Weblog selection" 
+                           DisplayMemberPath="Value.Name"       
+                           SelectedValuePath="Value"
+                           SelectedValue="{Binding ActiveWeblogInfo}"
+                           IsSynchronizedWithCurrentItem="True"  
+                           SelectionChanged="ComboWebLogName_SelectionChanged"                               
+                           ItemsSource="{Binding Configuration.Weblogs}" 
+
+                           AutomationProperties.Name="Weblog Selection" 
+                           />
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonNewWeblog" 
+                                AutomationProperties.Name="New Weblog" 
+                                Click="Button_NewWeblog">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" Margin="0,2,5,0" />
+                                <TextBlock>New</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Grid.Column="2" Margin="5,0,0,0" Click="Button_DeleteWeblog"
+                                AutomationProperties.Name="Delete Weblog" 
+                                >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed" Margin="0,2,5,0" />
+                                <TextBlock>Delete</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <Separator Margin="0,20"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="230" />
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Name="lblWeblogName"  Grid.Row="0" Grid.Column="0">Name:</Label>
+                        <Label Name="lblWeblogId" Grid.Row="0" Grid.Column="1" Margin="7,0,0,0" 
+                                controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}">Weblog Id or Publication:</Label>
+
+                        <TextBox Grid.Column="0" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.Name}" 
+                                FontSize="15"  Style="{StaticResource HeaderStyle}" 
+                                AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogName}"/>
+                        <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding ActiveWeblogInfo.BlogId}"  
+                                 controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}" 
+                                 FontSize="15" Margin="7,0,0,0" Style="{StaticResource HeaderStyle}" 
+                                 AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogId}" />
+                        
+                        <Button Name="ButtonBlogsList" Margin="-2,0,0,0"
+                                controls:VisibilityHelper.IsVisible="{Binding IsBlogIdVisible}"
+                                Grid.Column="2" Grid.Row="1" 
+                                ContextMenu="{DynamicResource BlogsContextMenu}" 
+                                fa:Awesome.Content="CaretDown"
+                                Click="DropDownButton_Click"
+                                ToolTip="Lookup Weblog Id or Publication. Make sure the API Url and token or username/password are set before making a selection.">
+                            <b:Interaction.Behaviors>
+                                <local:DropDownButtonBehavior />
+                            </b:Interaction.Behaviors>  
+                        </Button>
+
+                    </Grid>
+
+                    <Label Name="lblWerblogType" Margin="0,10,0,0">Weblog type:</Label>
+                    <ComboBox Name="ComboWeblogType"                            
+                              SelectedValue="{Binding ActiveWeblogInfo.Type}"
+                              IsSynchronizedWithCurrentItem="True" 
+                              ItemsSource="{Binding WeblogNames}"
+                              SelectionChanged="ComboWeblogType_SelectionChanged"
+                              AutomationProperties.Name="Weblog Type" 
+                              AutomationProperties.LabeledBy="{Binding ElementName=lblWeblogType}"
+                    >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding }" AutomationProperties.HelpText="{Binding }" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                 
+
+                    <Label Margin="0,10,0,0">Weblog Api Url or Local Path:</Label>
+                    
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ActiveWeblogInfo.ApiUrl}"  FontSize="15">
+                            <TextBox.ToolTip>
+                                <TextBlock>
+                                The API Endpoint URL for MetaWeblog or WordPress or Medium APIs. 
+                                <LineBreak/>
+                                IMPORTANT: This has to be the RPC endpoint URL, not a discovery URL.
+                                <LineBreak/>
+                                <LineBreak/>
+                                For Local Jekyll this is the local folder path to the Jekyll Project.
+                                </TextBlock>
+                            </TextBox.ToolTip>
+                        </TextBox>
+                        <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonDiscoverEndpoint" 
+                                Click="ButtonDiscoverEndpoint_Click"  
+                                ToolTip="Discover and check Weblog Endpoint Url. See status bar after clicking."
+                                FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Content="&#xF013;" />
+                        <Button Grid.Column="2" Margin="5,0,0,0" Name="ButtonApiUrlInfo" 
+                                Click="ButtonApiUrlInfo_Click" 
+                                ToolTip="Documentation for Endpoint Configuration"
+                                FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Content="&#xF059;"                                 
+                                
+                                />
+                    </Grid>
+
+                    
+                    <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsLaunchCommandVisible}" >
+                        <Label Margin="0,10,0,0">Launch Command</Label>
+                        <TextBox 
+                            ToolTip="An command line command that can be executed after the post has been published."
+                            Text="{Binding ActiveWeblogInfo.LaunchCommand}"  FontSize="15" />
+                    </StackPanel>
+
+                    <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsLaunchCommandVisible}" >
+                        <Label Margin="0,10,0,0">Jekyll Live Site Base Url</Label>
+                        <TextBox 
+                            ToolTip="Optional Url like `https://jekyll.mysite.com` that is a root path to the Weblog. Used to fix up FeaturedImageUrls."
+                            Text="{Binding ActiveWeblogInfo.WebLogRootSitePath}"  FontSize="15" />
+                    </StackPanel>
+
+                    <StackPanel  >
+                        <Label Name="lblPreviewUrl" Margin="0,10,0,0">Preview Url</Label>
+                        <TextBox 
+                            ToolTip="An optional URL that can preview the current post or blog. Necessary only for blogs that don't return the URL generated."
+                            Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" 
+                            AutomationProperties.LabeledBy="{Binding ElementName=lblPreviewUrl}"/>
+                    </StackPanel>
+
+
+
+                    <!--<Label Margin="0,10,0,0">Preview Url: (using {0} for post id)</Label>
+                    <TextBox 
+                        ToolTip="Leave blank to use the API's permalink downloaded in post data (if available). Otherwise fill in with a URL and use {0} to specify the Post Id."
+                        Text="{Binding ActiveWeblogInfo.PreviewUrl}"  FontSize="15" />-->
+
+
+
+                    <StackPanel Visibility="{Binding IsUserPassVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                        <Label Name="lblUsername" Margin="0,10,0,0">Username:</Label>
+                        <TextBox Text="{Binding ActiveWeblogInfo.Username}"  FontSize="15" 
+                                 AutomationProperties.LabeledBy="{Binding ElementName=lblUsername}"/>
+
+                        <Label Name="lblPassword"  Margin="0,10,0,0">Password: (only set if you need to change)</Label>
+
+                        <Grid >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <PasswordBox  Name="TextWeblogPassword" FontSize="15" 
+                                          LostFocus="TextWeblogPassword_LostFocus"
+                                          AutomationProperties.LabeledBy="{Binding ElementName=lblPassword}"/>
+                            <Button Grid.Column="1" Margin="5,0,0,0" Name="ButtonValidatePassword" 
+                                    Click="ButtonValidatePassword_Click"  
+                                    ToolTip="Checks to see if the authentication is valid."
+                                    FontSize="15" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    Foreground="#FF0E7E28" Content="&#xF00C;"                                     
+                                    />
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding IsTokenVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Label Margin="0,10,0,0">Access Token: (only set if you need to change )</Label>
+                        <PasswordBox  Name="TextWeblogToken" FontSize="16"  LostFocus="TextWeblogToken_LostFocus" />
+                    </StackPanel>
+
+                    
+                    <TextBlock Margin="0,20,0,0" FontSize="14"> 
+                        <Hyperlink NavigateUri="https://markdownmonster.west-wind.com/docs/_4rg0qzg1i.htm" RequestNavigate="Hyperlink_UrlNavigate" Foreground="SteelBlue">
+                            configuration info...
+                        </Hyperlink>
+                    </TextBlock>
+
+
+                    <Button Margin="0,20" Height="45" Width="170"  HorizontalAlignment="Right" 
+                            Name="ButtonSaveWebLogInfo" Click="ButtonSaveWebLogInfo_Click" 
+                            AutomationProperties.HelpText="Save Weblog Info"
+                            
+                            >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Check" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                            <TextBlock Margin="10,0,0,0" FontSize="14">Save Weblog</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+            </controls:MetroTabItem>
+
+        </dragablz:TabablzControl>
+
+        <StatusBar  Grid.Row ="3" Height="32"                    
+                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                    FontSize="14" Padding="0,4,0,0">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>

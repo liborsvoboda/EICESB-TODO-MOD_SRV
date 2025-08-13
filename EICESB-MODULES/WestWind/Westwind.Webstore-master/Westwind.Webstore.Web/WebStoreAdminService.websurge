@@ -1,0 +1,189 @@
+POST /api/account/authenticate HTTP/2.0
+Accept-Encoding: gzip,deflate
+Accept: application/json
+Content-Type: application/json
+WebSurge-Request-CaptureAndSetAuthorizationBearerTokenFromJson: token
+Websurge-Request-Name: Authenticate
+WebSurge-Request-Group: Authentication
+
+{
+  "username": "rstrahl@west-wind.com",
+  "password": "kqm3ube0jnm!QKC9wcx"
+}
+
+------------------------------------------------------------------
+
+GET /adminservice/invoice/8e6349tj HTTP/2.0
+Accept-Encoding: gzip,deflate
+Accept: application/json
+Authorization: Bearer
+Websurge-Request-Name: Get Invoice
+WebSurge-Request-Group: Admin Service
+
+------------------------------------------------------------------
+
+GET /adminservice/invoices?q=recent HTTP/2.0
+Accept-Encoding: gzip,deflate
+Accept: application/json
+Authorization: Bearer
+Websurge-Request-Name: Get Invoices
+WebSurge-Request-Group: Admin Service
+
+------------------------------------------------------------------
+
+GET /api/product/search/Markdown HTTP/2.0
+Accept-Encoding: gzip,deflate
+Host: localhost:5001
+Websurge-Request-Name: Search Lookup
+WebSurge-Request-Group: Application Lookups
+
+------------------------------------------------------------------
+
+GET /adminservice/customers HTTP/2.0
+Accept-Encoding: gzip,deflate
+Authorization: Bearer
+Websurge-Request-Name: Customer List (complete - long list)
+WebSurge-Request-Group: Admin Service
+
+------------------------------------------------------------------
+
+GET /adminservice/products HTTP/2.0
+Accept-Encoding: gzip,deflate
+Authorization: Bearer
+Websurge-Request-Name: Product List
+WebSurge-Request-Group: Admin Service
+
+------------------------------------------------------------------
+
+GET https://store.west-wind.com HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Home Page
+WebSurge-Request-Group: Miscellaneous
+
+------------------------------------------------------------------
+
+GET /admin/productmanager/product/delete/1231233 HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Delete Product by Id
+WebSurge-Request-Group: Product
+
+------------------------------------------------------------------
+
+POST /admin/lookupsmanager HTTP/2.0
+Accept-Encoding: gzip,deflate
+Content-Type: application/json
+Websurge-Request-Name: Save Lookup Change
+WebSurge-Request-Group: Lookups
+
+{
+  "cdata": "MM_FREE_UPGRADE",
+  "cdata1": "sss",
+  "ndata": 99
+}
+
+------------------------------------------------------------------
+
+POST /admin/lookupsmanager HTTP/2.0
+Accept-Encoding: gzip,deflate
+Content-Type: application/json
+Websurge-Request-Name: Save New Lookup
+WebSurge-Request-Group: Lookups
+
+{
+  "cdata": "MM_FREE_UPGRADE",
+  "cdata1": "sss",
+  "ndata": 99,
+  "key":"PROMO",
+  "id": "new"
+}
+
+------------------------------------------------------------------
+
+DELETE /admin/lookupsmanager/d500pf1b0g HTTP/2.0
+Accept-Encoding: gzip,deflate
+Accept: application/json
+Websurge-Request-Name: Delete Lookup
+WebSurge-Request-Group: Lookups
+
+{
+  "cdata": "MM_FREE_UPGRADE",
+  "cdata1": "sss",
+  "ndata": 99,
+  "key":"PROMO",
+  "id": "new"
+}
+
+------------------------------------------------------------------
+
+GET api/authentication/usertokenvalidation/rc8i65u605t29f7 HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Validate token
+WebSurge-Request-Group: User Token
+
+------------------------------------------------------------------
+
+GET api/authentication/usertokenverification/rc8i65u605t29f7 HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: User Token Retrieval by Token ID
+WebSurge-Request-Group: User Token
+
+------------------------------------------------------------------
+
+GET https://store.west-wind.com/account/login?isTokenRequest=true&tokenId={_idToken}&scope=WebSurge HTTP/2.0
+Accept-Encoding: gzip,deflate
+Websurge-Request-Name: Login UI With Token
+WebSurge-Request-Group: User Token
+
+------------------------------------------------------------------
+
+GET /adminservice/systeminfo HTTP/2.0
+Authorization: Bearer
+Websurge-Request-Name: System Info
+WebSurge-Request-Group: Miscellaneous
+
+------------------------------------------------------------------
+
+
+----- Start WebSurge Options -----
+
+{
+  "SiteBaseUrl": "https://localhost:5001/",
+  "RecentSiteBaseUrlList": [
+    "https://localhost:5001/"
+  ],
+  "OnlineSessionId": null,
+  "SessionVariables": {},
+  "UseCustomUsers": true,
+  "HttpProtocolVersion": "2.0",
+  "IgnoreCertificateErrors": false,
+  "NoContentDecompression": false,
+  "UpdateHeadersFromRequest": false,
+  "SecondsToRun": 60,
+  "ThreadCount": 2,
+  "DelayTimeMs": 0,
+  "WarmupSeconds": 2,
+  "RequestTimeoutMs": 15000,
+  "RandomizeRequests": false,
+  "MaxConnections": 100,
+  "NoProgressEvents": false,
+  "RemoveStartAndEndPercentile": 0,
+  "ReplaceQueryStringValuePairs": null,
+  "ReplaceCookieValue": "",
+  "TrackPerSessionCookies": true,
+  "ReplaceAuthorization": "Bearer 32ey0rjgee8jux8",
+  "Username": null,
+  "Password": null,
+  "UsernamePasswordType": "Negotiate",
+  "Users": [],
+  "UserAgent": null,
+  "CaptureMinimalResponseData": false,
+  "MaxResponseSize": 200000,
+  "Documentation": []
+}
+
+// This file was generated by West Wind WebSurge
+// Get your free copy at https://websurge.west-wind.com
+// to easily test or load test the requests in this file.
+
+----- End WebSurge Options -----
+

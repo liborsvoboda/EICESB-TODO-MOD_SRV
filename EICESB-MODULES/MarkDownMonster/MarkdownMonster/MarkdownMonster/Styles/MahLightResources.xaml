@@ -1,0 +1,86 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                    mc:Ignorable="options">
+
+    <!-- Highlight Colors -->
+    <SolidColorBrush x:Key="BlueItem" Color="#0D7EBE" />
+    <SolidColorBrush x:Key="ControlBoxBrush" Color="#222" />
+    <SolidColorBrush x:Key="LowLightForegroundBrush" Color="#444" />
+    <SolidColorBrush x:Key="LowLightBackgroundBrush" Color="#F2F2F2" />
+    <SolidColorBrush x:Key="SidebarHeaderBackground" Color="#eee"/>
+
+
+    <!-- Common Overrides -->
+    <SolidColorBrush x:Key="HeadlineColor" Color="#4D6081" />
+
+
+    <Style  x:Key="HeaderTextBoxStyle" TargetType="{x:Type TextBox}"
+            BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource BlueItem}" />
+        <Setter Property="Padding" Value="5,2,5,3" />
+    </Style>
+
+    <Style x:Key="HeaderTextBlockStyle" TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource HeadlineColor}" />
+        <Setter Property="Margin" Value="0,18,0,2" />
+    </Style>
+
+
+    <!-- Menu Colors -->
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Border" Color="#ccc" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Border" Color="#ccc" />
+    <!--<SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#414141" />-->
+
+    <!-- Title and StatusBar Foreground Color -->
+    <SolidColorBrush x:Key="MahApps.Brushes.IdealForeground" Color="#090909" />
+
+    <!-- Blueish VS Style Menu bar -->
+    <SolidColorBrush x:Key="MahApps.Brushes.Menu.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.ContextMenu.Background" Color="#CBD4EF" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.SubMenu.Background" Color="#CBD4EF" options:Freeze="True" />
+    
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionFill" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.MenuItem.SelectionStroke" Color="#A6C5DD" options:Freeze="True" />
+
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.PressedFill" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.PressedStroke" Color="#A3ADCB" options:Freeze="True" />
+    <SolidColorBrush x:Key="MahApps.Brushes.TopMenuItem.SelectionStroke" Color="#A3ADCB" options:Freeze="True" />
+
+    <SolidColorBrush x:Key="MahApps.Brushes.T" Color="#A3ADCB" options:Freeze="True" />
+
+
+    
+
+
+    <!-- TreeView Item Highlighting -->
+    <Style TargetType="{x:Type TreeView}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                             Color="LightGray" />
+        </Style.Resources>
+    </Style>
+
+
+      <!--<Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MahAppsTabablzControlStyle}">-->
+    <Style x:Key="MarkdownMonsterTrapezoidDragableTabItemStyle"
+           TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource TrapezoidDragableTabItemStyle}">
+    </Style>
+
+    <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource {x:Type dragablz:TabablzControl}}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource MarkdownMonsterTrapezoidDragableTabItemStyle}" />
+        <Setter Property="AdjacentHeaderItemOffset" Value="-12" />
+        <Setter Property="ShowDefaultAddButton" Value="True" />
+        <Setter Property="ShowDefaultCloseButton" Value="True" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,51 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.Windows.PreviewBrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        TitleCharacterCasing="Normal"
+        Title="Markdown Monster Preview"
+        BorderThickness="0" 
+        GlowBrush="Black"                       
+        ResizeMode="CanResizeWithGrip"  
+        Icon="..\..\Assets\MarkdownMonster_Icon_256.png"
+        WindowTransitionsEnabled="False"        
+        Top="-10000" Left="-10000"
+        Height="700" Width="900" 
+        MinHeight="600" MinWidth="500">
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0" Margin="1,0" Name="PreviewBrowserContainer">
+        </Grid>
+
+        <StatusBar  Grid.Row ="1"  Margin="0,0,0,0" VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch">
+            <CheckBox Name="CheckPreviewDocked"
+                      Style="{StaticResource CompactCheckBox}"
+                      Content="Docked to main window" 
+                      IsChecked="{Binding Configuration.WindowPosition.PreviewDocked}"
+                      Margin="20,5" 
+                      Click="CheckPreviewDocked_Click" />
+            <ComboBox Name="ComboWindowDisplayModes"
+                DisplayMemberPath="Value" 
+                SelectedValuePath="Key" 
+                FontSize="12"
+                SelectedValue="{Binding Configuration.WindowPosition.PreviewDisplayMode}" 
+                SelectionChanged="ComboWindowDisplayModes_SelectionChanged"
+                Padding="1"
+                BorderThickness="0"
+                />
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>
+

@@ -1,0 +1,26 @@
+[
+  {
+    "outputFileName": "css/application.min.css",
+    "inputFiles": [
+      "css/application.css"
+    ]
+  },
+  {
+    "outputFileName": "css/westwind.min.css",
+    "inputFiles": [
+      "css/westwind.css"
+    ]
+  },
+  {
+    "outputFileName": "scripts/wwthreads.min.js",
+    "inputFiles": [
+      "scripts/wwthreads.js"
+    ]
+  },
+  {
+    "outputFileName": "scripts/ww.jquery.min.js",
+    "inputFiles": [
+      "scripts/ww.jquery.js"
+    ]
+  }
+]

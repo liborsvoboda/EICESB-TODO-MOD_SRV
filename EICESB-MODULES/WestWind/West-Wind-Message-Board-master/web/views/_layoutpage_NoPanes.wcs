@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <title><%= IIF(vartype(pcPageTitle)="C",pcPageTitle,"") %></title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />    
+
+    <meta name="description" content="Support Web site for West Wind tools and products and general Web and Enterprise development discussions for Visual FoxPro and .NET developers.">
+    <meta name="keywords" content="FoxPro,Visual FoxPro,VFP,Fox,FoxPro Development,Web,HTML,CSS,JavaScript,C#,.NET,Visual Studio,XML,Web Connection,COM,COM+,SOAP,Messaging,Distributed,Web Monitor,wwIPStuff,ISAPI,DHTML,Dynamic HTML,Rick Strahl,Frederik Strahl,Message Board,Programming,HTTP,COM,DCOM,C++,West Wind Internet Protocols,HTML Help Builder,SOAP,wwSOAP,Web Services,e-Commerce,ecommerce,">   
+
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="~/touch-icon.png" />
+
+    <link rel="icon" href="~/touch-icon.png" />
+    <meta name="msapplication-TileImage" content="~/touch-icon.png" />
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.bundle.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/application.css" rel="stylesheet" />
+    <%= RenderSection("headers") %>
+    <style>
+        
+    </style> 
+</head>
+<body>
+    <div class="flex-master">
+        <header class="banner">
+            <!-- Icon and Company Logo -->
+            <img class="title-bar-icon" src="~/images/icon.png" />
+            <div class="title-bar no-slide-menu">
+                <a href="~/">
+                    <div style="float: left; margin: 4px 5px; line-height: 1.0">
+                        <i style="color: #0092d0; font-size: 0.975em; font-weight: bold;">West Wind</i><br />
+                        <i style="color: whitesmoke; font-size: 1.7em; font-weight: bold;">Message Board</i>
+                    </div>
+                </a>
+            </div>
+
+            <!-- top right nav menu - .hidable for options that hide on small sizes -->
+            <nav class="banner-menu-top pull-right">
+                <% if !Process.lIsAuthenticated %>
+
+                <a href="Login.wwt?returnurl=<%= Request.GetCurrentUrl() %>" class="pull-right" title="Sign in">
+                    <i class="fa fa-unlock-alt"></i>
+                    Sign in
+                </a>
+                <% else %>
+                <style>
+                    .dropdown-menu {
+                        background: #838383;
+                    }
+
+                        .dropdown-menu > li > a {
+                            width: 100%;
+                            padding: 11px;
+                        }
+
+                            .dropdown-menu > li > a:hover {
+                                width: 100%;
+                                background: #555;
+                            }
+                </style>
+                <div class="btn-group">
+                    <a href="#" class="pull-right  dropdown-toggle" title="<%= Process.cAuthenticatedName %>" data-toggle="dropdown">
+                        <i class="fa fa-lock"></i>
+                        <span class="hidable-xs"><%= Process.cAuthenticatedName %></span>
+                        <img title="Sign out <%= Process.cAuthenticatedName %>." src="<%= GravatarLink(Process.cAuthenticatedUser,23) %>" />
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="Profile.wwt">
+                                <i class="fa fa-user"></i>&nbsp;
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="logout.wwt">
+                                <i class="fa fa-lock"></i>&nbsp;
+                                Sign out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <% endif %>
+            </nav>
+            <div class="clearfix"></div>
+
+        </header>
+        <div class="menu-toolbar">
+            <i class="fa fa-bars" style="cursor: pointer;padding: 5px;" id="slide-menu-toggle" title="Toggle the message list side menu."></i>
+
+            &nbsp;&nbsp;
+            <a href="WriteMessage.wwt">
+                <i class="fa fa-edit"></i>
+                New Message
+            </a>
+            <a id="Refresh-Button" href="javascript:{}" title="Refresh the message list.">
+                <i class="fa fa-refresh"></i>
+                Refresh
+            </a>
+            <a id="Search-Button" href="javascript:{}">
+                <i class="fa fa-search"></i>
+                Search
+            </a>
+        </div>
+
+        <div class="page-content">
+
+            
+            <div id="MainView" class="main-content">
+                <%= RenderContent() %>
+
+                <%  lcFileStem = LOWER(JustStem(Request.GetPhysicalPath()))
+					IF  lcFileStem != "threads" AND lcFileStem != "threadlist" %>
+                <footer>
+                    <a href="http://www.west-wind.com/" class="pull-right">
+                        <img src="~/images/WestwindText.png" />
+                    </a>
+                    <small>&copy; <%= Year(DateTime()) %></small>
+                </footer>
+                <% endif %>
+            </div> <!-- end #MainView -->
+
+        </div>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/scripts/ww.jquery.min.js"></script>    
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/moment/min/moment.min.js"></script>
+    <link href="~/lib/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <script src="~/lib/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="~/scripts/wwthreads.js?v1.1.4"></script>
+
+    <link href="~/lib/highlightjs/styles/vs2015.css" rel="stylesheet" />
+    <script src="~/lib/highlightjs/highlight.pack.js"></script>
+    <script src="lib/highlightjs-badge.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+        setTimeout(highlightJsBadge,1);
+        
+    </script>
+
+
+    <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
+    <script src="~/lib/toastr/build/toastr.min.js"></script>
+
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>
+
+    <script>
+        $(".slide-menu-toggle-open,.slide-menu-toggle-close," +
+            ".slide-menu a, #SamplesLink")
+            .click(function () {
+                $(".slide-menu").toggleClass("active");
+            });
+    </script>
+
+    <%= RenderSection("scripts") %>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-9492219-13', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

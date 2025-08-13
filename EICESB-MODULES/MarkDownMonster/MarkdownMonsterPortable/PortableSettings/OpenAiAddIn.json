@@ -1,0 +1,27 @@
+﻿{
+  "Connections": {
+    "SourceTranslationLanguage": "English",
+    "TargetTranslationLanguage": "German",
+    "SummarySentences": 3,
+    "ActiveConnectionIndex": 0,
+    "ActiveImageConnectionIndex": 0,
+    "Connections": [],
+    "CompletionConnections": [],
+    "ImageGenerationConnections": [],
+    "IsAvailable": false,
+    "IsImageConnectionAvailable": false
+  },
+  "MaxSavedImageCount": 50,
+  "DefaultImageSize": "1024x1024",
+  "DefaultImageStyle": "vivid",
+  "DefaultImageQuality": "standard",
+  "RecentImagePrompts": [],
+  "RecentChatPrompts": [],
+  "WindowPosition": {
+    "Left": 0.0,
+    "Top": 0.0,
+    "Width": 0.0,
+    "Height": 0.0,
+    "CenterInMainWindow": false
+  }
+}

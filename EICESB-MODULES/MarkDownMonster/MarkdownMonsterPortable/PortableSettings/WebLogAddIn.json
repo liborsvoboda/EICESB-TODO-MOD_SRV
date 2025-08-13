@@ -1,0 +1,18 @@
+﻿{
+  "CustomFieldNames": {
+    "mt_location": "Location from which the post was made",
+    "mt_date": "Update post date (ISO 8601: '2020-12-01T12:58:58')",
+    "mt_githuburl": "Github Url where post can be edited",
+    "mt_featuredimage": "override the featured image",
+    "mt_updateslug": "Updates the slug from the post title if provided. Use `true` or really any value"
+  },
+  "KeyboardShortcut": "",
+  "PostsFolder": "C:\\Users\\tatka\\Documents\\Markdown Monster Weblog Posts",
+  "ReplacePostImagesWithOnlineUrls": false,
+  "LastWeblogAccessed": null,
+  "AutoSavePost": false,
+  "RenderLinksOpenExternal": true,
+  "AddFrontMatterToNewBlogPost": false,
+  "FrontMatterTemplate": "---\nTitle: {0}\nPublished: {1:dd/MM/yyyy}\nTags:\n- Keyword1\n---\n",
+  "Weblogs": {}
+}

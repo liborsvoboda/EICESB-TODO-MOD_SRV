@@ -1,0 +1,464 @@
+﻿@page
+@addTagHelper *, Westwind.AspNetCore.Markdown
+
+@using System.Diagnostics
+@using System.IO
+@using System.Net
+@using System.Text.RegularExpressions
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Markdown Monster</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Download Markdown Monster: A better Markdown Editor and Weblog Publisher for Windows" />
+    <meta name="keywords" content="Markdown,Editor,Editing,Weblog,Writing,Documentation,Windows,Download" />
+
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Css/application.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+    <meta property="og:title" content="Download Markdown Monster Markdown Editor and Weblog Publisher" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://markdownmonster.west-wind.com/download" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@@markdownmonstr">
+    <meta name="twitter:title" content="Download Markdown Monster">
+    <meta name="twitter:description" content="Markdown Monster: The powerful, yet easy to use Markdown Editor for Windows.">
+    <meta name="twitter:creator" content="@@markdownmonstr">
+    <meta name="twitter:domain" content="markdownmonster.west-wind.com">
+
+    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonster-Card-1200x628.png" /> 
+    <meta property="og:image:alt" content="Markdown Monster Logo" />
+    <meta name="twitter:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonster-Card-1200x628.png" />
+
+    @* <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://markdownmonster.west-wind.com/Images/MarkdownMonster-Card-1200x1200.png"/>   *@
+    
+
+    <style>
+        dt {
+            float: left;
+            width: 90px;
+            font-weight: normal
+        }
+
+        dd {
+            font-size: 100%
+        }
+
+        .panel {
+            min-height: 140px;
+        }
+
+        #ContentContainer {
+            max-width: 1000px;
+            padding: 1em 2.5em;
+        }
+
+        #DownloadButton, #DownloadButton_Preview {
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-weight: 600;
+        }
+
+        @@media(max-width: 768px) {
+            #ChocolateyInstall {
+                display: none;
+            }
+
+            #ContentContainer {
+                max-width: 1000px;
+                padding: 0.75em 0.75em;
+            }
+
+            #DownloadButton {
+                font-size: 0.92em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">        
+          
+        <span class="banner-title" style="cursor: pointer;" onclick="window.location = './';">
+            <img src="Images/MarkdownMonster_Icon_32.png"
+                style="height: 28px;"
+                alt="Markdown Monster" />
+            <span>Markdown Monster</span>
+        </span>      
+        <div id="TopMenu" class="right">
+            <a href="./">Home</a>            
+            <a href="download" class="active">Download</a>
+            <a href="purchase" title="Purchase Markdown Monster">Buy</a>
+            <a href="docs/" class="hidable" title="Documentation">Docs</a>
+            <a href="https://medium.com/markdown-monster-blog/" title="Markdown Monster Weblog">                
+                Blog
+            </a>
+        </div>    
+    </div>
+    
+
+    <div id="MainContainer" class="background">
+        <div id="ContentContainer" class="content" >
+            
+            <h2>Download Markdown Monster</h2>
+            
+            <p>
+                You can download the free version of Markdown Monster and start editing your
+                Markdown files like a pro.
+            </p>
+
+            <div class="well well-lg">
+                <div class="row">
+                    <div class=" col-sm-5">
+                        
+                        <img src="Images/MarkdownMonster_Icon_256.png" style="display: block; margin-bottom: 15px; width: 210px"/>
+                        <p><b style=" font-size: 1.45em;font-weight: 800">Markdown Monster</b></p>
+                        <dl>                            
+                            <dt>Version:</dt>  
+                            <dd><b>@Version</b>                                
+                                <a style="font-size: 0.825em;padding-left: 14px; font-weight: 500"
+                                   href="https://github.com/RickStrahl/MarkdownMonster/blob/main/Changelog.md">
+                                   <i class="fa fa-info-circle"></i>
+                                   what's new?</a></dd>
+                                
+                            <dt>Released:</dt>
+                            <dd>@ReleaseDate</dd>
+
+                            <dt>File size:</dt>
+                            <dd>20mb</dd>
+                       </dl> 
+                             
+                             <style>
+                                 a.btn { text-align: left; padding-left: 1.4em; }
+                             </style>
+                        <p  style="margin-top: 35px;">
+                            <a id="License" href="purchase#License" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-info-circle" style="color: #ddd"></i>&nbsp;
+                                License Information
+                            </a>
+                        </p>
+                        <p>
+                            <a id="Purchase" href="purchase" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-check" style="color: lightgreen"></i>&nbsp;
+                                Buy Markdown Monster
+                            </a>
+                        </p>
+                       
+                       <p id="Upgrade" >
+                            <a href="purchase#upgrades" class="btn btn-primary" style="width: 210px">
+                                <i class="fa fa-arrow-up" style="color: lightgreen"></i>&nbsp;
+                                Upgrade to v3
+                            </a>
+                        </p>
+
+                    </div>
+                    <div class=" col-sm-7">
+	                    
+                        <div class="responsive-container">
+                            <div style="margin-top: 23px;" id="Download">
+                                <a id="DownloadButton"  href="https://west-wind.com/files/MarkdownMonsterSetup.exe" 
+                                class="btn btn-lg btn-primary"
+                                style="width: 37rem; text-align: left"
+                                title="Download the full Markdown Monster 3.0 Setup Installation Executable.
+This Installer is the recommended way to install Markdown Monster.
+
+Note: 
+&bull; v3 is a paid upgrade from v2 
+&bull; Free and reduced pricing upgrade options are available
+"                            
+                                >
+                                    <i class="fa fa-download text-success" style="font-size: 1.4em; color: #e2c271; "></i> &nbsp; 
+                                    Download Markdown Monster 3.0 
+                                </a><br>
+                                <a style="font-size: 0.75em; font-weight: normal;" 
+                                   href="https://github.com/RickStrahl/MarkdownMonsterReleases/raw/master/v2/v2.9/MarkdownMonsterSetup-2.9.14.exe" 
+                                   title="Download older versions of Markdown Monster from our GitHub Archive.">download v2</a>
+                            </div>
+                            @* <div>                            
+                                <a href="http://www.softpedia.com/get/Office-tools/Text-editors/Markdown-Monster.shtml#status">
+                                    <img src="images/Softpedia.png" style="margin: 5px; margin-left: 15px; height: 65px;"/>
+                                </a>
+                            </div> *@
+                        </div>                
+                        
+						
+                        <div class="small mb-5" style="margin-top: 10px;">alternates: 
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup.zip" 
+                               title="Full Setup exe wrapped in a zip file for those that can't download binaries directly.">Setup Zip</a> &bull;
+
+                            <a href="https://west-wind.com/files/MarkdownMonsterPortable.zip" 
+                               title="Self contained, non-admin installation for Markdown Monster.
+Simply unzip into a folder and run MarkdownMonster.exe!
+
+Preferably install into a folder under your User Account folder 
+to allow writing of settings that move with your installation.
+
+If you install in a non-writable folder or drive.
+settings are stored in the `%appdata%\Markdown Monster` 
+user folder.">Portable Zip</a> &bull;
+
+                            <a href="https://github.com/RickStrahl/MarkdownMonsterReleases" 
+                               title="Download older versions of Markdown Monster from our GitHub Archive">Archives</a> 
+
+ @* &bull;
+                            <a href="https://west-wind.com/files/MarkdownMonsterSetup_Preview.exe" 
+                               title="Download a preview of Markdown Monster 3.0.
+
+Important: Requires .NET 7.0 Desktop Runtime.
+
+If this runtime is not installed you will be redirected to 
+download and install it from the Microsoft Web site.">v3.0 Preview</a>  *@
+
+
+                            @if(LatestVersion != Version) {                        
+                                <text>&bull;</text>
+                                
+                                <a href="https://west-wind.com/files/MarkdownMonsterSetup_Latest.exe"  id="DownloadPrerelease"
+                                title="Download the latest preview version of Markdown Monster 3.0.
+
+Important: Requires .NET 7.0 Desktop Runtime.
+
+If this runtime is not installed you will be redirected to 
+download and install it from the Microsoft Web site."> pre-Release</a>
+                                <small style="font-size: 0.7em">(@LatestVersion)</small>                             
+                            }
+
+                        </div>
+
+                        <div style="margin-top: 15px;">
+                            <div class="fa fa-info-circle" style="font-size: 280%; color: steelblue; float: left;"></div>
+                            <div style="margin-left: 50px;">
+                                
+                                <div class="small">  
+                                    <p>
+                                    Markdown Monster can be downloaded and evaluated for free, but a 
+                                    <a href="purchase">reasonably priced license</a>
+                                    must be purchased for continued use. <a href="purchase#License">Licenses</a> are per-user, so you can use 
+                                    Markdown Monster on as many computers you wish with your license.
+                                    </p>
+                                    <p>
+                                    This free download provides a fully functional, non-limited version that includes all of 
+                                    Markdown Monster's features.<br />
+                                    </p>
+                                    <p>
+                                    <i><b>Thanks for playing fair.</b></i>
+                                    </p>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            
+                            <hr style="background: #888; color: #888" />        
+
+                            <a href="http://chocolatey.org/packages/MarkdownMonster" style="display:block" >
+                                        <img src="images/chocolatey.png" style="width: 170px; margin-top: 10px;margin-bottom: 5px" alt="Chocolatey" />                                        
+                            </a>  
+                            <p>
+                                You can also install Markdown Monster from the command line using <a href="https://chocolatey.org/packages/MarkdownMonster">Chocolatey</a>.
+                                <div Id="ChocolateyInstall">
+                                    <style>
+                                        .comment-line { color: forestgreen; }
+                                    </style>                                                                 
+									<pre style="background: #111;color: #e2e2e2; font-weight: 500; padding: 1em 0 1em 15px;font-size: 1em;">
+<code><span class="comment-line"># first time installation</span>
+c:\> choco install markdownmonster
+
+<span class="comment-line"># upgrade to latest version</span>
+c:\> choco upgrade markdownmonster
+</code></pre>
+
+<small style="font-size: 0.825em">other package managers: <a href="https://github.com/RickStrahl/MarkdownMonster#winget">WinGet</a> &bull; <a href="https://github.com/RickStrahl/MarkdownMonster#scoop">Scoop</a></small>
+                                </div>                                                                       
+                            </p>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">System Requirements</h5>
+                        </div>
+                        <div id="FeatureList" class="panel-body">
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                Microsoft Windows 10 or later
+                            </div>
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                .NET 8.0 <small>(pre-installed)</small></a>
+                            </div>   
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/consumer/" target="_blank">WebView2 Runtime</a> <small>(pre-installed)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <h5 class="panel-title">Startup Instructions</h5>
+                        </div>
+
+                        <div id="FeatureList" class="panel-body">
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                Download the exe or zip file
+                            </div>
+                            <div>
+                                <i class="fa fa-check-circle"></i>
+                                Run <b>MarkdownMonsterSetup.exe</b>
+                            </div>
+                                <div>
+                                <i class="fa fa-check-circle"></i>
+                                Launch from Shortcut or Command Line (<code>mm</code>)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+            
+       
+        <div class="clearfix"></div>      
+            
+        
+    </div>
+        
+    <nav class="banner banner-bottom" style="font-size: 8pt; margin-top: 100px; padding: 10px; height: 80px; border-top: solid black 4px;border-bottom: none;">
+        <div class="right">
+            created by:<br />
+            <a href="http://west-wind.com/" style="padding: 0;">
+                <img src="Images/wwToolbarLogo.png" style="width: 150px;" />
+            </a>
+            
+
+        </div>
+        &copy; West Wind Technologies, 2015-@DateTime.Now.Year
+    </nav> 
+   </div>
+
+    <script src="scripts/highlightjs/highlight.pack.js"></script>
+    @* <link href="scripts/highlightjs/styles/vs2015.css" rel="stylesheet" />  *@
+
+    <script>
+        function highlightCode() {
+            var pres = document.querySelectorAll("pre>code");
+            for (var i = 0; i < pres.length; i++) {
+                hljs.highlightBlock(pres[i]);
+            }
+        }
+        highlightCode();
+    </script>
+    
+@if(!HttpContext.Request.Host.ToString().Contains("localhost") ) {
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9492219-14"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) };
+        gtag('js', new Date());
+
+        gtag('config', 'UA-9492219-14');
+    </script>
+}
+
+</body>
+</html>
+@functions {    
+    // This code dynamically updates version and date info
+    // whenver the application is restarted
+    string Version
+    {
+        get
+        {
+            if (_version != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 10)
+                return _version;
+
+            // set default dates for fallback here
+            _version = "0.90";
+            ReleaseDate = "July 7th, 2015";
+
+            try
+            {
+                WebClient client = new WebClient();
+                string xml = client.DownloadString("http://west-wind.com/files/markdownmonster_version.xml");
+                Regex regex = new Regex(@"<Version>(.*)<\/Version>");
+                MatchCollection matches = regex.Matches(xml);
+                if (matches != null && matches.Count > 0)
+                {
+                    _version = matches[0].Groups[1].Value;
+                }
+
+                regex = new Regex(@"<ReleaseDate>(.*)<\/ReleaseDate>");
+                matches = regex.Matches(xml);
+                if (matches != null && matches.Count > 0)
+                {
+                    ReleaseDate = matches[0].Groups[1].Value;
+                }
+                var t = LatestVersion; // refresh too before updating timestamp
+                _lastAccess = DateTime.UtcNow;
+            }
+            catch (Exception ex)
+            {
+                //HttpContext.Response.WriteAsync(ex.Message);
+            }
+
+            return _version;
+        }
+    }
+    string LatestVersion
+    {
+        get
+        {
+            if (_latestVersion != null && DateTime.UtcNow.Subtract(_lastAccess).TotalMinutes < 5)
+                return _latestVersion;
+  
+            string path = @"c:\ftp\files\MarkdownMonsterSetup_Latest.exe";
+            //string path = @"C:\projects2010\MarkdownMonster\Install\Builds\CurrentRelease\MarkdownMonsterSetup_Latest.exe";
+
+            if (!System.IO.File.Exists(path))
+            {
+                _latestVersion = _version.Trim();
+                return _latestVersion;
+            }
+
+            try 
+            {
+                var version = FileVersionInfo.GetVersionInfo(path);
+                _latestVersion = version.FileVersion.ToString().Trim();
+                if(_latestVersion.EndsWith(".0.0")) 
+                {
+                    _latestVersion = _latestVersion.Substring(0,_latestVersion.Length - 4);
+                }
+                else if(_latestVersion.EndsWith(".0")) {    
+                        _latestVersion = _latestVersion.Substring(0,_latestVersion.Length - 2);                    
+                }
+                _lastAccess = DateTime.UtcNow;
+            }
+            catch {
+                return string.Empty;
+            }
+
+            return _latestVersion;           
+        }
+    }
+
+    
+    static string _latestVersion;
+    private static string _version;
+    private static DateTime _lastAccess = DateTime.UtcNow;
+    public static string ReleaseDate;
+} 

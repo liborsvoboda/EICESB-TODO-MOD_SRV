@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version>0.1</Version>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+
+		<!--<TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>-->
+		<OutDir>$(appdata)\Markdown Monster\Addins\$safeprojectname$</OutDir>
+
+		<DebugType>embedded</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.dll">
+			<Private>false</Private>
+			<IncludeAssets>compile</IncludeAssets>
+		</Reference>
+		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="*" />
+		<PackageReference Include="Westwind.Utilities" Version="*" />
+
+		<!--<PackageReference Include="MahApps.Metro" Version="*" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="icon.png" />
+		<None Update="version.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

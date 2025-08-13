@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EmptyBoldAreaText" xml:space="preserve">
+    <value>Bold Text Area</value>
+  </data>
+  <data name="EmptyCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="EmptyHyperlinkDescription" xml:space="preserve">
+    <value>Description of the link</value>
+  </data>
+  <data name="EmptyImageDescription" xml:space="preserve">
+    <value>Description of the image</value>
+  </data>
+  <data name="EmptyItalicAreaText" xml:space="preserve">
+    <value>Italic Text Area</value>
+  </data>
+  <data name="EmptyTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ExportTo" xml:space="preserve">
+    <value>Export To</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="FullScreen" xml:space="preserve">
+    <value>Full Screen</value>
+  </data>
+  <data name="ListItem" xml:space="preserve">
+    <value>List Item</value>
+  </data>
+  <data name="MarkDownFileFilter" xml:space="preserve">
+    <value>Markdown Documents|*.md;*.markdown|All Files|*.*</value>
+  </data>
+  <data name="Open_In_External_Browser" xml:space="preserve">
+    <value>Open In External Browser (F6)</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Reading_Preview_Mode" xml:space="preserve">
+    <value>Reading Mode/Preview Mode</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="RefreshCommand" xml:space="preserve">
+    <value>Refresh (F5)</value>
+  </data>
+  <data name="Scrollbar_Synchronization" xml:space="preserve">
+    <value>Scrollbar Synchronization</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="SETTINGS" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShowPreview" xml:space="preserve">
+    <value>Show Preview</value>
+  </data>
+  <data name="TypeDocxFilter" xml:space="preserve">
+    <value>Microsoft Word|*.docx</value>
+  </data>
+  <data name="TypeDocxToolTip" xml:space="preserve">
+    <value>Microsoft Word 2007-2016 Document Format</value>
+  </data>
+  <data name="TypeEpubFilter" xml:space="preserve">
+    <value>Electronic Publication|*.epub</value>
+  </data>
+  <data name="TypeEpubToolTip" xml:space="preserve">
+    <value>Electronic Publication Format</value>
+  </data>
+  <data name="TypeHtmlFilter" xml:space="preserve">
+    <value>HTML Web Page|*.html</value>
+  </data>
+  <data name="TypeHtmlToolTip" xml:space="preserve">
+    <value>HyperText Markup Language</value>
+  </data>
+  <data name="TypeLatexFilter" xml:space="preserve">
+    <value>LATEX Document|*.tex</value>
+  </data>
+  <data name="TypeLatexToolTip" xml:space="preserve">
+    <value>We suggest to compile exported tex files using XeLatex command if CJK characters exist in document</value>
+  </data>
+  <data name="TypePdfFilter" xml:space="preserve">
+    <value>Portable Document Format|*.pdf</value>
+  </data>
+  <data name="TypePdfToolTip" xml:space="preserve">
+    <value>Portable Document Format</value>
+  </data>
+  <data name="TypePlainHtmlFilter" xml:space="preserve">
+    <value>Plain HTML Web Page|*.html</value>
+  </data>
+  <data name="TypePlainHtmlToolTip" xml:space="preserve">
+    <value>HyperText Markup Language without any css</value>
+  </data>
+  <data name="TypeRTFFilter" xml:space="preserve">
+    <value>Rich Text Format|*.rtf</value>
+  </data>
+  <data name="TypeRTFTip" xml:space="preserve">
+    <value>Rich Text Format</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="UntitledTitle" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="Accent" xml:space="preserve">
+    <value>Accent</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Editing</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="FontFamily" xml:space="preserve">
+    <value>Font Family</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="HighlightCurrentLine" xml:space="preserve">
+    <value>Highlight Current Line</value>
+  </data>
+  <data name="NewCommand" xml:space="preserve">
+    <value>New (Ctrl+N)</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Open (Ctrl+O)</value>
+  </data>
+  <data name="Ruler" xml:space="preserve">
+    <value>Ruler</value>
+  </data>
+  <data name="RulerPosition" xml:space="preserve">
+    <value>Ruler Position</value>
+  </data>
+  <data name="SaveAsCommand" xml:space="preserve">
+    <value>Save As (Ctrl+Shift+S)</value>
+  </data>
+  <data name="SaveCommand" xml:space="preserve">
+    <value>Save (Ctrl+S)</value>
+  </data>
+  <data name="ShowColumnRuler" xml:space="preserve">
+    <value>Show Column Ruler</value>
+  </data>
+  <data name="ShowEndOfLine" xml:space="preserve">
+    <value>Show End Of Line</value>
+  </data>
+  <data name="ShowLineNumbers" xml:space="preserve">
+    <value>Show Line Numbers</value>
+  </data>
+  <data name="ShowSpaces" xml:space="preserve">
+    <value>Show Spaces</value>
+  </data>
+  <data name="ShowTabs" xml:space="preserve">
+    <value>Show Tabs</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>Source Code</value>
+  </data>
+  <data name="Symbols" xml:space="preserve">
+    <value>Symbols</value>
+  </data>
+  <data name="WordWrap" xml:space="preserve">
+    <value>Word Wrap</value>
+  </data>
+  <data name="BoldCommand" xml:space="preserve">
+    <value>Bold (Ctrl+B)</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Characters" xml:space="preserve">
+    <value>Characters</value>
+  </data>
+  <data name="CodeCommand" xml:space="preserve">
+    <value>Code (Ctrl+K)</value>
+  </data>
+  <data name="Col" xml:space="preserve">
+    <value>Col</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="DateStampCommand" xml:space="preserve">
+    <value>Date Stamp (Ctrl++Shift+D)</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="DoNotSave" xml:space="preserve">
+    <value>Don't save</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Error_ExportError" xml:space="preserve">
+    <value>can't be exported in this version!</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Exporting" xml:space="preserve">
+    <value>Exporting</value>
+  </data>
+  <data name="FailedToExport" xml:space="preserve">
+    <value>Failed to export</value>
+  </data>
+  <data name="HorizontalRuleCommand" xml:space="preserve">
+    <value>Horizontal Rule (Ctrl+R)</value>
+  </data>
+  <data name="HyperlinkCommand" xml:space="preserve">
+    <value>Hyperlink (Ctrl+L)</value>
+  </data>
+  <data name="ImageCommand" xml:space="preserve">
+    <value>Image (Ctrl+G)</value>
+  </data>
+  <data name="ItalicCommand" xml:space="preserve">
+    <value>Italic (Ctrl+I)</value>
+  </data>
+  <data name="LanguageSwitch" xml:space="preserve">
+    <value>Language will be switched after restart</value>
+  </data>
+  <data name="Lines" xml:space="preserve">
+    <value>Lines</value>
+  </data>
+  <data name="Ln" xml:space="preserve">
+    <value>Ln</value>
+  </data>
+  <data name="NewDocumentCreated" xml:space="preserve">
+    <value>New Document Created</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenedSuccessfully" xml:space="preserve">
+    <value>opened successfully</value>
+  </data>
+  <data name="OpenFileFailed" xml:space="preserve">
+    <value>Open file failed!</value>
+  </data>
+  <data name="OpenRightNow" xml:space="preserve">
+    <value>Open Right Now</value>
+  </data>
+  <data name="OrderedListCommand" xml:space="preserve">
+    <value>Ordered List (Ctrl+Shift+O)</value>
+  </data>
+  <data name="QuoteCommand" xml:space="preserve">
+    <value>Quote (Ctrl+Q)</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>saved successfully</value>
+  </data>
+  <data name="SaveFileFailed" xml:space="preserve">
+    <value>Save file failed!</value>
+  </data>
+  <data name="SuccessfullyExported" xml:space="preserve">
+    <value>Successfully Exported</value>
+  </data>
+  <data name="TimeStampCommand" xml:space="preserve">
+    <value>Time Stamp (Ctrl+T)</value>
+  </data>
+  <data name="TitleCommand" xml:space="preserve">
+    <value>Heading (Ctrl+H)</value>
+  </data>
+  <data name="UnorderedListCommand" xml:space="preserve">
+    <value>Unordered List (Ctrl+U)</value>
+  </data>
+  <data name="UnsavedChanges" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
+  <data name="WhetherSaveChanges" xml:space="preserve">
+    <value>Would you want to save your changes?</value>
+  </data>
+  <data name="Words" xml:space="preserve">
+    <value>Words</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hyperlink</value>
+  </data>
+  <data name="OnlineImage" xml:space="preserve">
+    <value>Online Image</value>
+  </data>
+  <data name="InputImage" xml:space="preserve">
+    <value>Please input an image URL</value>
+  </data>
+  <data name="InputLink" xml:space="preserve">
+    <value>Please input an URL</value>
+  </data>
+  <data name="OptionalTitle" xml:space="preserve">
+    <value>Optional Title</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="ImageFilter" xml:space="preserve">
+    <value>Images|*.bmp;*.jpg;*.gif;*.png;*.tif</value>
+  </data>
+  <data name="ImageSizeError" xml:space="preserve">
+    <value>The size of file is larger than 10MB, unable to upload!</value>
+  </data>
+  <data name="SelectImageType" xml:space="preserve">
+    <value>Select Image Type</value>
+  </data>
+  <data name="UploadImagesTitle" xml:space="preserve">
+    <value>Upload Images (Don't upload illegal images)</value>
+  </data>
+  <data name="Uploading" xml:space="preserve">
+    <value>Uploading</value>
+  </data>
+  <data name="UploadLocalImage2IMGUR" xml:space="preserve">
+    <value>Upload Local Image To Imgur（Outside PRC）</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FindReplace" xml:space="preserve">
+    <value>Find &amp; Replace</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>Find Next</value>
+  </data>
+  <data name="FindPrevious" xml:space="preserve">
+    <value>Find Previous</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Match Case</value>
+  </data>
+  <data name="MatchWholeWord" xml:space="preserve">
+    <value>Match Whole Word</value>
+  </data>
+  <data name="MoreOptions" xml:space="preserve">
+    <value>More Options</value>
+  </data>
+  <data name="RegularExpression" xml:space="preserve">
+    <value>Regular Expression</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Replace All</value>
+  </data>
+  <data name="Wildcards" xml:space="preserve">
+    <value>Wildcards</value>
+  </data>
+  <data name="ReplaceCompleted" xml:space="preserve">
+    <value>Replace Completed!</value>
+  </data>
+  <data name="AddCustomCSS" xml:space="preserve">
+    <value>Add custom css files</value>
+  </data>
+  <data name="CopyCSS" xml:space="preserve">
+    <value>Please copy your custom css file into the following folder. It'll take effect after restart.</value>
+  </data>
+  <data name="NoCSS" xml:space="preserve">
+    <value>No CSS</value>
+  </data>
+  <data name="OpenThisFolder" xml:space="preserve">
+    <value>Open This Folder</value>
+  </data>
+  <data name="CheckForUpdate" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>Current Version</value>
+  </data>
+  <data name="Donate" xml:space="preserve">
+    <value>Donate</value>
+  </data>
+  <data name="DoNotRemindForThisUpdate" xml:space="preserve">
+    <value>Don't remind for this update!</value>
+  </data>
+  <data name="DownloadNow" xml:space="preserve">
+    <value>Download Now</value>
+  </data>
+  <data name="LatestVersion" xml:space="preserve">
+    <value>Latest Version</value>
+  </data>
+  <data name="NewVersionIsReleased" xml:space="preserve">
+    <value>New version is released!</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>Fetch App update information failed!</value>
+  </data>
+  <data name="UpdateInfo" xml:space="preserve">
+    <value>Update Info</value>
+  </data>
+  <data name="TypeImageFilter" xml:space="preserve">
+    <value>JPEG|*.jpg|PNG|*.png</value>
+  </data>
+  <data name="TypeImageToolTip" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="UploadLocalImage2Qiniu" xml:space="preserve">
+    <value>Upload Local Image To Qiniu（PRC）</value>
+  </data>
+  <data name="Editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="InternationalSettings" xml:space="preserve">
+    <value>International Settings</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="NightMode" xml:space="preserve">
+    <value>Night Mode</value>
+  </data>
+  <data name="ShowMathJax" xml:space="preserve">
+    <value>Show MathJax</value>
+  </data>
+  <data name="QiniuConf" xml:space="preserve">
+    <value>QiniuConf</value>
+  </data>
+  <data name="QiniuUserDomainName" xml:space="preserve">
+    <value>QiniuUserDomainName</value>
+  </data>
+  <data name="QiniuUserScope" xml:space="preserve">
+    <value>QiniuUserScope</value>
+  </data>
+  <data name="InsertLocalImage" xml:space="preserve">
+    <value>Insert local image URL</value>
+  </data>
+  <data name="OISS" xml:space="preserve">
+    <value>Online Image Storage Service</value>
+  </data>
+  <data name="UploadToImageStorageService" xml:space="preserve">
+    <value>Upload Image To </value>
+  </data>
+</root>

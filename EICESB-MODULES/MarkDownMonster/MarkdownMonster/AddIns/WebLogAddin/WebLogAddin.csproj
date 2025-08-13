@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Version>1.26</Version>
+    <TargetFramework>net472</TargetFramework>
+    <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
+    <AssemblyName>WeblogAddin</AssemblyName>
+    <UseWPF>true</UseWPF>
+    
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\Weblog</OutDir>
+
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.4">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Dragablz" Version="0.0.3.223">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.32">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" Version="3.0.55">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Markdig" Version="0.24.0">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="xmlrpcnet" Version="3.0.0.266" />
+    <PackageReference Include="YamlDotNet" Version="10.0.0" />
+  </ItemGroup>
+
+<!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
+<!--    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
+<!--  </ItemGroup>-->
+
+  <!-- This pulls in the reference and all dependencies - not what we want  here-->
+  <!--<ItemGroup>
+    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+  </ItemGroup>-->
+
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Resource Include="icon.png" />
+    <Resource Include="icon_22.png" />
+    <Resource Include="MarkdownMonster_Icon_128.png" />
+  </ItemGroup>  
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1701;1702;3106</NoWarn>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,58 @@
+﻿@model UserTokenModel
+@{
+    ViewBag.Title = "User Token for " + Model.Scope;
+    Layout = "_Layout";
+
+    ViewData["NoSearchBar"] = false;
+}
+
+<div class="container">
+
+    <h2 class="page-header-text">
+        <i class="fa-solid fa-check-circle" style="font-size: 1.5em; color:  forestgreen"></i>
+        @Model.Scope Authentication Token Generated
+    </h2>
+
+    <p>
+        The following is your generated authentication token:
+    </p>
+
+    <h2 id="UserToken">@Model.Token</h2>
+
+    
+    <button  class="btn btn-secondary btn mb-3 mt-2" 
+             style=" vertical-align:top; "  title="Copy token to clipboard" onclick="copyToClip()">
+        <i class="fad fa-copy text-warning"></i>
+        Copy to clipboard
+    </button>   
+
+    <div style="max-width: 700px">
+        <p>
+            Please return to the calling application, and complete sign in there.
+        </p>
+        <p>
+            The application may automatically detect the new token and continue,
+            or you can copy this user token to the clipboard and paste it into your
+            application manually as directed.
+        </p>
+    </div>
+
+</div>
+
+<script>
+        function copyToClip() {
+            /* Get the text field */
+            var copyText = document.getElementById("UserToken");
+            var text = copyText.innerText;
+
+            var el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            toastr.success("Token copied to clipboard.");
+        }
+</script>

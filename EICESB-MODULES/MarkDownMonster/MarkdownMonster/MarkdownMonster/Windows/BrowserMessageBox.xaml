@@ -1,0 +1,56 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.Windows.BrowserMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster.Windows"
+        WindowStartupLocation="CenterOwner"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        TitleCharacterCasing="Normal"
+        WindowTransitionsEnabled="False"
+        ShowInTaskbar="False"        
+        MinWidth="500"
+        MinHeight="350"
+        Title="Web Content" Height="500" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Name="TextMessage" Background="#444" Foreground="#eee" Padding="7"></TextBlock>
+
+        <WebBrowser Name="Browser" Grid.Row="1" />
+
+        <StackPanel Name="PanelButtonContainer" Grid.Row="2"  Orientation="Horizontal"  
+                    HorizontalAlignment="Right" 
+                    Margin="0,6">
+
+            <Button Name="ButtonOk"  IsDefault="True"  Click="OnButtonClicked" Height="40" MinWidth="80"
+                    CommandParameter="1" Margin="0,5,5,5">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Margin="5,2,8,0" Icon="CheckCircleOutline"                                             
+                                    FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    FontSize="15"
+                                    Foreground="#1F9B3C" />
+                    <TextBlock Name="ButtonOkText" Margin="0,0,5,0">OK</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Name="ButtonCancel" IsCancel="True" Click="OnButtonClicked" CommandParameter="2" Height="40"
+                    MinWidth="80" Margin="5,5">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Remove" Margin="5,2,8,0"  
+                                    FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    FontSize="15"
+                                    Foreground="Firebrick"/>
+                    <TextBlock Name="ButtonCancelText" Margin="0,0,5,0">Cancel</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

@@ -1,0 +1,82 @@
+<% pcPageTitle = "Profile" %>
+<% Layout="~/views/_layoutpage.wcs" %>
+
+<div style="padding: 15px;">
+    <div class="page-header-text">
+        <i class="fa fa-user"></i>
+        <% if plNewUser %>
+            Create new User
+        <% else %>
+            Your User Profile
+        <% endif %>
+    </div>
+
+    <%= HtmlErrorDisplay(poError) %>
+
+    <form id="form1" method="post">
+        <div class="form-floating mb-2">            
+            <input type="text" class="form-control" id="Name" name="Name" placeholder="Your display name on messages."
+                   value="<%= Request.FormOrValue([Name],poUser.Name) %>">
+            <label class="control-label" for="Name">Name</label>
+        </div>
+
+        <div class="form-floating mb-3">            
+            <input type="text" class="form-control" id="Email" name="Email" placeholder="Your email address used to receive replies to messages."
+                   value="<%= Request.FormOrValue([Email],poUser.Email) %>">
+            <label class="control-label" for="Email">Email</label>
+        </div>
+
+        <% if !plNewUser %>
+        <div class="form-group">
+            <a href="#" id="lnkChangePassword" onclick="this.style.display = 'none'; $('#PasswordBox').removeClass('hidden'); return false;">Change your password</a>
+        </div>
+        <% endif %>
+
+        <div class="form-floating <%= IIF(!plNewUser,'hidden','') %> mb-2 mt-3" id="PasswordBox">            
+            <div class="responsive-container mb-2 mt-3">
+
+                <div class="form-floating" style="width: 100%">
+                    <input type="password" class="form-control" id="Password" name="Password" placeholder="Password for logging in." value="" />
+                    <label class="form-label">Password</label>
+                </div>
+                
+                <div class="form-floating" style="width: 100%">
+                    <input type="password" class="form-control" id="PasswordConfirm" name="PasswordConfirm" placeholder="Confirm password ." value="" />
+                    <label class="form-label">Confirm Password</label>
+                </div>
+                
+            </div>
+        </div>
+
+            <div class="form-floating mb-2 mt-3">                
+                <input type="text" class="form-control" id="WebSite" name="WebSite" placeholder="A URL or Web Site that is linked from your gravatar where people can find out more about your or your company"
+                       value="<%= Request.FormOrValue([WebSite],poUser.WebSite) %>">
+                <label class="control-label" for="WebSite">Web Site</label>                       
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Signature">Signature</label>                
+                <textarea class="form-control mb-3" id="Signature" name="Signature"
+                          placeholder="Markdown signature added to messages."
+                          style="height: 150px;font-family: monospace">
+                          <%= Request.FormOrValue([Signature],poUser.Signature) %>
+                          </textarea>                
+            </textarea>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-primary">
+                <i class="fa fa-check high green-highlight"></i>
+                Save Profile Info
+            </button>
+</form>
+
+</div>
+
+<!-- remove sections if you're not using them -->
+<% section="headers" %>
+
+<% endsection %>
+
+<% section="scripts" %>
+
+<% endsection %>

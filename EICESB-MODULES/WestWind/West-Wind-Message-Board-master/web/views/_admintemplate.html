@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{0}</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="~/touch-icon.png" />
+
+    <link rel="icon" href="~/touch-icon.png" />
+    <meta name="msapplication-TileImage" content="~/touch-icon.png">
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />   
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/application.css" rel="stylesheet"/>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <style>     
+        #MainView {
+            margin-top: 75px;
+        }   
+         .row li {
+             margin-left: -10px;
+         }
+         @media (max-width: 600px) {                                
+             td, th { font-size: 0.8em;}
+         }
+         
+    </style>
+</head>
+<body>
+    <div class="flex-master">
+        <header class="banner">
+            <!-- Icon and Company Logo -->
+            <img class="title-bar-icon" src="~/images/icon.png" />
+            <div class="title-bar no-slide-menu">
+                <a href="~/">
+                    <div style="float: left; margin: 4px 45px; line-height: 1.0">
+                        <i style="color: #0092d0; font-size: 0.975em; font-weight: bold;">West Wind</i><br />
+                        <i style="color: whitesmoke; font-size: 1.7em; font-weight: bold;">Message Board</i>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="banner-menu-top float-end">
+                <a href="http://west-wind.com/webconnection/docs/" class="hidable">
+                    <i class="fa fa-book"></i>
+                    Documentation
+                </a>
+                <a href="~/admin/admin.html">
+                    <i class="fa fa-gears"></i>
+                    Admin
+                </a>
+            </nav>
+        </header>
+
+
+        <div id="MainView">
+            <div class="container">
+                <div class="page-header-text">
+                    <i class="fa fa-gear"></i>                            
+                    {0}
+                </div>
+
+                <div>
+                
+                    {1}
+                </div>
+            </div>
+
+            <footer>
+                <a href="http://www.west-wind.com/" class="float-end">
+                    <img src="~/images/WestwindText.png" />
+                </a>
+                <small>&copy; Westwind Technologies</small>
+            </footer>
+        </div> <!-- end #MainView -->
+
+        
+    </div>
+</body>
+</html>

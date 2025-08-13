@@ -1,0 +1,239 @@
+﻿
+@using Westwind.Webstore.Web.App
+@using System.Runtime.InteropServices.JavaScript
+@model OrderFormViewModel
+@{
+    Layout = null;
+    var config = wsApp.Configuration;
+    string title =  "Order Confirmation - " + config.ApplicationName;
+    bool isPendingOrder = Model.InvoiceModel.Invoice.Completed == null;
+
+    // Full InvoiceModel Entity from View Model
+    var invoice = Model.InvoiceModel.Invoice;
+    Model.InvoiceModel.NoLineItemImages = false;
+
+    if (isPendingOrder)
+        title = "Pending Order Receipt - " + config.ApplicationName;    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@(title)</title>
+    <base href="@wsApp.Configuration.ApplicationHomeUrl" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        @AppUtils.EmbeddedCssStyles
+        
+       body { 
+        padding:  0 0.5em;
+        background: transparent;       
+       }
+        
+       /*Shopping Cart*/
+       #LineItemTable tbody tr:nth-child(odd) {
+           
+       }
+       
+       .lineitem-delete {
+           font-size: 0.8em;
+       }
+       
+       #LineItemTable tbody tr td {
+           vertical-align: top;
+       }
+       
+       .lineitem-description {
+           font-size: 1.02em;
+           font-weight: 500;
+           display: block;
+       }
+       
+       #LineItemTable td:nth-child(2),
+       #LineItemTable th:nth-child(2),
+       #LineItemTable td:nth-child(2) input {
+           width: 4.5em;
+       }
+       
+       #LineItemTable td:nth-child(2) input {
+           padding: 2px;
+       }
+       
+       .table-wrapper {
+           background: linear-gradient(to bottom,  #f2f2f2, #fdfdfd 80%);
+           padding-top: 0.5em;
+           padding-bottom: 0.5em;
+           border-radius: 0.5em;
+           width: 100%;
+           color:  #222;
+       }
+       .item-price {
+           font-size: 0.7em;
+           font-style: italic;
+           padding-right: 0.5em;
+           opacity: 0.4;
+       }
+       
+       .invoice-total {
+           font-size: 1.2em;
+           font-weight: bold;
+           color: firebrick;
+           width: 6em;
+       }
+       .lineitem {
+           border-bottom:  1px solid #eeeeee;
+           margin-bottom:  0.7em;
+           min-height: 6em;
+       }
+       .lineitem-image-wrapper {
+           width:  6em;
+           height:  6em;
+           margin-right:  1em;
+           overflow: hidden;
+       }
+       .lineitem-image {
+           display: block;
+           width: 100%;
+           height: auto;
+           overflow:  hidden;
+       }
+       
+       .invoice-subtotal {
+           font-size: 1.1em;
+           font-weight: 600;
+           opacity: 0.8; 
+           text-align: right;
+           width: 6em;
+       }
+       
+       .invoice-total {
+           font-size: 1.2em;
+           font-weight: bold;
+           color: firebrick;
+           width: 6em;
+       }
+       
+       .quantity-textbox {
+           font-size:  0.8em;
+           width:  5.4em;
+       }
+       #TotalsTable td, th {
+         border:  none;
+       }
+    </style>
+</head>
+<body>
+
+
+<div >
+    <div class="tiny-title" style="float: right; margin-top: 1.7em;">
+        <a href="@(config.ApplicationHomeUrl + "invoice/" + invoice.InvoiceNumber)">
+            printable invoice
+        </a>
+    </div>
+    
+    <h2 class="page-header-text">
+        @if (Model.InvoiceModel.Invoice.CreditCardResult.IsApproved())
+        {
+            <span>Order Confirmation #@invoice.InvoiceNumber</span>
+        }
+        else
+        {
+            <span>Pending Order Receipt #@invoice.InvoiceNumber</span>
+        }
+    </h2>
+
+    @if (invoice.CreditCardResult.IsDueAndPayable())
+    {
+        <a  href="@(wsApp.Configuration.ApplicationHomeUrl + "invoice/" + invoice.InvoiceNumber)"
+            title="Pay this invoice online with a Credit Card or PayPal."
+            class="btn btn-primary" 
+            style="display: block; font-size:  1.2em; text-align:  center; width:  10em; margin: 1.4em auto;">Pay this Invoice</a>
+    }
+
+    <p>
+        Thank you for your order in the West Wind Web Store.
+        Your order number is <b>@invoice.InvoiceNumber</b> for a total of <b>$@invoice.InvoiceTotal.ToString("n2")</b>.
+    </p>
+    
+    <p>
+        A separate email confirmation with information on where to download any purchased software
+        will be sent once the order has been processed successfully.
+    </p>
+
+    @if (isPendingOrder)
+    {
+        <i>
+            Please note that on this order, payment is not immediately processed. This applies to upgrades 
+            and some foreign orders and these orders are typically processed within
+            a full business day. If you don't hear from us within two business days, 
+            there was a problem with sending the confirmation email to you, and you should
+            <a href="mailto:@wsApp.Configuration.Email.SenderEmail">contact us</a>.
+        </i>
+    }
+    
+    <blockquote>
+        You can also access this and previous orders through your <a href="@(wsApp.Configuration.ApplicationHomeUrl)account/profile" class="bold">@wsApp.Configuration.Company.CompanyName profile</a>
+        where you can confirm order status, order history and retrieve license codes.
+        <p>
+        A <a href="@(config.ApplicationHomeUrl + "invoice/" + invoice.InvoiceNumber)" class="bold">printable invoice</a> with updated order status is also available.
+        </p>
+    </blockquote>
+    
+    <p>
+        Thank you again,
+    </p>
+
+    <p class="text-big mb-4"><b>The West Wind Technologies Team</b></p>
+
+    <table id="InvoiceHeader">
+        <thead>
+        <tr>
+            <th>Invoice <span class="hidable">Number</span></th>
+            <th>Sold on</th>
+            <th><span class="hidable">Customer</span> Reference</th>
+            <th>Paid By</th>
+            <th class="right">Total Sale</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="highlighted">@invoice.InvoiceNumber</td>
+            <td>@invoice.InvoiceDate.ToString("MMM d, yyyy")</td>
+            <td>@invoice.PoNumber</td>
+            <td>@invoice.CreditCard.Type</td>
+            <td class="right highlighted">$@invoice.InvoiceTotal.ToString("n2")</td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <partial name="OrderAddress_Partial.cshtml" model="invoice"/> 
+    
+    <partial name="ShoppingCartItems_Partial.cshtml" model="Model.InvoiceModel"/>
+
+    <div style="font-size: 36pt; color: #bbb; font-weight: 600">
+        @invoice.CreditCardResult.ToString()
+    </div>
+
+    
+    @if (!string.IsNullOrEmpty(invoice.Notes))
+    {
+        <div>
+            <label>Order Notes</label>:
+            <div>@Html.Raw(HtmlUtils.DisplayMemoEncoded(invoice.Notes))</div>
+        </div>
+    }
+
+
+    <footer>
+        @config.Company.CompanyName
+        &bull;
+        @config.Company.WebSite
+        &bull;
+        @config.Company.Email
+    </footer>
+
+</div>
+
+</body>
+</html>

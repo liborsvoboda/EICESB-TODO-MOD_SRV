@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?define MarkDownEditor_TargetDir=$(var.MarkDownEditor.TargetDir)?>
+  <Product Id="{7AECC89E-7BB9-4C9C-A813-FBD02FC0C9F8}" Name="MarkDownEditor" Language="1033" Version="0.4.0" Manufacturer="Chen Guanzhou" UpgradeCode="5d30c639-0761-41c7-b4ef-e0c1b75eeb3f">
+    <Package Id="{36DA66A4-4374-4381-9729-1E00D913455B}" InstallerVersion="405" Compressed="yes" InstallScope="perMachine"/>
+
+    <MajorUpgrade Schedule="afterInstallInitialize"
+      DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
+
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="ProductFeature" Title="MarkDownEditor" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="PakComponents" />
+      <ComponentGroupRef Id="ZH_CN_Components" />
+      <ComponentGroupRef Id="Dark_CSS_Components" />
+      <ComponentGroupRef Id="Light_CSS_Components" />
+      <ComponentGroupRef Id="MATHJAX_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_CONFIG_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_EXTENSIONS_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_EXTENSIONS_TEX_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_JAX_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_ELEMENT_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_MML_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_OPTABLE_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_INPUT_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_INPUT_TEX_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_OUTPUT_FOLDER_Components" />
+      <ComponentGroupRef Id="MATHJAX_PREVIEWHTML_FOLDER_Components" />
+      <ComponentRef Id="RegistryFileAssociation" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="DesktopFolderShortcut" />
+    </Feature>
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <Icon Id="icon.ico" SourceFile="..\MarkDOwnEditor\MarkdownEditorLogo.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <Feature Id="VCRedist12" Title="Visual C++ 2013 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="VCRedist12"/>
+    </Feature>
+    
+    <Feature Id="VCRedist14" Title="Visual C++ 2015 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="VCRedist14"/>
+    </Feature>
+
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This application requires .NET Framework 4.5.2"> <![CDATA[Installed OR NETFRAMEWORK45]]> </Condition>
+
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <Publish Dialog="ExitDialog"
+          Control="Finish"
+          Event="DoAction"
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch MarkDownEditor" />
+    <Property Id="WixShellExecTarget" Value="[INSTALLFOLDER]MarkDownEditor.exe" />
+    <CustomAction Id="LaunchApplication"
+        BinaryKey="WixCA"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="MarkDownEditor">
+          <Directory Id="PAK_FOLDER" Name="locales"></Directory>
+          <Directory Id="ZH_CN_FOLDER" Name="zh-CN"></Directory>
+          <Directory Id="CSS_FOLDER" Name="css">
+            <Directory Id="LIGHT_CSS_FOLDER" Name="Light"/>
+            <Directory Id="DARK_CSS_FOLDER" Name="Dark"/>            
+          </Directory>
+          <Directory Id="MATHJAX_FOLDER" Name="MathJax">
+            <Directory Id="MATHJAX_CONFIG_FOLDER" Name="config"/>
+            <Directory Id="MATHJAX_EXTENSIONS_FOLDER" Name="extensions">
+              <Directory Id="MATHJAX_EXTENSIONS_TEX_FOLDER" Name="TeX"/>
+            </Directory>
+            <Directory Id="MATHJAX_JAX_FOLDER" Name="jax">
+              <Directory Id="MATHJAX_ELEMENT_FOLDER" Name="element">
+                <Directory Id="MATHJAX_MML_FOLDER" Name="mml">
+                  <Directory Id="MATHJAX_OPTABLE_FOLDER" Name="optable"/>
+                </Directory>
+              </Directory>
+              <Directory Id="MATHJAX_INPUT_FOLDER" Name="input">
+                <Directory Id="MATHJAX_INPUT_TEX_FOLDER" Name="TeX"/>
+              </Directory>
+              <Directory Id="MATHJAX_OUTPUT_FOLDER" Name="output">
+                <Directory Id="MATHJAX_PREVIEWHTML_FOLDER" Name="PreviewHTML"/>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="MarkDownEditor">
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="RegistryFileAssociation" Guid="{2CA21BE2-DFEF-4D92-B7EF-58D08C696BE9}">
+        <RegistryKey Root="HKCR" Key=".md">
+          <RegistryValue Type="string" Value="markdowneditor" />
+        </RegistryKey>
+        <RegistryKey Root="HKCR" Key=".markdown">
+          <RegistryValue Type="string" Value="markdowneditor" />
+        </RegistryKey>
+        <RegistryKey Root="HKCR" Key="markdowneditor\shell\open\command">
+          <RegistryValue Type="string" Value='"[INSTALLFOLDER]MarkDownEditor.exe" "%1"' />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{7F0D7FDE-25C4-4AA0-9191-EDD3B882D664}">
+
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                    Name="MarkDownEditor"
+                    Description="MarkDownEditor"
+                    Target="[INSTALLFOLDER]MarkDownEditor.exe"
+                    WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\MarkDownEditor" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        <Shortcut Id="UninstallProduct"
+                          Name="Uninstall"
+                          Description="Uninstalls MarkDownEditor"
+                          Target="[SystemFolder]msiexec.exe"
+                          Arguments="/x [ProductCode]"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopFolderShortcut" Guid="{65EE8F22-656A-4D71-90F9-CDCAEF560F77}">
+        <Shortcut Id="DesktopShortcut" Directory="DesktopFolder"   Name="MarkDownEditor" Target="[INSTALLFOLDER]MarkDownEditor.exe"  WorkingDirectory="INSTALLFOLDER">
+        </Shortcut>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\MarkDownEditor" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Merge Id="VCRedist12" SourceFile="Microsoft_VC120_CRT_x86.msm" DiskId="1" Language="0"/>
+      <Merge Id="VCRedist14" SourceFile="Microsoft_VC140_CRT_x86.msm" DiskId="1" Language="0"/>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="8a576ef8-df40-48f0-93b5-31f757029e1d">
+        <File Id="ICSharpCode.AvalonEdit.dll" Name="ICSharpCode.AvalonEdit.dll" Source="$(var.MarkDownEditor_TargetDir)ICSharpCode.AvalonEdit.dll" />
+        <File Id="CefSharp.BrowserSubprocess.Core.dll" Name="CefSharp.BrowserSubprocess.Core.dll" Source="$(var.MarkDownEditor_TargetDir)CefSharp.BrowserSubprocess.Core.dll" />
+        <File Id="CefSharp.Core.dll" Name="CefSharp.Core.dll" Source="$(var.MarkDownEditor_TargetDir)CefSharp.Core.dll" />
+        <File Id="CefSharp.dll" Name="CefSharp.dll" Source="$(var.MarkDownEditor_TargetDir)CefSharp.dll" />
+        <File Id="CefSharp.Wpf.dll" Name="CefSharp.Wpf.dll" Source="$(var.MarkDownEditor_TargetDir)CefSharp.Wpf.dll" />
+        <File Id="d3dcompiler_47.dll" Name="d3dcompiler_47.dll" Source="$(var.MarkDownEditor_TargetDir)d3dcompiler_47.dll" />
+        <File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.MarkDownEditor_TargetDir)MahApps.Metro.dll" />
+        <File Id="GalaSoft.MvvmLight.dll" Name="GalaSoft.MvvmLight.dll" Source="$(var.MarkDownEditor_TargetDir)GalaSoft.MvvmLight.dll" />
+        <File Id="GalaSoft.MvvmLight.Extras.dll" Name="GalaSoft.MvvmLight.Extras.dll" Source="$(var.MarkDownEditor_TargetDir)GalaSoft.MvvmLight.Extras.dll" />
+        <File Id="GalaSoft.MvvmLight.Platform.dll" Name="GalaSoft.MvvmLight.Platform.dll" Source="$(var.MarkDownEditor_TargetDir)GalaSoft.MvvmLight.Platform.dll" />
+        <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.MarkDownEditor_TargetDir)System.Windows.Interactivity.dll" />
+        <File Id="Ude.dll" Name="Ude.dll" Source="$(var.MarkDownEditor_TargetDir)Ude.dll" />
+        <File Id="Imgur.API.dll" Name="Imgur.API.dll" Source="$(var.MarkDownEditor_TargetDir)Imgur.API.dll" />
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.MarkDownEditor_TargetDir)Newtonsoft.Json.dll" />
+        <File Id="SecretKey.dll" Name="SecretKey.dll" Source="$(var.MarkDownEditor_TargetDir)SecretKey.dll" />
+        <File Id="Qiniu.4.0.dll" Name="Qiniu.4.0.dll" Source="$(var.MarkDownEditor_TargetDir)Qiniu.4.0.dll" />
+        <File Id="WkHtmlToXDotNet.dll" Name="WkHtmlToXDotNet.dll" Source="$(var.MarkDownEditor_TargetDir)WkHtmlToXDotNet.dll" />
+        <File Id="wkhtmltox.dll" Name="wkhtmltox.dll" Source="$(var.MarkDownEditor_TargetDir)wkhtmltox.dll" />
+
+        <File Id="Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.MarkDownEditor_TargetDir)Microsoft.Practices.ServiceLocation.dll" />
+        <File Id="libcef.dll" Name="libcef.dll" Source="$(var.MarkDownEditor_TargetDir)libcef.dll" />
+        <File Id="chrome_elf.dll" Name="chrome_elf.dll" Source="$(var.MarkDownEditor_TargetDir)chrome_elf.dll" />
+        <File Id="libEGL.dll" Name="libEGL.dll" Source="$(var.MarkDownEditor_TargetDir)libEGL.dll" />
+        <File Id="libGLESv2.dll" Name="libGLESv2.dll" Source="$(var.MarkDownEditor_TargetDir)libGLESv2.dll" />
+        <File Id="widevinecdmadapter.dll" Name="widevinecdmadapter.dll" Source="$(var.MarkDownEditor_TargetDir)widevinecdmadapter.dll" />
+
+        <File Id="MarkDownEditor.exe" Name="MarkDownEditor.exe" Source="$(var.MarkDownEditor_TargetDir)MarkDownEditor.exe" />
+        <File Id="MarkDownEditor.exe.config" Name="MarkDownEditor.exe.config" Source="$(var.MarkDownEditor_TargetDir)MarkDownEditor.exe.config" />
+        <File Id="CefSharp.BrowserSubprocess.exe" Name="CefSharp.BrowserSubprocess.exe" Source="$(var.MarkDownEditor_TargetDir)CefSharp.BrowserSubprocess.exe" />
+        <File Id="pandoc.exe" Name="pandoc.exe" Source="$(var.MarkDownEditor_TargetDir)pandoc.exe" />
+        <File Id="WkHtmlToImageWrapper.exe" Name="WkHtmlToImageWrapper.exe" Source="$(var.MarkDownEditor_TargetDir)WkHtmlToImageWrapper.exe" />
+        <File Id="WkHtmlToPdfWrapper.exe" Name="WkHtmlToPdfWrapper.exe" Source="$(var.MarkDownEditor_TargetDir)WkHtmlToPdfWrapper.exe" />
+
+        <File Id="devtools_resources.pak" Name="devtools_resources.pak" Source="$(var.MarkDownEditor_TargetDir)devtools_resources.pak" />
+        <File Id="cef.pak" Name="cef.pak" Source="$(var.MarkDownEditor_TargetDir)cef.pak" />
+        <File Id="cef_100_percent.pak" Name="cef_100_percent.pak" Source="$(var.MarkDownEditor_TargetDir)cef_100_percent.pak" />
+        <File Id="cef_200_percent.pak" Name="cef_200_percent.pak" Source="$(var.MarkDownEditor_TargetDir)cef_200_percent.pak" />
+        <File Id="cef_extensions.pak" Name="cef_extensions.pak" Source="$(var.MarkDownEditor_TargetDir)cef_extensions.pak" />
+        <File Id="natives_blob.bin" Name="natives_blob.bin" Source="$(var.MarkDownEditor_TargetDir)natives_blob.bin" />
+        <File Id="snapshot_blob.bin" Name="snapshot_blob.bin" Source="$(var.MarkDownEditor_TargetDir)snapshot_blob.bin" />
+        <File Id="icudtl.dat" Name="icudtl.dat" Source="$(var.MarkDownEditor_TargetDir)icudtl.dat" />
+        <File Id="xelatex.template" Name="xelatex.template" Source="$(var.MarkDownEditor_TargetDir)xelatex.template" />
+        <Shortcut Id="UninstallProductInner"
+                          Name="Uninstall"
+                          Description="Uninstalls MarkDownEditor"
+                          Target="[SystemFolder]msiexec.exe"
+                          Arguments="/x [ProductCode]"/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="PakComponents" Directory="PAK_FOLDER">
+      <Component Id="PakComponent" Guid="{777C808A-E468-4692-A817-6541E42D4606}">
+        <File Id="am.pak" Name="am.pak" Source="$(var.MarkDownEditor_TargetDir)locales/am.pak" />
+        <File Id="ar.pak" Name="ar.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ar.pak" />
+        <File Id="bg.pak" Name="bg.pak" Source="$(var.MarkDownEditor_TargetDir)locales/bg.pak" />
+        <File Id="bn.pak" Name="bn.pak" Source="$(var.MarkDownEditor_TargetDir)locales/bn.pak" />
+        <File Id="ca.pak" Name="ca.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ca.pak" />
+        <File Id="cs.pak" Name="cs.pak" Source="$(var.MarkDownEditor_TargetDir)locales/cs.pak" />
+        <File Id="da.pak" Name="da.pak" Source="$(var.MarkDownEditor_TargetDir)locales/da.pak" />
+        <File Id="de.pak" Name="de.pak" Source="$(var.MarkDownEditor_TargetDir)locales/de.pak" />
+        <File Id="el.pak" Name="el.pak" Source="$(var.MarkDownEditor_TargetDir)locales/el.pak" />
+        <File Id="enGB.pak" Name="en-GB.pak" Source="$(var.MarkDownEditor_TargetDir)locales/en-GB.pak" />
+        <File Id="enUS.pak" Name="en-US.pak" Source="$(var.MarkDownEditor_TargetDir)locales/en-US.pak" />
+        <File Id="es419.pak" Name="es-419.pak" Source="$(var.MarkDownEditor_TargetDir)locales/es-419.pak" />
+        <File Id="es.pak" Name="es.pak" Source="$(var.MarkDownEditor_TargetDir)locales/es.pak" />
+        <File Id="et.pak" Name="et.pak" Source="$(var.MarkDownEditor_TargetDir)locales/et.pak" />
+        <File Id="fa.pak" Name="fa.pak" Source="$(var.MarkDownEditor_TargetDir)locales/fa.pak" />
+        <File Id="fi.pak" Name="fi.pak" Source="$(var.MarkDownEditor_TargetDir)locales/fi.pak" />
+        <File Id="fil.pak" Name="fil.pak" Source="$(var.MarkDownEditor_TargetDir)locales/fil.pak" />
+        <File Id="fr.pak" Name="fr.pak" Source="$(var.MarkDownEditor_TargetDir)locales/fr.pak" />
+        <File Id="gu.pak" Name="gu.pak" Source="$(var.MarkDownEditor_TargetDir)locales/gu.pak" />
+        <File Id="he.pak" Name="he.pak" Source="$(var.MarkDownEditor_TargetDir)locales/he.pak" />
+        <File Id="hi.pak" Name="hi.pak" Source="$(var.MarkDownEditor_TargetDir)locales/hi.pak" />
+        <File Id="hr.pak" Name="hr.pak" Source="$(var.MarkDownEditor_TargetDir)locales/hr.pak" />
+        <File Id="hu.pak" Name="hu.pak" Source="$(var.MarkDownEditor_TargetDir)locales/hu.pak" />
+        <File Id="id.pak" Name="id.pak" Source="$(var.MarkDownEditor_TargetDir)locales/id.pak" />
+        <File Id="it.pak" Name="it.pak" Source="$(var.MarkDownEditor_TargetDir)locales/it.pak" />
+        <File Id="ja.pak" Name="ja.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ja.pak" />
+        <File Id="kn.pak" Name="kn.pak" Source="$(var.MarkDownEditor_TargetDir)locales/kn.pak" />
+        <File Id="ko.pak" Name="ko.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ko.pak" />
+        <File Id="lt.pak" Name="lt.pak" Source="$(var.MarkDownEditor_TargetDir)locales/lt.pak" />
+        <File Id="lv.pak" Name="lv.pak" Source="$(var.MarkDownEditor_TargetDir)locales/lv.pak" />
+        <File Id="ml.pak" Name="ml.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ml.pak" />
+        <File Id="mr.pak" Name="mr.pak" Source="$(var.MarkDownEditor_TargetDir)locales/mr.pak" />
+        <File Id="ms.pak" Name="ms.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ms.pak" />
+        <File Id="nb.pak" Name="nb.pak" Source="$(var.MarkDownEditor_TargetDir)locales/nb.pak" />
+        <File Id="nl.pak" Name="nl.pak" Source="$(var.MarkDownEditor_TargetDir)locales/nl.pak" />
+        <File Id="pl.pak" Name="pl.pak" Source="$(var.MarkDownEditor_TargetDir)locales/pl.pak" />
+        <File Id="ptBR.pak" Name="pt-BR.pak" Source="$(var.MarkDownEditor_TargetDir)locales/pt-BR.pak" />
+        <File Id="ptPT.pak" Name="pt-PT.pak" Source="$(var.MarkDownEditor_TargetDir)locales/pt-PT.pak" />
+        <File Id="ro.pak" Name="ro.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ro.pak" />
+        <File Id="ru.pak" Name="ru.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ru.pak" />
+        <File Id="sk.pak" Name="sk.pak" Source="$(var.MarkDownEditor_TargetDir)locales/sk.pak" />
+        <File Id="sl.pak" Name="sl.pak" Source="$(var.MarkDownEditor_TargetDir)locales/sl.pak" />
+        <File Id="sr.pak" Name="sr.pak" Source="$(var.MarkDownEditor_TargetDir)locales/sr.pak" />
+        <File Id="sv.pak" Name="sv.pak" Source="$(var.MarkDownEditor_TargetDir)locales/sv.pak" />
+        <File Id="sw.pak" Name="sw.pak" Source="$(var.MarkDownEditor_TargetDir)locales/sw.pak" />
+        <File Id="ta.pak" Name="ta.pak" Source="$(var.MarkDownEditor_TargetDir)locales/ta.pak" />
+        <File Id="te.pak" Name="te.pak" Source="$(var.MarkDownEditor_TargetDir)locales/te.pak" />
+        <File Id="th.pak" Name="th.pak" Source="$(var.MarkDownEditor_TargetDir)locales/th.pak" />
+        <File Id="tr.pak" Name="tr.pak" Source="$(var.MarkDownEditor_TargetDir)locales/tr.pak" />
+        <File Id="uk.pak" Name="uk.pak" Source="$(var.MarkDownEditor_TargetDir)locales/uk.pak" />
+        <File Id="vi.pak" Name="vi.pak" Source="$(var.MarkDownEditor_TargetDir)locales/vi.pak" />
+        <File Id="zhCN.pak" Name="zh-CN.pak" Source="$(var.MarkDownEditor_TargetDir)locales/zh-CN.pak" />
+        <File Id="zhTW.pak" Name="zh-TW.pak" Source="$(var.MarkDownEditor_TargetDir)locales/zh-TW.pak" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ZH_CN_Components" Directory="ZH_CN_FOLDER">
+      <Component Id="ZH_CN_Component" Guid="{81460AA3-D569-4DA4-977B-BCC9383AD3E5}">
+        <File Id="MarkDownEditor.resources.dll" Name="MarkDownEditor.resources.dll" Source="$(var.MarkDownEditor_TargetDir)zh-CN/MarkDownEditor.resources.dll" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="Light_CSS_Components" Directory="LIGHT_CSS_FOLDER">
+      <Component Id="Light_CSS_Component" Guid="{CC66453B-BE1B-4599-B71D-7A1DF422B116}">
+        <File Id="Air.css" Name="Air.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Air.css" />
+        <File Id="Default.css" Name="Default.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Default.css" />
+        <File Id="Github_andyferra.css" Name="Github_andyferra.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Github_andyferra.css" />
+        <File Id="Modest.css" Name="Modest.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Modest.css" />
+        <File Id="Simonlc.css" Name="Simonlc.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Simonlc.css" />
+        <File Id="Splendor.css" Name="Splendor.css" Source="$(var.MarkDownEditor_TargetDir)css/Light/Splendor.css" />
+      </Component>    
+    </ComponentGroup>
+
+    <ComponentGroup Id="Dark_CSS_Components" Directory="DARK_CSS_FOLDER">
+      <Component Id="Dark_CSS_Component" Guid="{FA202CC1-E35A-4B1E-82F5-B260223B4B6F}">
+        <File Id="Retro.css" Name="Retro.css" Source="$(var.MarkDownEditor_TargetDir)css/Dark/Retro.css" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="MATHJAX_FOLDER_Components" Directory="MATHJAX_FOLDER">
+      <Component Id="MATHJAX_FOLDER_Component" Guid="{3BEF2B22-F4FE-443B-87F9-6C0F3180CF7C}">
+        <File Id="MathJax.js" Name="MathJax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/MathJax.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_CONFIG_FOLDER_Components" Directory="MATHJAX_CONFIG_FOLDER">
+      <Component Id="MATHJAX_CONFIG_FOLDER_Component" Guid="{006D058C-611A-4C86-AF97-FA5D22AA65CE}">
+        <File Id="TEX_CHTML.js" Name="TEX_CHTML.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/config/TEX_CHTML.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_EXTENSIONS_FOLDER_Components" Directory="MATHJAX_EXTENSIONS_FOLDER">
+      <Component Id="MATHJAX_EXTENSIONS_FOLDER_Component" Guid="{F799FE27-D55D-49E0-84F0-9018398E426A}">
+        <File Id="fastpreview.js" Name="fast-preview.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/fast-preview.js" />
+        <File Id="MathEvents.js" Name="MathEvents.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/MathEvents.js" />
+        <File Id="MathMenu.js" Name="MathMenu.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/MathMenu.js" />
+        <File Id="MathZoom.js" Name="MathZoom.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/MathZoom.js" />
+        <File Id="tex2jax.js" Name="tex2jax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/tex2jax.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_EXTENSIONS_TEX_FOLDER_Components" Directory="MATHJAX_EXTENSIONS_TEX_FOLDER">
+      <Component Id="MATHJAX_EXTENSIONS_TEX_FOLDER_Component" Guid="{930F9FD4-8637-4F2F-AD68-B5541834A662}">
+        <File Id="AMSmath.js" Name="AMSmath.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/Tex/AMSmath.js" />
+        <File Id="AMSsymbols.js" Name="AMSsymbols.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/Tex/AMSsymbols.js" />
+        <File Id="noErrors.js" Name="noErrors.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/Tex/noErrors.js" />
+        <File Id="noUndefined.js" Name="noUndefined.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/extensions/Tex/noUndefined.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_JAX_FOLDER_Components" Directory="MATHJAX_JAX_FOLDER">
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_ELEMENT_FOLDER_Components" Directory="MATHJAX_ELEMENT_FOLDER">
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_MML_FOLDER_Components" Directory="MATHJAX_MML_FOLDER">
+      <Component Id="MATHJAX_MML_FOLDER_Component" Guid="{716E877D-CDC1-4C2E-AB2D-766AD936A8BF}">
+        <File Id="jax.js" Name="jax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/jax.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_OPTABLE_FOLDER_Components" Directory="MATHJAX_OPTABLE_FOLDER">
+      <Component Id="MATHJAX_OPTABLE_FOLDER_Component" Guid="{52245E78-4088-4640-8B52-AE1E24A33DCF}">
+        <File Id="Arrows.js" Name="Arrows.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/Arrows.js" />
+        <File Id="BasicLatin.js" Name="BasicLatin.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/BasicLatin.js" />
+        <File Id="CombDiacritMarks.js" Name="CombDiacritMarks.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/CombDiacritMarks.js" />
+        <File Id="CombDiactForSymbols.js" Name="CombDiactForSymbols.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/CombDiactForSymbols.js" />
+        <File Id="Dingbats.js" Name="Dingbats.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/Dingbats.js" />
+        <File Id="GeneralPunctuation.js" Name="GeneralPunctuation.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/GeneralPunctuation.js" />
+        <File Id="GeometricShapes.js" Name="GeometricShapes.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/GeometricShapes.js" />
+        <File Id="GreekAndCoptic.js" Name="GreekAndCoptic.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/GreekAndCoptic.js" />
+        <File Id="Latin1Supplement.js" Name="Latin1Supplement.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/Latin1Supplement.js" />
+        <File Id="LetterlikeSymbols.js" Name="LetterlikeSymbols.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/LetterlikeSymbols.js" />
+        <File Id="MathOperators.js" Name="MathOperators.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/MathOperators.js" />
+        <File Id="MiscMathSymbolsA.js" Name="MiscMathSymbolsA.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/MiscMathSymbolsA.js" />
+        <File Id="MiscMathSymbolsB.js" Name="MiscMathSymbolsB.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/MiscMathSymbolsB.js" />
+        <File Id="MiscSymbolsAndArrows.js" Name="MiscSymbolsAndArrows.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/MiscSymbolsAndArrows.js" />
+        <File Id="MiscTechnical.js" Name="MiscTechnical.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/MiscTechnical.js" />
+        <File Id="SpacingModLetters.js" Name="SpacingModLetters.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/SpacingModLetters.js" />
+        <File Id="SupplementalArrowsA.js" Name="SupplementalArrowsA.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/SupplementalArrowsA.js" />
+        <File Id="SupplementalArrowsB.js" Name="SupplementalArrowsB.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/SupplementalArrowsB.js" />
+        <File Id="SuppMathOperators.js" Name="SuppMathOperators.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/element/mml/optable/SuppMathOperators.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_INPUT_FOLDER_Components" Directory="MATHJAX_INPUT_FOLDER">
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_INPUT_TEX_FOLDER_Components" Directory="MATHJAX_INPUT_TEX_FOLDER">
+      <Component Id="MATHJAX_INPUT_TEX_FOLDER_Component" Guid="{91F85D7E-306E-4F19-A7C7-B400A7EEA254}">
+        <File Id="input_config.js" Name="config.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/input/Tex/config.js" />
+        <File Id="input_jax.js" Name="jax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/input/Tex/jax.js" />
+        <File Id="input_MathJax.js" Name="MathJax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/input/Tex/MathJax.js" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_OUTPUT_FOLDER_Components" Directory="MATHJAX_OUTPUT_FOLDER">
+    </ComponentGroup>
+    <ComponentGroup Id="MATHJAX_PREVIEWHTML_FOLDER_Components" Directory="MATHJAX_PREVIEWHTML_FOLDER">
+      <Component Id="MATHJAX_PREVIEWHTML_FOLDER_Component" Guid="{6635D2B0-5C42-48D6-8D71-6736D51384BF}">
+        <File Id="output_config.js" Name="config.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/output/PreviewHTML/config.js" />
+        <File Id="output_jax.js" Name="jax.js" Source="$(var.MarkDownEditor_TargetDir)MathJax/jax/output/PreviewHTML/jax.js" />
+      </Component>
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

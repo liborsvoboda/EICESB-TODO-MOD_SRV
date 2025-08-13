@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>   
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title>Markdown Monster Table Editor</title>
+    <link href="file:///d:/projects/MarkdownMonsterCode/MarkdownMonster/PreviewThemes/Westwind/Theme.css" rel="stylesheet" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0 0 0 0;
+            font-size: 1em;
+        }
+
+        textarea {
+            color: inherit;
+            background: inherit;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            height: auto;
+            padding: 2px;
+        }
+
+            textarea::selection {
+                background: rgb(28, 75, 112);
+                color: #eee;
+            }
+
+            textarea:focus, textarea:active {
+                border: #ccc 0.1px solid;
+            }
+
+        table {
+            margin: 0 !important;
+            margin-bottom: 4px;
+            padding: 0;
+        }
+
+            table td input, table th input, table td textarea, table th textarea {
+                width: 100%;
+                background: transparent;
+                border: none;
+                padding: 3px;
+                width: 100%;
+                resize: none;
+                outline: none;
+                overflow: hidden;
+            }
+
+        .right-align {
+            text-align: right;
+        }
+
+        .center-align {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table>
+<col style="width:50%" />
+<col style="width:50%" />
+<thead>
+<tr>
+<th>Header 1</th>
+<th>Header 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Row 1 Column 1</td>
+<td>Row 1 Column 2</td>
+</tr>
+</tbody>
+</table>
+
+<script>
+function findTableLocation(row, col) {
+    var el = document.querySelector(`tbody tr:nth-child(${row}) td:nth-child(${col + 1})`);
+    if (el) {
+        el.scrollIntoView();
+        var oldBorder = el.style.border;
+        el.style.border = 'solid 2px lightsteelblue';
+        setTimeout(()=> { el.style.border = oldBorder; }, 3000);
+    }
+}
+</script>
+</body>
+
+</html>

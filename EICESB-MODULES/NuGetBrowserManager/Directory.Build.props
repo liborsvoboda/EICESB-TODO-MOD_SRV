@@ -1,0 +1,69 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Luan Nguyen,Julian Verdurmen,Claire Novotny</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageIconUrl>https://raw.githubusercontent.com/NuGetPackageExplorer/NuGetPackageExplorer/main/images/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/NuGetPackageExplorer/NuGetPackageExplorer</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/NuGetPackageExplorer/NuGetPackageExplorer/main/LICENSE</PackageLicenseUrl>
+    <Copyright>© 2024 .NET Foundation and Contributors</Copyright>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)NuGetPackageExplorer.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisDictionary>$(MSBuildThisFileDirectory)CodeAnalysisDictionary.xml</CodeAnalysisDictionary>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <NoWarn>1701;1702;1705;1591;NU1701;CA1014;CA1002</NoWarn>
+
+    <IsTypesProject>$(MSBuildProjectName.Contains('Types'))</IsTypesProject>
+    <IsLegacyProject>$(MSBuildProjectName.Equals('PackageExplorer'))</IsLegacyProject>
+    <IsPackageProject>$(MSBuildProjectName.Contains('.Package'))</IsPackageProject>
+    <DebugType>embedded</DebugType>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- This suppresses the warning we get because of defining UseWpf/UseWindowsForms where it doesn't
+         apply to all of our projects -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);NETSDK1107</MSBuildWarningsAsMessages>    
+
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+  
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SourceRootDir>$(MSBuildThisFileDirectory)</SourceRootDir>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <!--<TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>-->
+    <!--<TargetPlatformVersion>10.0.19041</TargetPlatformVersion>-->
+    
+    <NuGetDependencyVersion>6.9.1</NuGetDependencyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />    
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\CommonAssemblyInfo.cs" LinkBase="Properties" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <ReleaseChannel Condition="'$(ReleaseChannel)' == '' ">Debug</ReleaseChannel>
+  </PropertyGroup> 
+  
+  <PropertyGroup>
+    <DefineConstants Condition="'$(ReleaseChannel)' == 'Store' ">$(DefineConstants);STORE</DefineConstants>
+    <DefineConstants Condition="'$(ReleaseChannel)' == 'Nightly' ">$(DefineConstants);NIGHTLY</DefineConstants>
+    <DefineConstants Condition="'$(ReleaseChannel)' == 'Choco' ">$(DefineConstants);CHOCO</DefineConstants>        
+    <DefineConstants Condition="'$(ReleaseChannel)' == 'Release' ">$(DefineConstants);ZIP</DefineConstants>    
+    <DefineConstants Condition="'$(ReleaseChannel)' == 'Debug' ">$(DefineConstants);ZIP</DefineConstants>    
+  </PropertyGroup>
+
+</Project>

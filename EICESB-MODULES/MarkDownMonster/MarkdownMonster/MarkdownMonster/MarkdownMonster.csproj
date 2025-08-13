@@ -1,0 +1,154 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--<TargetFramework>netcoreapp3.0</TargetFramework>-->
+    <StartupObject>StartUp</StartupObject>
+
+    <UseWPF>true</UseWPF>
+    <TargetFramework>net472</TargetFramework>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
+
+    <Version>1.26.11.3</Version>
+    <AssemblyName>MarkdownMonster</AssemblyName>
+    <Product>Markdown Monster</Product>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+    <Company>West Wind Technologies</Company>
+    <Copyright>West Wind Technologies, 2016-2021</Copyright>
+    <Description>Markdown Monster is an easy to use Markdown Editor and Weblog Publisher for Windows.</Description>
+    <PackageProjectUrl>https://markdownmonster.west-wind.com</PackageProjectUrl>
+    <PackageIconUrl>https://markdownmonster.west-wind.com/Images/MarkdownMonster_Icon_256.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rickstrahl/MarkdownMonster</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>markdown editor weblog-publishing blogging documentation writing westwind admin</PackageTags>
+
+    <ApplicationIcon>MarkdownMonster.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <TieredCompilation>true</TieredCompilation> 
+
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Windows.Forms" />
+    <PackageReference Include="Westwind.Scripting" Version="0.3.0" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dragablz" Version="0.0.3.223" />
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
+    <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+    <PackageReference Include="Markdig" Version="0.24.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
+    <PackageReference Include="Microsoft.DocAsCode.MarkdigEngine.Extensions" Version="2.56.7" />
+    <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.3" />
+    <PackageReference Include="ReverseMarkdown" Version="3.19.0" />
+    <PackageReference Include="westwind.utilities" Version="3.0.55" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Westwind.TypeImporter">
+      <HintPath>..\SupportAssemblies\Westwind.TypeImporter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <!--<PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets/MarkdownMonsterSplash.png" />
+    <Resource Include="Assets/MarkdownMonster.png" />
+    <Resource Include="Assets/MarkdownMonster_Icon_256.png" />
+    <Resource Include="Assets/MarkdownMonsterAddins_Icon.png" />
+    <Resource Include="Assets/vsizegrip.png" />
+    <Resource Include="Assets/WestwindText.png" />
+
+
+    <Resource Include="Assets/folder.png" />
+    <Resource Include="Assets/git.png" />
+    <Resource Include="Assets/default_file.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Editor\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Editor\**\*.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AddIns\**\_addin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AddIns\_Addins">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Hunspellx64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Hunspellx86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="mm.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="mmcli.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="mmcli.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="pingo.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="wkhtmltopdf.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleMarkdown.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Windows\TableEditor\TableEditorHtml.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>C:\projects\MarkdownMonster\MarkdownMonster\MarkdownMonster.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>1701;1702;1573;1572;1591</NoWarn>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,32 @@
+directories:
+  output: dist
+  buildResources: build
+appId: xyz.playcode.PLAYCODE
+productName: EasyCode
+mac:
+  category: public.app-category.developer-tools
+  darkModeSupport: true
+  target:
+    target: default
+    arch: universal
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  contents:
+    - x: 410
+      'y': 180
+      type: link
+      path: /Applications
+    - x: 130
+      'y': 180
+      type: file
+win:
+  target: nsis
+  publish:
+    - provider: github
+      owner: playcode
+      repo: playcode-desktop
+linux:
+  target:
+    - AppImage
+files: []
+electronVersion: 22.3.27

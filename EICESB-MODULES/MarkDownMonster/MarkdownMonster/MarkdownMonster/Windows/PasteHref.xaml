@@ -1,0 +1,93 @@
+﻿<controls:MetroWindow  x:Class="MarkdownMonster.Windows.PasteHref"                      
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkdownMonster"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"        
+        mc:Ignorable="d"
+        Icon="../Assets/MarkdownMonster_Icon_256.png"                     
+        Title="Embed Link"
+        TitleCharacterCasing="Normal"
+        ShowInTaskbar="False"
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+        WindowStartupLocation="CenterOwner"         
+        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
+        Width="620" Height="350">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding AppModel.Commands.HelpCommand}" CommandParameter="_4xs10gaui.htm"/>
+    </Window.InputBindings>
+    <StackPanel Margin="30,20">
+
+        <Label>Link Text:</Label>
+        <TextBox Name="TextLinkText" Grid.Column="0"  Text="{Binding LinkText}"  
+                     HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
+                     controls:TextBoxHelper.Watermark="Enter the link text to display"
+                     ToolTip="Set the link text for the link."/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" >
+            <TextBlock> 
+                <Hyperlink x:Name="SearchTheWeb" NavigateUri="https://invalid.com" 
+                           RequestNavigate="SearchTheWeb_OnRequestNavigate" 
+                           Foreground="SteelBlue"
+                           ToolTip="Open Web Browser and search for the Link Text. Copy link to Clipboard and return to fill the URL."
+                           >
+                    Search the Web...
+                </Hyperlink>
+            </TextBlock>
+
+            <TextBlock Margin="10,0,0,0"  > 
+                <Hyperlink x:Name="SearchWebAndLink" NavigateUri="https://invalid.com" RequestNavigate="SearchWebAndLink_OnRequestNavigate" Foreground="SteelBlue">
+                    Search and Link...
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+
+
+        <Label Margin="0,10,0,0">Link:</Label>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox  Name="TextLink"  Text="{Binding Link}" 
+                      TextWrapping="NoWrap"
+                      controls:TextBoxHelper.Watermark="Enter a URL or local file link to the image"
+                      HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,3,0"  
+                     ToolTip="Enter a URL or local file link to the image"/>
+            <Button Grid.Column="1"  Margin="3,0,0,0" Height="Auto" Width="30" FontSize="12" Click="SelectLocalLinkFile_Click">...</Button>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal">
+            <CheckBox Name="CheckExternalLink" IsChecked="{Binding IsExternal}" Margin="0,12,0,0" 
+                      ToolTip="Adds a `target=_blank` tag to the link that always forces it to open externally."
+                      Click="Checkbox_Handler">Open link in new window</CheckBox>
+            <CheckBox Name="CheckLinkReference" IsChecked="{Binding IsLinkReference}" Margin="30,12,0,0" 
+                      ToolTip="Embeds the link as a reference Id rather than the image URL, and creates the reference at the bottom of the document."
+                      Click="Checkbox_Handler">Link as a reference</CheckBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Margin="0,15">
+            
+            
+
+            <Button Name="ButtonOk" Margin="0,20" Height="40"  Width="120" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome  Icon="Upload"  FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
+                    <TextBlock Margin="10,0,0,0" >Paste Link</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Name="ButtonCancel" Margin="10,20,0,20" Height="40" Width="120" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="DarkRed"  FontSize="20"/>
+                    <TextBlock Margin="10,0,0,0">Cancel</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</controls:MetroWindow>

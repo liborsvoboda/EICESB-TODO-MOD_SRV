@@ -1,0 +1,1295 @@
+﻿<controls:MetroWindow x:Class="MarkdownMonster.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+                      xmlns:local="clr-namespace:MarkdownMonster"
+		xmlns:localwindows="clr-namespace:MarkdownMonster.Windows"
+        xmlns:mmcontrols="clr-namespace:MarkdownMonster.Controls"
+
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"					  
+        
+        Name="MainApplicationWindow"     
+        
+        Title="Markdown Monster" 
+        TitleCharacterCasing="Normal"
+        TitleBarHeight="28"
+        Icon="Assets\MarkdownMonster_Icon_256.png"
+
+        BorderThickness="1"
+
+        ResizeMode="CanResizeWithGrip"		
+        Height="600" Width="1000"  
+        MinWidth="820" MinHeight="500" 
+        WindowTransitionsEnabled="False"
+        SizeChanged="MainApplicationWindow_SizeChanged"
+>
+    <Window.Resources>
+        <localwindows:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+        <localwindows:NotEmptyStringToBooleanConverter x:Key="NotEmptyStringToBooleanConverter" />
+        <localwindows:ToUpperCaseConverter x:Key="ToUpperCaseConverter" />
+
+        <ObjectDataProvider x:Key="ApplicationThemeEnums" 
+                            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:Themes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <StackPanel Orientation="Horizontal" Name="WindowControlPanel">
+
+                <Button Name="ToolButtonAppTheme" Foreground="{StaticResource ControlBoxBrush}"                                                  
+                        ToolTip="Switch Application Theme"
+                        Content="{Binding Configuration.ApplicationTheme}"
+                        TextElement.FontSize="13" FontWeight="DemiBold">
+                </Button>
+                <Button 
+                        Margin="-10,0,0,0" Foreground="{StaticResource ControlBoxBrush}"    
+                        ToolTip="Switch Application Theme"                               
+				        fa:Awesome.Content="CaretDown" 			                             
+				        TextElement.FontSize="12" 
+				        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+				>
+                    <b:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </b:Interaction.Behaviors>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Dark" 
+                                      Command="{Binding Commands.SwitchThemeCommand}"
+                                      CommandParameter="Dark"                                      
+                                      />
+                            <MenuItem Header="Light" 
+                                      Command="{Binding Commands.SwitchThemeCommand}"
+                                      CommandParameter="Light" />
+                            <!--<Separator/>
+                            <MenuItem Header="Default" Click="AppTheme_MenuButtonClick" />-->
+                        </ContextMenu>
+                    </Button.ContextMenu>
+
+                </Button>
+
+
+
+                <ToggleButton
+                    fa:Awesome.Content="Check"  Foreground="{StaticResource ControlBoxBrush}"                                                                
+                    IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"
+                    ToolTip="enable/disable spell-checking"
+                    Command="{Binding Commands.SpellCheckCommand}"                          
+                    TextElement.FontSize="16"
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome   Icon="Check"  
+                                          FontSize="19"
+                                          FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                          />
+                        <TextBlock Margin="1,5,0,0" FontSize="11" 
+                                   Text="{Binding Configuration.Editor.Dictionary}" />
+                    </StackPanel>
+                    
+                </ToggleButton>
+
+                <Button Name="ButtonLanguages"
+                        Foreground="{StaticResource ControlBoxBrush}"    
+                        Margin="-12,0,0,0"
+                        FontSize="11"
+                        ToolTip="Languages"                                
+                        fa:Awesome.Content="CaretDown" 		                             
+                        Click="ButtonLangugeDropDown_Click"
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <b:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior  />
+                    </b:Interaction.Behaviors>
+                </Button>
+
+                <ToggleButton Name="ToolButtonPreview"    
+                              Foreground="{StaticResource ControlBoxBrush}"   
+                              Margin="-5,0,0,0"
+                                IsChecked="{Binding IsPreviewBrowserVisible}"
+                                Command="{Binding Commands.TogglePreviewBrowserCommand}"                                  
+                                ToolTip="open/hide the HTML Preview Pane (F12)"
+                                fa:Awesome.Content="Globe"
+                                TextElement.FontSize="16"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
+                </ToggleButton>
+
+                <Button Margin="-10,0,0,0"
+                        Foreground="{StaticResource ControlBoxBrush}"   
+                        ToolTip="Preview Modes"                                
+                        fa:Awesome.Content="CaretDown" 		                             
+                        TextElement.FontSize="12" 
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <b:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </b:Interaction.Behaviors>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+
+                            <MenuItem Header="Toggle _Preview Window"
+                                      IsCheckable="True" 
+                                      InputGestureText="F12"
+                                      IsChecked="{Binding IsPreviewBrowserVisible}"
+                                      Command="{Binding Commands.TogglePreviewBrowserCommand}"
+                                      IsEnabled="{Binding IsEditorActive}">
+                            </MenuItem>
+                            <MenuItem Header="View in Web _Browser" 
+                                      Command="{Binding Commands.ViewInExternalBrowserCommand}"
+                                      InputGestureText="Shift+F12"
+                                      IsEnabled="{Binding IsEditorActive}" />
+                            <Separator/>
+                            <MenuItem Header="Internal Preview" CommandParameter="InternalPreview" Command="{Binding Commands.PreviewModesCommand}"
+                                      IsCheckable="True" IsChecked="{Binding IsInternalPreview}"/>
+                            <MenuItem CommandParameter="ExternalPreviewWindow" 
+                                      Header="External Preview Window"  Command="{Binding Commands.PreviewModesCommand}"
+                                      IsCheckable="True" IsChecked="{Binding IsExternalPreview}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+
+                </Button>
+
+                <ToggleButton Name="ToolButtonFullScreen" 		
+                              Foreground="{StaticResource ControlBoxBrush}"   
+                              Margin="-4,0,0,0"
+                                      IsChecked="{Binding IsFullScreen}"
+                                      Command="{Binding Commands.DistractionFreeModeCommand}"                                                 
+                                      ToolTip="toggle distraction free edit mode (Alt+Shift+Enter). configure with: 'DistractionFreeModeHideOptions' setting."
+                                 fa:Awesome.Content="ArrowsAlt"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+                <ToggleButton Name="ToolButtonPresentationMode"
+                              Foreground="{StaticResource ControlBoxBrush}"   
+                                      IsChecked="{Binding IsPresentationMode}"
+                                      Command="{Binding Commands.PresentationModeCommand}"                                                 
+                                      ToolTip="toggle presentation mode (F11)"
+                                 fa:Awesome.Content="Desktop"                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"      
+                                      />
+
+               
+
+                <Button Name="ToolButtonSettings"
+                        Foreground="{StaticResource ControlBoxBrush}"   
+                        Command="{Binding Commands.SettingsVisualCommand}"
+                        fa:Awesome.Content="Gear" 
+                        ToolTip="Configuration Settings for Markdown Monster"                        
+                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  />
+
+                <Button 
+                    Margin="-4,0,0,0" Name="ButtonWindowSizes"
+                    Foreground="{StaticResource ControlBoxBrush}"   
+                    Click="ButtonWindowSizesDropdown_Click"
+                    fa:Awesome.Content="CaretDown"
+                    FontSize="12"
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                >
+                    <b:Interaction.Behaviors>
+                        <local:DropDownButtonBehavior />
+                    </b:Interaction.Behaviors>
+                    <Button.ToolTip>
+                        <ToolTip>
+                        <TextBlock>Resize main window to a pre-configured size.
+                            <LineBreak/>
+                            You can configure custom sizes in the configuration file.
+                        </TextBlock>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
+            </StackPanel>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <Grid Name="WindowGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"  Name="MainMenuGridRow"/>
+            <RowDefinition Height="Auto" Name="ToolbarGridRow"/>
+            <RowDefinition Height="*" Name="MainContentGridRow" />
+            <RowDefinition Height="Auto" Name="ContentConsoleSplitterGridRow"/>
+            <RowDefinition Height="Auto" Name="ConsolePanelGridRow" />
+            <RowDefinition Height="30" Name="StatusBarGridRow"/>
+        </Grid.RowDefinitions>
+
+
+        <Menu Name="MainMenu" x:FieldModifier="public" Grid.Row="0" 
+              Margin="0"
+              HorizontalAlignment="Stretch">
+            <MenuItem Header="_File" Name="MainMenuFile" x:FieldModifier="public" >
+                <MenuItem Name="ButtonNewFile" Header="_New" Command="{Binding Commands.NewDocumentCommand}" InputGestureText="{Binding Commands.NewDocumentCommand.KeyboardShortcut}"/>
+                <MenuItem Name="ButtonNewWeblogPost" Header="New Weblog Post" Command="{Binding Commands.NewWeblogPostCommand}" />
+                <Separator/>
+                <MenuItem Name="ButtonOpenFile" Header="_Open" Command="{Binding Commands.OpenDocumentCommand}"  InputGestureText="{Binding Commands.OpenDocumentCommand.KeyboardShortcut}"/>
+
+                <MenuItem Header="Open _From">
+                    <MenuItem Name="ButtonOpenFromUrl" Header="Open from _Url" Command="{Binding Commands.OpenFromUrlCommand}" />
+                    <MenuItem Name="ButtonOpenFromHtml" Header="Open from _Html" Click="Button_Handler" ToolTip="Attempts to open an Html document as Markdown text."/>
+                    <Separator />
+                    <MenuItem  Header="Clone _Git Repository" Command="{Binding Commands.Git.OpenFromGitRepoCommand}" />
+                </MenuItem>
+
+                <MenuItem Name="ButtonRecentFiles" Header="_Recent Documents"
+                          SubmenuOpened="ButtonRecentFiles_SubmenuOpened"  >
+                    <MenuItem>.</MenuItem>
+                </MenuItem>
+               
+                <Separator/>
+
+                <MenuItem Name="ButtonSaveFile" Header="_Save" Command="{Binding Commands.SaveCommand}"  
+                          InputGestureText="{Binding Commands.SaveCommand.KeyboardShortcut}" />
+                <MenuItem Name="ButtonSaveAsFile" Header="Save _As " Command="{Binding Commands.SaveAsCommand}"  
+                          InputGestureText="{Binding Commands.SaveAsCommand.KeyboardShortcut}"/>
+                <MenuItem Name="ButtonSaveAll" Header="Save A_ll " Command="{Binding Commands.SaveAllCommand}"  
+                          InputGestureText="{Binding Commands.SaveAllCommand.KeyboardShortcut}" />
+
+                <MenuItem Header="Save _To">
+                    <MenuItem Name="ButtonSaveAsHtml" Header="Save to _Html" Command="{Binding Commands.SaveAsHtmlCommand}" />
+                    <MenuItem x:Name="ButtonGeneratePdf" Header="Save to _PDF" Command="{Binding Commands.GeneratePdfCommand}" />
+                    <Separator/>
+                    <MenuItem Name="ButtonSaveAsSecureFile" Header="Save as _Encrypted File" Command="{Binding Commands.SaveAsCommand}" CommandParameter="Secure"  />
+                </MenuItem>
+
+                <Separator/>
+
+                <MenuItem Header="Pro_ject">
+                    <MenuItem Name="ButtonLoadProject" 
+                              Header="_Load Project" 
+                              Command="{Binding Commands.LoadProjectCommand}" />
+                    <MenuItem Name="ButtonSaveProject" 
+                              Header="{Binding ActiveProject.SaveProjectFilename}" 
+                              Command="{Binding Commands.SaveProjectCommand}" 
+                              CommandParameter="{Binding ActiveProject.Filename}" 
+                              IsEnabled="{Binding ActiveProject.IsEmpty,Converter={StaticResource InvertedBooleanConverter}}" />
+                    <MenuItem Name="ButtonSaveAsProject" 
+                              Header="Save Project _As"
+                              Command="{Binding Commands.SaveProjectCommand}" />
+                    <MenuItem Name="ButtonEditProjectFile" 
+                              Header="_Edit Project File"
+                              Command="{Binding Commands.SaveProjectCommand}" 
+                              CommandParameter="Edit_Project" 
+                              IsEnabled="{Binding ActiveProject.IsEmpty,Converter={StaticResource InvertedBooleanConverter}}" />
+                    <Separator />
+                    <MenuItem Name="ButtonCloseProject" Header="_Close Project" 
+                              Command="{Binding Commands.CloseProjectCommand}" />
+                </MenuItem>
+
+                <Separator/>
+
+                <MenuItem Header="_Git">
+                    <MenuItem Header="_Commit to Git..." Command="{Binding Commands.Git.CommitToGitCommand}" InputGestureText="{Binding Commands.Git.CommitToGitCommand.KeyboardShortcut}" />
+                    <Separator />
+                    <MenuItem Header="Clone _Git Repository" Command="{Binding Commands.Git.OpenFromGitRepoCommand}" />
+                    <MenuItem Header="_Create Git Repository" Command="{Binding Commands.Git.OpenFromGitRepoCommand}" CommandParameter="Create" />
+                    <MenuItem Header="_Attach to Remote Git Repository" Command="{Binding Commands.Git.OpenFromGitRepoCommand}" CommandParameter="AddRemote" />
+                    <Separator />
+                    <MenuItem Header="Open Folder in Git Client"
+                              Command="{Binding Commands.Git.OpenGitClientCommand}"  
+                              IsEnabled="{Binding Configuration.Git.GitClientExecutable, Converter={StaticResource NotEmptyStringToBooleanConverter}}" />
+                </MenuItem>
+
+                <Separator/>
+                
+                <MenuItem Header="View in Web _Browser" Name="ButtonViewInWebBrowser"                          
+                          Command="{Binding Commands.ViewInExternalBrowserCommand}"
+                          InputGestureText="Shift+F12"
+                          IsEnabled="{Binding IsEditorActive}" />
+				<MenuItem Name="ButtonPrintPreview" Header="_Print Output" Command="{Binding Commands.PrintPreviewCommand}"
+				          InputGestureText="{Binding Commands.PrintPreviewCommand.KeyboardShortcut}"/>
+                <Separator />
+                <MenuItem Header="_Close Document" Command="{Binding Commands.CloseActiveDocumentCommand}" 
+                          InputGestureText="{Binding Commands.CloseActiveDocumentCommand.KeyboardShortcut}"/>
+                <MenuItem Header="Close _All Documents" Command="{Binding Commands.CloseAllDocumentsCommand}"  
+                          IsEnabled="{Binding IsEditorActive}"/>
+
+                <Separator />
+                <MenuItem Name="ButtonExit" Header="E_xit" Click="Button_Handler"/>
+            </MenuItem>
+            <MenuItem Header="_Edit" Name="MainMenuEdit">
+                <MenuItem Header="Paste Html as Markdown" IsEnabled="{Binding IsEditorActive}" 
+                          Command="{Binding Commands.PasteMarkdownFromHtmlCommand}"
+                          ToolTip="Pastes HTML from your clipboard as Markdown text" 
+                          InputGestureText="{Binding Commands.PasteMarkdownFromHtmlCommand.KeyboardShortcut}" 
+                          />
+                <MenuItem Header="Copy Markdown Selection as Html" IsEnabled="{Binding IsEditorActive}"                          
+                          Command="{Binding Commands.CopyAsHtmlCommand}" 
+                          ToolTip="Copies the selected markdown from the editor as HTML to the clipboard"
+                          InputGestureText="{Binding Commands.CopyAsHtmlCommand.KeyboardShortcut}"  />
+                <MenuItem Header="_Remove Markdown Formatting" IsEnabled="{Binding IsEditorActive}" 
+                          Command="{Binding Commands.RemoveMarkdownFormattingCommand}"
+                          ToolTip="Removes Markdown formatting from a selection." 
+                          InputGestureText="{Binding Commands.RemoveMarkdownFormattingCommand.KeyboardShortcut}" />
+                
+                <MenuItem Header="Spea_k">
+                    <MenuItem Header="Speak _Selection"  
+                              Command="{Binding Commands.Speech.SpeakSelectionCommand}"
+                              ToolTip="Speaks the current editor selection using your default audio device." />
+                    <MenuItem Header="Speak _Document"  
+                              Command="{Binding Commands.Speech.SpeakDocumentCommand}"
+                              ToolTip="Speaks the entire document in the editor." />
+                    <MenuItem Header="Speak Text from _Clipboard"  
+                              Command="{Binding Commands.Speech.SpeakFromClipboardCommand}"
+                              ToolTip="Speaks the entire document in the editor." />
+                    <Separator />
+                    <MenuItem Header="Sto_p Speaking"  
+                              Command="{Binding Commands.Speech.CancelSpeakCommand}"
+                              ToolTip="Stops any active speaking operation." />
+                </MenuItem>
+                <Separator/>
+
+                <MenuItem Header="_Refresh Preview"  
+                          Command="{Binding Commands.RefreshBrowserContentCommand}" 
+                          IsEnabled="{Binding IsEditorActive}"
+                          ToolTip="Refreshes the preview browser by re-rendering the content when using non-auto-update sync modes."
+                          InputGestureText="{Binding Commands.RefreshBrowserContentCommand.KeyboardShortcut}"
+                />
+                
+                <Separator />
+                
+                <MenuItem Name="Button_Spellcheck" Header="Toggle _Spellchecking" Command="{Binding Commands.SpellCheckCommand}"  
+                          IsCheckable="True"                          
+                          IsChecked="{Binding Configuration.Editor.EnableSpellcheck}"/>
+                <MenuItem Header="Next Spellcheck Error" Command="{Binding Commands.SpellCheckNextCommand}" InputGestureText="F7" />
+                <MenuItem Header="Previous Spellcheck Error" Command="{Binding Commands.SpellCheckPreviousCommand}" InputGestureText="Shift-F7" />
+                <Separator />
+                    <MenuItem Name="ButtonAutoSaveDocuments" 
+                          Header="_Auto Save Document"                          
+                          IsCheckable="True"
+                          IsEnabled="{Binding IsEditorActive}"
+                          IsChecked="{Binding ActiveDocument.AutoSaveDocument}" />
+                <MenuItem Name="ButtonAutoBackupDocument"
+                          Header="Auto Backup Document"                          
+                          IsCheckable="True"
+                          IsEnabled="{Binding IsEditorActive}"
+                          IsChecked="{Binding ActiveDocument.AutoSaveBackup}" />
+                <Separator />
+                <MenuItem Name="ButtonAllowScriptTags" 
+                          Header="Allow Script _Tags in Markdown"     
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.MarkdownOptions.AllowRenderScriptTags}" />
+
+                <MenuItem Name="ButtonUseReferenceLinks" 
+                          Header="Use Link References"                          
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.LastUseReferenceLinks}" />
+
+                
+                <!--<MenuItem Name="Button_MarkdownLinting" Header="Markdown Linting"  Command="{Binding Commands.MarkdownLintingCommand}"  />-->
+                <Separator/>
+                <MenuItem Header="Find in Document" 
+                          Name="Button_Find"
+                          IsEnabled="{Binding IsEditorActive}"                          
+                          ToolTip="Find text in the active document" 
+                          Click="Button_Handler"
+                          InputGestureText="Ctrl+F" />
+                <MenuItem Header="Find next occurrence"
+                          Name="Button_FindNext"
+                          IsEnabled="{Binding IsEditorActive}"
+                          ToolTip="Find the next occurrence of the searched text in the active document"
+                          Click="Button_Handler"
+                          InputGestureText="F3" />
+                <MenuItem Header="Find and Replace in Document" 
+                          Name="Button_Replace"
+                          IsEnabled="{Binding IsEditorActive}"
+                          ToolTip="Find text in the active document" 
+                          Click="Button_Handler"
+                          InputGestureText="Ctrl+H" />
+                <Separator/>
+                <MenuItem Header="Find Files" 
+                          Command="{Binding Commands.OpenSearchBoxCommand}" />
+                <MenuItem Header="_Find in Files" 
+                          Command="{Binding Commands.OpenSearchSidebarCommand}"
+                          InputGestureText="{Binding Commands.OpenSearchSidebarCommand.KeyboardShortcut}"
+                />
+            </MenuItem>
+            <MenuItem Header="_Tools" Name="MainMenuTools" x:FieldModifier="public">                 
+                <MenuItem Name="MenuAddinManager" Header="_Add-in Manager" Command="{Binding Commands.AddinManagerCommand}"/>
+                <MenuItem Name="MenuAddins" Header="Add-_ins" />
+                <Separator/>
+                <MenuItem Name="MenuOpenConfigFolder" Header="Open Configuration Folder" Click="Button_Handler" />
+                <MenuItem Name="MenuOpenPreviewFolder" Header="Open Preview Themes Folder" Click="Button_Handler"/>
+                <Separator/>
+                <MenuItem Name="MenuOpenInCommandWindow" Header="Open _Terminal"
+                          Command="{Binding Commands.CommandWindowCommand}"
+                          IsEnabled="{Binding IsEditorActive}" InputGestureText="Alt-T-T" />
+                <MenuItem Name="MenuOpenInFolder" Header="Open in E_xplorer" 
+                         Command="{Binding Commands.OpenInExplorerCommand}" 
+                        IsEnabled="{Binding IsEditorActive}" InputGestureText="Alt-T-X"
+                        ToolTip="Open the document's folder in Explorer" />
+                <MenuItem Name="MenuOpenInFolderBrowser" Header="Open in Folder _Browser" 
+                          Command="{Binding Commands.OpenFolderBrowserCommand}" InputGestureText="Alt-T-B"
+                          IsEnabled="{Binding IsEditorActive}" 
+                          ToolTip="Opens the document in the folder browser sidebar" />
+
+
+              
+                <Separator/>
+                <MenuItem Name="MenuCommitToGit" Header="Commit to _Git..." Command="{Binding Commands.Git.CommitToGitCommand}" IsEnabled="{Binding IsEditorActive}" 
+                          ToolTip="Commits the open document to Git and tries to push to the active remote branch." />
+                <MenuItem Name="MenuCopyFilename" Header="Copy Document File _Path" 
+                          ToolTip="Copy the document's full path to the Clipboard" 
+                          Command="{Binding Commands.CopyFullPathToClipboardCommand}" InputGestureText="Alt-T-P"
+                          IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="MenuCopyFoldername" Header="Copy Document _Folder Path" 
+                          ToolTip="Copy the document's full path to the Clipboard" 
+                          Command="{Binding Commands.CopyFolderToClipboardCommand}" InputGestureText="Alt-T-F"
+                          IsEnabled="{Binding IsEditorActive}" />
+
+                <Separator/>
+                <MenuItem Name="MenuToggleWebSocket" Header="Web Server" 
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.WebServer.IsRunning}"
+                          >
+                    <MenuItem.ToolTip>
+                        <TextBlock>Toggles the Markdown Monster Web Server on or off. 
+                            <LineBreak />
+                            Allows browsers to open new documents for editing.
+                            <LineBreak />
+                            <LineBreak />
+                            You can autostart the Web Server when the application starts
+                            <LineBreak />
+                            by setting the 'WebServer.AutoRun' flag to true."
+                        </TextBlock>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                          
+                
+                <Separator/>
+                <MenuItem Header="_Settings" Command="{Binding Commands.SettingsVisualCommand}"/>
+
+            </MenuItem>
+            <MenuItem Header="_View" Name="MainMenuView"  x:FieldModifier="public" >
+                <MenuItem Name="ButtonHtmlPreview" 
+                          Header="Toggle _Preview Window"
+                          IsCheckable="True" 
+                          InputGestureText="F12"
+                          IsChecked="{Binding IsPreviewBrowserVisible}"
+                          Command="{Binding Commands.TogglePreviewBrowserCommand}"
+                          IsEnabled="{Binding IsEditorActive}">
+                </MenuItem>
+                <MenuItem Header="Internal Preview" IsCheckable="True" IsChecked="{Binding IsInternalPreview}"  Command="{Binding Commands.PreviewModesCommand}" CommandParameter="InternalPreview"/>
+                <MenuItem Header="External Preview" IsCheckable="True" IsChecked="{Binding IsExternalPreview}" Command="{Binding Commands.PreviewModesCommand}" CommandParameter="ExternalPreviewWindow"/>
+                
+                <Separator/>
+                
+                <MenuItem Header="View in Web _Browser" 
+                          Command="{Binding Commands.ViewInExternalBrowserCommand}"
+                          InputGestureText="Shift+F12"
+                          IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="ButtonPrintPreview2" Header="Print Html Preview" Command="{Binding Commands.PrintPreviewCommand}" InputGestureText="{Binding Commands.PrintPreviewCommand.KeyboardShortcut}" />
+                <Separator/>
+	            <!--<MenuItem Name="ButtonToggleFolderBrowser" 
+	                      Header="Toggle _Folder Browser Panel"                         
+	                      Command="{Binding Commands.ToggleFolderBrowserCommand}"
+	                      InputGestureText="Alt+V-F"
+	                      ToolTip="Toggles the Folder Browser sidebar panel"
+	                      />-->
+                <MenuItem Name="ButtonToggleLeftSidebar" 
+                          Header="Toggle Side_bar"                         
+                          Command="{Binding Commands.ToggleLeftSidebarPanelCommand}"
+                          InputGestureText="{Binding Commands.ToggleLeftSidebarPanelCommand.KeyboardShortcut}"
+                          ToolTip="Toggles the left sidebar panel" 
+                />
+
+
+                <MenuItem Name="ButtonShowFolderBrowser" 
+                          Header="Activate _Folder Browser"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="FolderBrowser" InputGestureText="Alt-V-F"/>
+                <MenuItem Name="ButtonShowDocumentOutline" 
+                          Header="Activate Markdown Document _Outline"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" CommandParameter="DocumentOutline" InputGestureText="Alt-V-O"/>
+
+
+                <MenuItem Name="ButtonShowFavorites"  x:FieldModifier="public"
+                          Header="Activate Fa_vorites"                                                                                                                       
+                          Command="{Binding Commands.ShowSidebarTabCommand}" 
+                          CommandParameter="Favorites" InputGestureText="Alt-V-V"/>
+
+
+                <MenuItem Name="ButtonToggleConsolePanel" 
+                          Header="Toggle _Console Output Panel"                         
+                          Command="{Binding Commands.ToggleConsolePanelCommand}"
+                          ToolTip="Toggles the Console Window on the bottom of the Window" 
+                />
+
+                <Separator />
+
+
+                <MenuItem Name="ButtonDistractionFreeMode" 
+                          Header="Toggle Distraction Free Mode"                         
+                          Command="{Binding Commands.DistractionFreeModeCommand}"
+                          ToolTip="Displays the editor in full screen mode"
+                          IsCheckable="True"
+                          IsChecked="{Binding IsFullScreen}"
+                          InputGestureText="Alt+Shift+Enter" 
+                          IsEnabled="{Binding IsEditorActive}" />
+                <MenuItem Name="ButtonPresentationMode"
+                          Header="Toggle Presentation Mode"                         
+                          ToolTip="Displays the preview in full screen mode"
+                          Command="{Binding Commands.PresentationModeCommand}"
+                          IsCheckable="True"
+                          IsChecked="{Binding IsPresentationMode}"
+                          InputGestureText="F11" 
+                          IsEnabled="{Binding IsEditorActive}" />
+                <Separator />
+                
+
+                <MenuItem Name="ButtonWordWrap" 
+                          Header="Toggle _Word Wrap"      
+                          Command="{Binding Commands.WordWrapCommand}"                                                                                             
+                          IsCheckable="True"
+                          InputGestureText="{Binding Commands.WordWrapCommand.KeyboardShortcut}"
+                          IsChecked="{Binding Configuration.Editor.WrapText, Mode=OneWay}" />
+
+                <MenuItem Name="ButtonLineNumbers" 
+                          Header="Toggle Line _Numbers"                         
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.Editor.ShowLineNumbers}" />
+
+                <MenuItem Name="ButtonShowInvisibles" 
+                          Header="Toggle Invisible Characters"
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.Editor.ShowInvisibles}" />
+
+                <Separator />
+
+                <MenuItem Name="ButtonCenteredView" 
+                          Click="Button_Handler"
+                          IsCheckable="True"
+                          IsChecked="{Binding Configuration.Editor.CenteredMode}"
+                           >
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock>Toggle Centered Layout at</TextBlock>
+                            <TextBox Text="{Binding Configuration.Editor.CenteredModeMaxWidth}" 
+                                     Name="MenuTextCenteredModeWidth"
+                                     BorderThickness="0" FontSize="13"
+                                     Padding="4,4,4,0" Margin="4,-2.5,1,0" 
+                                     Opacity="0.7" FontWeight="SemiBold" 
+                                     controls:TextBoxHelper.SelectAllOnFocus="True"
+                                     LostFocus="Refresh_Styling" >
+                            </TextBox>
+                            <TextBlock>px</TextBlock>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+
+                <MenuItem Header="_Split Editor">
+                    <MenuItem Header="_Single Pane" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="None" />
+                    <Separator/>
+                    <MenuItem Header="_Below" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Below" />
+                    <MenuItem Header="Besi_de" Command="{Binding Commands.EditorSplitModeCommand}" CommandParameter="Beside" />
+                </MenuItem>
+
+            </MenuItem>
+
+            <!-- generated dynamically by command -->
+            <MenuItem Name="MainMenuWindow" Header="_Window"                       
+                      SubmenuOpened="MainMenuWindow_SubmenuOpened"
+                      >
+                <MenuItem></MenuItem>
+            </MenuItem>
+
+
+            <MenuItem Header="_Help" Name="MainMenuHelp">
+                <MenuItem Name="MenuDocumentation" Header="Documentation" Command="{Binding Commands.HelpCommand}" InputGestureText="{Binding Commands.HelpCommand.KeyboardShortcut}" />
+                <MenuItem Name="MenuMarkdownBasics" Header="Markdown Basics"   Click="Button_Handler"/>
+                <MenuItem Name="MenuCreateAddinDocumentation" Header="Documentation for Creating Addins"   Click="Button_Handler"/>
+                <MenuItem Name="MenuShowSampleDocument" Header="Show Markdown Feature Sample Document"   Click="Button_Handler"/>
+                <Separator />
+                <MenuItem Name="MenuMarkdownMonsterSite" Header="Markdown Monster Web Site"   Click="Button_Handler"/>
+                <MenuItem Name="MenuBugReport" Header="Report a Bug or Make a Suggestion" Click="Button_Handler"/>
+                <Separator />
+                <MenuItem Name="MenuCheckNewVersion" Header="Check for New Version" Click="Button_Handler"/>
+                <MenuItem Name="MenuRegister" Header="Software Registration" Click="Button_Handler"/>
+                <Separator  />
+                <MenuItem Name="MenuShowErrorLog" Header="Show Error Log" Click="Button_Handler"/>
+                <MenuItem Name="MenuResetConfiguration" Header="Reset Settings to Default" Click="Button_Handler"/>
+                <MenuItem Name="MenuBackupConfiguration" Header="Backup Configuration Settings" Click="Button_Handler"/>
+                <Separator  />
+                <MenuItem Name="ButtonAbout" Header="_About" Click="Button_Handler"/>
+
+                <MenuItem Name="ButtonTest" Header="Test" Command="{Binding Commands.TestButtonCommand}" controls:VisibilityHelper.IsVisible="{Binding IsDebugMode}"/>
+            </MenuItem>
+        </Menu>
+
+        
+        
+        <StackPanel Grid.Row="1">
+			<ToolBarTray Name="ToolbarPanelMain" >
+                <ToolBarTray.Resources>
+                    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="FontSize" Value="17" />
+                    </Style>
+                </ToolBarTray.Resources>
+                <!--<StackPanel Orientation="Horizontal">-->
+                    
+                    <ToolBar Name="ToolbarFile">
+                        
+                        <Button Name="ToolButtonOpenFile" 
+                                Padding="6,4,4,4"
+                                FontSize="18"
+                                Foreground="Goldenrod"
+                                Command="{Binding Commands.OpenDocumentCommand}" 
+                                ToolTip="Open Markdown file (Ctrl+O)"                                
+                                fa:Awesome.Content="FolderOpen" 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                        />
+                        <Button Name="ToolbarButtonRecentFiles" Click="Button_Handler" 
+                                        Padding="2,4" Margin="0,0,4,0"
+                                        FontSize="15"
+                                        ToolTip="Recent documents (Alt+F+R)" 
+                                        fa:Awesome.Content="CaretDown"
+                                        TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
+                        </Button>
+                        
+
+						<Button Name="ToolButtonNewFile" 
+                                FontSize="18"
+                                Command="{Binding Commands.NewDocumentCommand}" 
+                                ToolTip="New file (Ctrl+N)"                                
+                                fa:Awesome.Content="PlusCircle" 
+                                Foreground="{StaticResource BlueItem}"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+
+                        <Button Name ="ToolButtonSaveFile" 
+                                FontSize="19.2"  Padding="8,3,8,3"
+                                Command="{Binding Commands.SaveCommand}" 
+								ToolTip="Save active document (Ctrl+S)"   
+                                controls:VisibilityHelper.IsCollapsed="{Binding ActiveDocument.IsDirty}"
+                                IsEnabled="False"
+                                fa:Awesome.Content="CheckCircleOutline" 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+
+                        <Button Name ="ToolButtonSaveFile2" 
+                                FontSize="19.2"  Padding="8,3,8,3"
+                                Command="{Binding Commands.SaveCommand}" 
+                                ToolTip="Save active document (Ctrl+S)"   
+                                IsEnabled="True"
+                                controls:VisibilityHelper.IsVisible="{Binding ActiveDocument.IsDirty}"
+                                Foreground="ForestGreen"
+                                fa:Awesome.Content="CheckCircleOutline" 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                        />
+
+					</ToolBar>
+
+
+
+                    <ToolBar FontWeight="Light" 
+                             Name="ToolbarEdit" 
+                             FontSize="17" Margin="0,0">
+
+                        <Button Name="ButtonBold"  
+                                ToolTip="Bold (Ctrl+B)"                                   
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="bold"                                
+                                fa:Awesome.Content="Bold"
+                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
+                        <Button Name ="ButtonItalic" 
+                                ToolTip="Italic (Ctrl+I)" 
+                                Padding="10,4"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="italic"
+                                fa:Awesome.Content="Italic" 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
+                        <Button Name ="ButtonStrikeThrough" ToolTip="Strikethrough" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="strikethrough"
+                                fa:Awesome.Content="Strikethrough"                                 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+
+                        <Button Name ="ButtonInlineCode"
+								ToolTip="Inline code inside of a paragraph (Ctrl+`)" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="inlinecode"  Padding="5,4"
+                                FontWeight="Medium"  
+								TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                        >`{ }`</Button>
+                        
+                        <Separator />
+
+                        <Button Name="ButtonQuote" 
+                                Padding="10,5" Margin="0" FontSize="17" 
+                                ToolTip="Quote text (Ctrl+Q)"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }"  
+                                CommandParameter="quote"
+                                fa:Awesome.Content="QuoteLeft"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Button Name ="ButtonList" 
+                                Padding="10,5" Margin="0" FontSize="17"
+                                ToolTip="turns lines into an unordered list (Ctrl+L)"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="list"
+                                fa:Awesome.Content="ListUl"                                                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Button Name ="ButtonNumberList"  ToolTip="Turns lines to ordered list"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="numberlist"
+                                fa:Awesome.Content="ListOl"								                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                                />
+
+                        <Button Name ="ButtonTableEditor" Margin="7,0" ToolTip="Opens the interactive table editor"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="table"
+                                fa:Awesome.Content="Table"								                                
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"                                 
+                        />
+
+                        <Separator />
+
+                        <Button Name ="ButtonH1" ToolTip="H1 Text"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h1" Content="H1" FontWeight="Bold"                                
+                                />
+
+                        <Button Name ="ButtonH2" ToolTip="H2 Text"
+                                Padding="6,4"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h2" Content="H2" FontWeight="Bold"                                
+                                />
+
+                        <Button Name ="ButtonH3" ToolTip="H3 Text"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h3" Content="H3" FontWeight="Bold"                                
+                                />
+                        <Button Name ="ButtonH4" ToolTip="H4 Text"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h4" Content="H4" FontWeight="Bold"                                
+                                />
+                        <Button Name ="ButtonH5" ToolTip="H5 Text"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="h5" Content="H5" FontWeight="Bold"                                
+                                />
+                        <Separator />
+
+
+                        <Button Name ="ButtonLink" FontSize="19" 
+                                ToolTip="Insert link (Ctrl+K dialog) or (Ctrl+Shift+K text only)"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="href" 
+                                fa:Awesome.Content="ExternalLink"
+                                 
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                />
+                        <Button Name="ButtonImage" 
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="image"                                
+                                fa:Awesome.Content="Image"
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                >
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>Insert an image from disk or the clipboard (Alt+I dialog) or (Alt+Shift+I text only).
+                                        <LineBreak/>
+                                        You can also paste images from the clipboard or drag images from Explorer into the document.
+                                    </TextBlock>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+
+                        <Button Name ="ButtonCode"  
+								ToolTip="Insert a formatted source code snippet (Alt+C)"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                CommandParameter="code"                                
+                                FontWeight="Medium" 
+                        >{#}</Button>
+
+						<Button Name="ButtonEmoji"
+								ToolTip="Insert emoji (Ctrl+J)"
+                                Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                FontSize="15"
+                                CommandParameter="emoji"
+                                fa:Awesome.Content="SmileOutline"                                                           
+                                TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"        
+                                
+                        />
+
+                        <Button Name="ButtonMoreMarkdown"
+                                Padding="2,4" Margin="3,0,0,0"
+                                ToolTip="More Markup Operations" 
+                                fa:Awesome.Content="CaretDown"                                                      
+                        >
+                            <b:Interaction.Behaviors>
+                                <local:DropDownButtonBehavior />
+                            </b:Interaction.Behaviors>
+
+                            <Button.ContextMenu>
+                                <ContextMenu>
+
+                                    <MenuItem ToolTip="Make text small" 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="small">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:ImageAwesome Icon="ArrowDown" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0"  />
+                                                <TextBlock>Small</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem ToolTip="Underline Selected Text" 
+                                            Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                            CommandParameter="underline">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Underline" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Underline</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+
+                                    <MenuItem ToolTip="Mark text with highlight."
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="mark" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Pencil" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Mark Text</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="bolditalic" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="Bolt" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Bold and Italic</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="uppercase" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="CaretUp" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Uppercase</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+                                    <MenuItem 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="lowercase" FontWeight="Light">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <fa:ImageAwesome Icon="CaretDown" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0" />
+                                                <TextBlock>Lowercase</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem ToolTip="Add a page break for printing" 
+                                              Command="{Binding Commands.ToolbarInsertMarkdownCommand }" 
+                                              CommandParameter="pagebreak">
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:ImageAwesome Icon="Paragraph" Foreground="Silver" Height="16" Width="16" Margin="0,0,10,0"  />
+                                                <TextBlock>Pagebreak</TextBlock>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+
+                    </ToolBar>
+
+					<ToolBar Name="ToolbarAddIns" Visibility="Hidden" FontSize="17">
+                        <Button Name="ButtonGit" Command="{Binding Commands.Git.CommitToGitCommand}" 
+                                ToolTip="Git Operations: Commit, Push, Pull, Clone, Create (Alt+G)" Margin="0,0,4,0" >
+                            <Image Source="assets/git.png" Height="19" />
+                        </Button>
+                        
+					</ToolBar>
+					
+                <!--</StackPanel>-->
+            </ToolBarTray>
+        </StackPanel>
+
+
+        
+
+        <Grid Name="ContentGrid" Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Name="LeftSidebarColumn"  Width="{Binding WindowLayout.LeftSidebarWidth,Mode=TwoWay}" x:FieldModifier="public" />
+                <ColumnDefinition Name="LeftSidebarSeparatorColumn" Width="{Binding WindowLayout.LeftSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
+                <ColumnDefinition Name="MainWindowEditorColumn" Width="*" x:FieldModifier="public" />
+                <ColumnDefinition Name="RightSidebarSeparatorColumn" Width="{Binding WindowLayout.RightSidebarSeparatorWidth,Mode=TwoWay}"  x:FieldModifier="public" />
+                <ColumnDefinition Name="RightSidebarColumn" Width="{Binding WindowLayout.RightSidebarWidth,Mode=TwoWay}"  x:FieldModifier="public" />
+            </Grid.ColumnDefinitions>
+
+            <controls:MetroTabControl x:Name="SidebarContainer"
+                                        Margin="0,5,0,0"                                        
+                                        FontSize="13" 
+                                        x:FieldModifier="public"                                                                                                                                                         
+                                        TabStripPlacement="Left"                                        
+                                        SelectionChanged="SidebarContainer_SelectionChanged"
+                                        BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="controls:MetroTabItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <!--<Trigger Property="IsSelected" Value="true">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>-->
+                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="Padding" Value="6,10" />
+                        </Style.Setters>
+                    </Style>
+                </TabControl.Resources>
+
+                <controls:MetroTabItem Name="TabFolderBrowser"  x:FieldModifier="public"
+                          Visibility="Visible">
+                    <TabItem.Header>
+                        <StackPanel Margin="0,17,0,8">
+                            <fa:FontAwesome Icon="Folder" FontSize="22"  Foreground="DarkGoldenrod" 
+                                            ToolTip="File and Folder Browser"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <localwindows:FolderBrowerSidebar x:Name="FolderBrowser" x:FieldModifier="public">
+                    </localwindows:FolderBrowerSidebar>
+                </controls:MetroTabItem>
+
+
+                <controls:MetroTabItem Name="TabDocumentOutline"  x:FieldModifier="public"                                       
+                                       controls:VisibilityHelper.IsVisible="{Binding Configuration.IsDocumentOutlineVisible}" >
+                    <TabItem.Header>
+                        <StackPanel Margin="0,5,0,5">
+                            <fa:FontAwesome Icon="Bookmark" FontSize="22" Foreground="SteelBlue"  
+                                            ToolTip="Document Outline"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <localwindows:DocumentOutlineSidebarControl x:Name="DocumentOutline">
+                    </localwindows:DocumentOutlineSidebarControl>
+                </controls:MetroTabItem>
+
+            </controls:MetroTabControl>
+
+
+            <GridSplitter Grid.Column="1" ShowsPreview="False"
+			              HorizontalAlignment="Center" 
+			              BorderThickness="0" IsTabStop="False"              
+			              VerticalAlignment="Stretch" >
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
+                                    controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsLeftSidebarVisible}"
+                                    HorizontalAlignment="Center" Grid.Column="0" Padding="2,15,0,15" Cursor="Arrow" 
+                                    MouseDown="LeftSidebarExpand_MouseDown"
+                            />
+                            <Image Source="Assets/vsizegrip.png" Height="30" Margin="1,0,1,0" VerticalAlignment="Center" Grid.Row="1"/>
+                        </Grid>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
+
+            <!-- Main Content - Editor and Preview Tab -->
+            <dragablz:TabablzControl x:Name="TabControl" x:FieldModifier="public" Grid.Column="2"
+                                     Margin="0,5,2,0"
+                                     FontSize="13"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     ShowDefaultCloseButton="True"                                     
+                                     ShowDefaultAddButton="False"
+                                     SelectionChanged="TabControl_SelectionChanged"
+                                     ContextMenuOpening="TabControl_ContextMenuOpening"
+                                     PreviewMouseLeftButtonUp="TabControl_OnPreviewMouseLeftButtonUp"                                     
+                                     controls:VisibilityHelper.IsVisible="{Binding IsTabOpen}">
+                <TabControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem/>
+                    </ContextMenu>
+                </TabControl.ContextMenu>
+            </dragablz:TabablzControl>
+
+            <!-- Start Screen - conditionally shown if no docs are open -->
+            <mmcontrols:StartMenuUserControl Grid.Column="2"  controls:VisibilityHelper.IsCollapsed="{Binding IsTabOpen}" />
+
+            <GridSplitter Grid.Column="3"  x:Name="RightSidebarContainerSeparator"                                                                   
+                          HorizontalAlignment="Center" ShowsPreview="False"                          
+                          BorderThickness="0" IsTabStop="False"
+                          VerticalAlignment="Stretch">
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <fa:FontAwesome Icon="bars" Foreground="{DynamicResource BlueItem}"  Width="15" 
+                                            controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsRightSidebarVisible}"
+                                            HorizontalAlignment="Center" Grid.Column="0" Padding="0,15,5,15" Cursor="Arrow" 
+                                            MouseDown="RightSidebarExpand_MouseDown"
+                            />
+                            <Image Source="Assets/vsizegrip.png" Height="30" Margin="1,0,1,0" VerticalAlignment="Center" Grid.Row="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
+
+    
+            <controls:MetroTabControl Grid.Column="4" x:Name="RightSidebarContainer"
+                                      Margin="0,5,0,0"
+                                      FontSize="13"  x:FieldModifier="public"                                      
+                                      TabStripPlacement="Bottom"
+                                      BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="controls:MetroTabItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="Padding" Value="3,2,9,10" />
+                            <Setter Property="Margin" Value="0,0,4,4" />
+                            <Setter Property="controls:HeaderedControlHelper.HeaderFontSize" Value="14" />
+                        </Style.Setters>
+                    </Style>
+                </TabControl.Resources>
+                
+            </controls:MetroTabControl>
+        </Grid>
+
+
+
+        <GridSplitter Height="7"  Grid.Row="3"    Background="#333"                          
+                      VerticalAlignment="Center" ShowsPreview="False"                         
+                      BorderThickness="0" IsTabStop="False"                          
+                      controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}"
+                      HorizontalAlignment="Stretch" >
+        </GridSplitter>
+
+
+        <mmcontrols:ConsolePanelControl 
+            Grid.Row="4" x:Name="ConsolePanel" x:FieldModifier="public"
+            Height="Auto"
+            controls:VisibilityHelper.IsCollapsed="{Binding WindowLayout.IsConsolePanelVisible, Converter={StaticResource InvertedBooleanConverter}}" />
+
+
+        <StatusBar  Grid.Row ="5"  Margin="0,0,0,0" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Stretch">
+            <!--<StatusBar.Resources>
+                <Style x:Key="{x:Static ToolBar.ComboBoxStyleKey}" TargetType="ComboBox">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </StatusBar.Resources>-->
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="100" />
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Markdown Parser column, width = 150  Column 8-->
+                            <ColumnDefinition Width="{Binding MarkdownParserColumnWidth}"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+
+            <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+            </StatusBarItem>
+            
+            <StatusBarItem Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="StatusText" 
+                               x:FieldModifier="public" 
+                               HorizontalAlignment="Left"
+                               Text="Ready">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap" MaxWidth="600" Text="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=Text}" />                        
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+
+            <StatusBarItem  Grid.Column="2" >
+                <ComboBox Name="StatusZoomLevel"
+                          Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                          IsEditable="True" FontSize="13"  Padding="1" 
+                          IsSynchronizedWithCurrentItem="True"
+
+                          MouseDoubleClick="StatusZoomLevel_MouseDoubleClick"  
+                          SelectionChanged="StatusZoomLevel_SelectionChanged"
+                          PreviewTextInput="StatusZoomLevel_PreviewTextInput"  
+                          ItemStringFormat="0\\%"
+                          Text="{Binding Configuration.Editor.ZoomLevel,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='0\\%'}">
+                    <ComboBox.ToolTip>
+                        <TextBlock>
+                            Editor Font Size Zoom Level.
+                            <LineBreak /> 
+                            Also use the mouse wheel or Ctrl++ and Ctrl+- to zoom.
+                            <LineBreak />
+                            Double click to reset to 100%.
+                        </TextBlock>
+                    </ComboBox.ToolTip>
+                    <ComboBoxItem>50</ComboBoxItem>
+                    <ComboBoxItem>75</ComboBoxItem>
+                    <ComboBoxItem>100</ComboBoxItem>
+                    <ComboBoxItem>125</ComboBoxItem>
+                    <ComboBoxItem>150</ComboBoxItem>
+                    <ComboBoxItem>200</ComboBoxItem>
+                </ComboBox>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="3">
+                <TextBlock  Name="StatusStats" x:FieldModifier="public" Margin="0,2,0,0"
+                            HorizontalAlignment="Left" ToolTip="Document Statistics and Status"></TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="4">
+                <TextBlock Name="TextLinefeedMode" Text="{Binding Configuration.Editor.LinefeedMode, Converter={StaticResource ToUpperCaseConverter}}"
+                           Margin="12,0,4,0" 
+                           ToolTip="Linefeed Mode. Click to change global setting" 
+                           MouseUp="TextLinefeedMode_MouseUp"></TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="5">
+                <ComboBox  Name="StatusEncoding" x:FieldModifier="public"
+                           HorizontalAlignment="Right"  Width="Auto" ToolTip="Document Encoding"  
+                           FontSize="13" Padding="2,1"
+                           IsSynchronizedWithCurrentItem="True"
+                           Margin="0,0,3,0"    
+                           ItemsSource="{Binding EncodingTypes}"
+                           SelectionChanged="StatusEncoding_SelectionChanged"
+                           Background="Transparent" BorderThickness="0"                           
+                />
+                <!--<TextBlock Name="TextEncoding" HorizontalAlignment="Right"  
+                           Width="Auto" ToolTip="Document Encoding - click to reopen or save with different encoding" 
+                           FontSize="13" Padding="2,1"
+                           MouseUp="TextEncoding_MouseUp"
+                           Text="{Binding ActiveDocument.Encoding.EncodingName}"
+                           Margin="0,0,3,0"    />-->                  
+
+            </StatusBarItem>
+            
+         
+            <StatusBarItem Grid.Column="6" Margin="0,0,0,0">
+                <ComboBox   Name="DocumentType" x:FieldModifier="public" HorizontalAlignment="Left"
+                            Width="Auto"  FontSize="13"  Padding="3,0"
+                            ItemsSource="{Binding DocumentTypes}"
+                            SelectedItem="{Binding ActiveEditor.MarkdownDocument.EditorSyntax, Mode=TwoWay}"                             
+                            ToolTip="Editor Code Syntax" 
+                            Background="Transparent" BorderThickness="0"
+                            SelectionChanged="DocumentType_SelectionChanged"
+                />
+            </StatusBarItem>
+
+
+            <StatusBarItem Grid.Column="7">
+                <ComboBox  HorizontalAlignment="Right"  
+                           ToolTip="Registered Markdown Parsers" Width="Auto"
+                           SelectedItem="{Binding Configuration.MarkdownOptions.MarkdownParserName}" 
+                           IsSynchronizedWithCurrentItem="True"   FontSize="13"  Padding="3,0"
+                           ItemsSource="{Binding MarkdownParserNames}"
+                           BorderThickness="0" Background="Transparent"
+                           SelectionChanged="MarkdownParserName_SelectionChanged" />
+
+            </StatusBarItem>
+            
+            <StatusBarItem Grid.Column="8">
+
+                <ComboBox  HorizontalAlignment="Right"  ToolTip="Editor Themes"
+                           SelectedItem="{Binding Configuration.EditorTheme}"  FontSize="13" Padding="3,0"
+                           IsSynchronizedWithCurrentItem="True"                            
+                           ItemsSource="{Binding EditorThemeNames}"
+                           BorderThickness="0" Background="Transparent"
+                           SelectionChanged="EditorTheme_SelectionChanged" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="9">
+                <ComboBox  HorizontalAlignment="Right" Padding="3,0"
+                           ToolTip="Preview rendering Themes"  FontSize="13"
+                           SelectedItem="{Binding Configuration.PreviewTheme}" 
+                           IsSynchronizedWithCurrentItem="True" 
+                           ItemsSource="{Binding PreviewThemeNames}"
+                           BorderThickness="0" Background="Transparent"
+                           SelectionChanged="PreviewTheme_SelectionChanged" />
+
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="10">
+                <ComboBox  HorizontalAlignment="Right"   Width="18" ToolTip="Preview sync mode"  
+                           Name="ComboBoxPreviewSyncModes"  FontSize="13" Padding="0,1"
+                           IsSynchronizedWithCurrentItem="True" Margin="0,0,3,0"    
+                           SelectedValue="{Binding Configuration.PreviewSyncMode}" 
+                           ItemsSource="{Binding PreviewSyncModeItems}"                           
+                           DisplayMemberPath="IconString"
+                           SelectedValuePath="Value" 
+                           BorderThickness="0" Background="Transparent"
+                           FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                           SelectionChanged="PreviewTheme_SelectionChanged">
+                </ComboBox>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="11">
+                <Button Name="ButtonStatusEncrypted" Margin="0,0,15,0" Click="Button_Handler" 
+                    ToolTip="Encrypted"
+                    fa:Awesome.Content="Lock" 
+                    Visibility="{Binding ActiveDocument.IsEncrypted, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    TextElement.FontSize="12"
+                    TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+            </StatusBarItem>
+
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>

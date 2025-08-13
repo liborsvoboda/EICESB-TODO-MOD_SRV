@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Version>0.2.4</Version>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <Authors>Rick Strahl</Authors>
+    <Company>West Wind Technolologies</Company>
+    <Product>HtmlPackager</Product>
+    <Copyright>© Rick Strahl - West Wind Technologies, 2018-2023</Copyright>
+
+    <Description>HtmlPackager is a small console .NET SDK tools used to package HTML content into a self contained HTML document either as a single file or console output stream, a folder with all dependencies copied to local or a zip file. It provides a automated way to perform a similar task to what Browser **Save As...** does to capture page output to disk.
+
+The packager can create:
+
+      * A single, self-contained and very large HTML file with all resources embedded inline
+      * A single output stream into StdOut that contains self contained HTML output as above
+      * An HTML file with all resources copied local into the same folder as the document
+      * A zip file of the latter output
+
+This package is for the .NET SDK tooling, there are also packages for Chocolatey (HtmlPackager) as a standalone Console Windows exe, and a Nuget .NET Standard Library package (westwind.htmlpackager) for the underlying API.
+    </Description>
+    <PackageProjectUrl>https://github.com/RickStrahl/Westwind.HtmlPackager</PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/RickStrahl/Westwind.HtmlPackager</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>Westwind Html Package</PackageTags>
+    <PackageIconUrl></PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>dotnet-htmlpackager</PackageId>
+    <ToolCommandName>htmlpackager</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Westwind.HtmlPackager\Westwind.HtmlPackager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="nupkg\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,35 @@
+{
+  "runtimeOptions": {
+    "tfm": "net8.0",
+    "frameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "8.0.0"
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "version": "8.0.0"
+      }
+    ],
+    "runtimeOptions": {
+      "tfm": "net7.0",
+      "frameworks": [
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "7.0.5"
+        },
+        {
+          "name": "Microsoft.WindowsDesktop.App",
+          "version": "7.0.5"
+        }
+      ],
+      "configProperties": {
+        "System.Reflection.Metadata.MetadataUpdater.IsSupported": false
+      }
+    },
+    "configProperties": {
+      "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true
+    }
+  }
+}

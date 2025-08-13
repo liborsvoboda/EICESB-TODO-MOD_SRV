@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Version>1.26</Version>
+    <TargetFramework>net472</TargetFramework>
+    <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
+    <AssemblyName>SnippetsAddin</AssemblyName>
+    <UseWPF>true</UseWPF>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\Snippets</OutDir>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.4">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Dragablz" Version="0.0.3.203">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" Version="3.0.55">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Scripting" Version="0.3.0">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Westwind.RazorHosting" Version="3.3.9" />
+  </ItemGroup>
+
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.dll">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icon.png" />
+    <Resource Include="icon_22.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+ <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;3106</NoWarn>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,173 @@
+﻿<UserControl x:Class="MarkDownEditor.View.SettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:p="clr-namespace:MarkDownEditor.Properties"
+             xmlns:local="clr-namespace:MarkDownEditor.View"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mc:Ignorable="d" 
+            d:DesignHeight="800"  d:DesignWidth="500" Padding="4">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="sysFonts" Source="{x:Static Member=Fonts.SystemFontFamilies}">
+            <CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription PropertyName="Source" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <Controls:MetroAnimatedSingleRowTabControl Padding="20">
+        <TabControl.Resources>
+            <Style TargetType="Expander" BasedOn="{StaticResource MetroExpander}">
+                <Setter Property="Margin" Value="10"></Setter>
+            </Style>
+        </TabControl.Resources>
+        <Controls:MetroTabItem Header="{x:Static p:Resources.Environment}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.InternationalSettings}">
+                        <StackPanel>
+                            <DockPanel Margin="0,5,0,5">
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static p:Resources.Language}" Style="{StaticResource SettingKeyStyle}"/>
+                                <TextBlock Text="(Language)" Style="{StaticResource SettingKeyStyle}"/>
+                                <Controls:SplitButton DockPanel.Dock="Right" Margin="5" HorizontalContentAlignment="Left" HorizontalAlignment="Right" FontSize="14" 
+                                      ItemsSource="{Binding AllLanguages}" SelectedItem="{Binding CultureInfo}" DisplayMemberPath="NativeName">
+                                </Controls:SplitButton>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.Theme}">
+                        <StackPanel>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.NightMode}" IsChecked="{Binding IsNightMode}"></Controls:ToggleSwitch>
+                            <DockPanel Margin="0,5,0,5">
+                                <TextBlock Text="{x:Static p:Resources.Accent}" Style="{StaticResource SettingKeyStyle}"/>
+                                <Menu DockPanel.Dock="Right" Margin="5" HorizontalContentAlignment="Left" HorizontalAlignment="Right" 
+                                      Background="{DynamicResource AccentColorBrush}">
+                                    <MenuItem Header="Accent" BorderThickness="0" Opacity="0"
+                                              ItemsSource="{Binding AccentColors, Mode=OneWay}">
+                                        <MenuItem.Resources>
+                                            <Ellipse x:Key="AccentMenuIcon"
+                                                     x:Shared="False"
+                                                     Width="16"
+                                                     Height="16"
+                                                     Fill="{Binding ColorBrush, Mode=OneWay}" />
+                                        </MenuItem.Resources>
+                                        <MenuItem.ItemContainerStyle>
+                                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                                                <Setter Property="Command" Value="{Binding ChangeAccentCommand}" />
+                                                <Setter Property="Icon" Value="{StaticResource AccentMenuIcon}" />
+                                                <Setter Property="Header" Value="{Binding Name, Mode=OneWay}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                            </Style>
+                                        </MenuItem.ItemContainerStyle>
+                                    </MenuItem>
+                                </Menu>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.OISS}">
+                        <Controls:MetroAnimatedSingleRowTabControl SelectedIndex="{Binding CurrentImageStrorageServiceIndex}">
+                            <Controls:MetroTabItem Header="SM.MS"/>
+                            <Controls:MetroTabItem Header="IMGUR"/>
+                            <Controls:MetroTabItem Header="Qiniu">
+                                <StackPanel>
+                                    <DockPanel Margin="0,5,0,5">
+                                        <TextBlock Text="ACCESS_KEY：" Style="{StaticResource SettingKeyStyle}" Margin="5,0,0,0"/>
+                                    </DockPanel>
+                                    <TextBox x:Name="txtACCESS_KEY" HorizontalAlignment="Left" Height="23" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding QiniuACCESS_KEY}" VerticalAlignment="Top" Width="280"/>
+
+                                    <DockPanel Margin="0,5,0,5">
+                                        <TextBlock Text="SECRET_KEY：" Style="{StaticResource SettingKeyStyle}" Margin="5,0,0,0"/>
+                                    </DockPanel>
+                                    <TextBox x:Name="txtSECRET_KEY" HorizontalAlignment="Left" Height="23" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding QiniuSECRET_KEY}" VerticalAlignment="Top" Width="280"/>
+
+                                    <DockPanel Margin="0,5,0,5">
+                                        <TextBlock Text="{x:Static p:Resources.QiniuUserDomainName}" Style="{StaticResource SettingKeyStyle}" Margin="5,0,0,0"/>
+                                    </DockPanel>
+                                    <TextBox x:Name="txtUserDomainName" HorizontalAlignment="Left" Height="23" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding QiniuUserDomainName}" VerticalAlignment="Top" Width="280"/>
+
+                                    <DockPanel Margin="0,5,0,5">
+                                        <TextBlock Text="{x:Static p:Resources.QiniuUserScope}" Style="{StaticResource SettingKeyStyle}" Margin="5,0,0,0"/>
+                                    </DockPanel>
+                                    <TextBox x:Name="txtUserScope" HorizontalAlignment="Left" Height="23" Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding QiniuUserScope}" VerticalAlignment="Top" Width="280"/>
+
+                                </StackPanel>
+                            </Controls:MetroTabItem>
+
+
+                        </Controls:MetroAnimatedSingleRowTabControl>
+                    </Expander>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem Header="{x:Static p:Resources.Editor}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.Font}">
+                        <StackPanel>
+                            <DockPanel Margin="0,5,0,5">
+                                <TextBlock Text="{x:Static p:Resources.FontFamily}" Style="{StaticResource SettingKeyStyle}"/>
+                                <Controls:SplitButton DockPanel.Dock="Right" Margin="5" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="150" FontSize="14" 
+                                      ItemsSource="{Binding Source={StaticResource sysFonts}}" SelectedItem="{Binding EditorFont,Mode=TwoWay}">
+                                    <Controls:SplitButton.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel></VirtualizingStackPanel>
+                                        </ItemsPanelTemplate>
+                                    </Controls:SplitButton.ItemsPanel>
+                                    <Controls:SplitButton.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Style.Setters>
+                                                <Setter Property="FontFamily" Value="{Binding}"></Setter>
+                                            </Style.Setters>
+                                        </Style>
+                                    </Controls:SplitButton.ItemContainerStyle>
+                                </Controls:SplitButton>
+                            </DockPanel>
+                            <DockPanel Margin="0,5,0,5">
+                                <TextBlock Text="{x:Static p:Resources.FontSize}" Style="{StaticResource SettingKeyStyle}"/>
+                                <Controls:NumericUpDown DockPanel.Dock="Right" Margin="5" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Width="100" FontSize="14" Minimum="1" Maximum="96" Value="{Binding EditorFontSize}">
+                                </Controls:NumericUpDown>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.Editing}">
+                        <StackPanel>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.WordWrap}" IsChecked="{Binding WordWrap}"></Controls:ToggleSwitch>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.HighlightCurrentLine}" IsChecked="{Binding HighlightCurrentLine}"></Controls:ToggleSwitch>
+                        </StackPanel>
+                    </Expander>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.Symbols}">
+                        <StackPanel>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowLineNumbers}" IsChecked="{Binding ShowLineNumbers}"></Controls:ToggleSwitch>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowTabs}" IsChecked="{Binding ShowTabs}"></Controls:ToggleSwitch>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowSpaces}" IsChecked="{Binding ShowSpaces}"></Controls:ToggleSwitch>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowEndOfLine}" IsChecked="{Binding ShowEndOfLine}"></Controls:ToggleSwitch>
+                        </StackPanel>
+                    </Expander>
+                    <Expander IsExpanded="True" Header="MathJax">
+                        <StackPanel>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowMathJax}" IsChecked="{Binding ShowMathJax}"></Controls:ToggleSwitch>
+                        </StackPanel>
+                    </Expander>
+                    <Expander IsExpanded="True" Header="{x:Static p:Resources.Ruler}">
+                        <StackPanel>
+                            <Controls:ToggleSwitch Header="{x:Static p:Resources.ShowColumnRuler}" IsChecked="{Binding ShowColumnRuler}"></Controls:ToggleSwitch>
+                            <DockPanel Margin="0,5,0,5">
+                                <TextBlock Text="{x:Static p:Resources.RulerPosition}" Style="{StaticResource SettingKeyStyle}"/>
+                                <Controls:NumericUpDown DockPanel.Dock="Right" Margin="5" HorizontalContentAlignment="Left" 
+                                            HorizontalAlignment="Right" Width="100" FontSize="14" 
+                                            Minimum="1" Value="{Binding RulerPosition}" IsEnabled="{Binding ShowColumnRuler}">
+                                </Controls:NumericUpDown>
+                            </DockPanel>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Controls:MetroTabItem>
+        <Controls:MetroTabItem Header="{x:Static p:Resources.About}">
+            <local:AboutControl DataContext="{Binding AboutViewModel}"></local:AboutControl>
+        </Controls:MetroTabItem>
+    </Controls:MetroAnimatedSingleRowTabControl>
+</UserControl>

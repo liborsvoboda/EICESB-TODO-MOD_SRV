@@ -1,0 +1,442 @@
+﻿@using Microsoft.EntityFrameworkCore
+@model  ProfileViewModel
+@inject BusinessFactory BusinessFactory
+@{
+    ViewData["Title"] = "My Profile - " + wsApp.Configuration.Company.CompanyName;
+
+    bool isOrderProfile = Context.Request.Path.Value.Contains("/shoppingcart/");
+    if (isOrderProfile)
+    {
+        Model.ReturnUrl = "/shoppingcart/orderform";
+        ViewData["Title"] = "Order Billing Information";
+    }
+}
+
+<div class="container">
+
+    <h1 class="page-header-text">
+        <i class="fad fa-user-alt"></i>
+        @if (Model.IsNewUser)
+        {
+            <text>Create a new Profile</text>
+        }
+        else if(isOrderProfile)
+        { 
+            <text>Order Billing Information</text>
+        }
+        else 
+        { 
+            <text>@Model.UserState.Name: Your Profile</text>
+        }
+    </h1>
+
+    <error-display error-display-model="Model.ErrorDisplay">
+    </error-display>
+
+    <div class="input-container margin-top">
+
+        <form href="" method="post">
+        
+            <div class="float-end" style="margin-top: -0.5em" >
+                @if (@Model.UserState.IsAuthenticated())
+                {
+                    <a href="~/account/signout"
+                       class="btn btn-warning btn-sm">
+                        <i class="fad fa-sign-out-alt"></i>
+                        Sign out
+                    </a>
+                }
+                
+            </div>
+
+            <h3 class="page-header-text mt-0 mb-1">
+                
+                <i class="fad fa-address-card"></i>
+                Your Contact Info
+            </h3>
+            
+            
+
+                @if (!@Model.UserState.IsAuthenticated())
+                {
+                    <a href="~/account/signin?ReturnUrl=@Context.Request.Path"
+                       class="btn btn-primary btn-sm ">
+                        <i class="fad fa-sign-in-alt"></i>
+                        Sign in to your  existing account
+                    </a>
+                    <div class="header-byline mb-3">or fill out the form below to create one</div>
+                }
+                else {
+                    <div class="header-byline mb-3">as it appears on your credit card statement</div>
+                }
+            <div class="responsive-container mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fad fa-fw fa-user"></i></span>
+                    <input id="txtFirstname" 
+                           class="form-control"
+                           aria-label="First name"
+                           placeholder="First name"
+                           autocomplete="given-name"
+                           asp-for="Customer.Firstname"/>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fad fa-fw fa-user "></i></span>
+                    <input  id="txtLastname"
+                            class="form-control" 
+                            aria-label="Last name"
+                            asp-for="Customer.Lastname"
+                            autocomplete="family-name"
+                            placeholder="Last name" />
+                </div>
+            </div>
+
+
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="fad fa-fw fa-users "></i></span>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Company or Organization (optional)"
+                       asp-for="Customer.Company"
+                       autocapitalize="off"
+                       autocomplete="organization"
+                       spellcheck="false"
+                       autocorrect="off" />
+            </div>
+    <div class="form-group mb-0">
+            <div class="input-group mb-0">
+                <span class="input-group-text"><i class="fas fa-envelope-open fa-fw"></i></span>
+                
+                <input type="email"
+                       id="txtEmail"
+                       class="form-control"
+                       placeholder="Enter your Email address"
+                       asp-for="Customer.Email"
+                       aria-label="Email"
+                       title="Please enter a valid email address "
+                       autocapitalize="off"
+                       autocomplete="email"
+                       spellcheck="false"
+                       autocorrect="off" required />
+                
+                <button id="btnSendValidationEmail"
+                        type="button"
+                        class="btn btn-sm btn-secondary"
+                        title="Validate your email address. 
+  * Use only if you're updating your email address 
+    or you need to resend a verification code
+  * Shows a validation form
+  * Sends an email with a verification code
+  * Follow the instructions to verify the code
+">
+                    <i style="font-size: 1.3em" class="far fa-check-circle text-warning"></i>
+                </button>
+            </div>
+
+        @if (!Model.IsNewUser)
+        {
+            <div class="float-end header-byline bold" style="display: @(!Model.IsNewUser ? "block" : "none")">
+                <i class="fad fa-sign-in"></i>
+                <a href="@Url.Action("PasswordRecoverySendEmail")">Change your password</a>
+            </div>
+        }
+        <div class="header-byline"
+        title="Validate your email address. 
+  * Use only if you're updating your email address 
+    or you need to resend a verification code
+  * Shows a validation form
+  * Sends an email with a verification code
+  * Follow the instructions to verify the code
+        "
+        
+             >used to verify your email address. <i class="text-info hidable">
+            Use the Check button to verify a new or updated email address
+        </i></div>
+
+                @if (Model.Configuration.Security.UseTwoFactorAuthentication && !Model.IsNewUser)
+        {
+            @if (Model.Customer.UseTwoFactorAuth )
+            {
+                <div class="mt-2 fw-semibold" style="font-size: 1.1em">
+                    <i class="fas fa-check-circle text-success"></i>
+                    Two-factor Authentication is turned on
+
+                    <a href="#x0" onclick="removeTwoFactor()"
+                       class="fw-normalbtn btn-sm btn-link small"
+                       style="cursor: pointer;margin-top: -0.2em; padding-left: 0.1em"
+                       title="Remove two-factor authentication from this account.">
+                        <i class="far fa-times-circle text-danger"></i>
+                    </a>
+                </div>
+                <script>
+                function removeTwoFactor() {
+                    if (confirm("Are you sure you want to remove Two-Factor Authentication?")) {
+                        window.location.href = "/account/setuptwofactor?task=remove"; 
+                    }
+                }
+            </script>
+            }
+            else
+            {
+                <div class="mt-2" style="font-size: 1.1em; font-weight: 500">
+                    <i class="fad fa-shield-halved text-info"></i>
+                    <a id="lnkShowTwoFactor"
+                       title="Optionally set up two-factor authentication in your application."
+                       href="@Url.Action("SetupTwoFactor")">Enable Two-Factor Authentication</a>
+                </div>
+            }
+        }
+        
+        
+        
+        </div>
+
+            @if (Model.IsNewUser)
+            {
+                <div class="password-fields mt-3" >
+
+                    <h3 class="page-header-text mb-0">
+                        <i class="fad fa-shield-alt"></i>
+                        Account Password
+                    </h3>
+                    <div class="header-byline mb-3">
+                        Create a password for account access. 8 chars minimum, must include: upper case, lower case, and a number
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"><i class="fad fa-fw fa-user-lock "></i></span>
+                        <input class="form-control" type="password" 
+                               auto-complete="new-password"
+                               asp-for="Password" placeholder="Enter a Password"/>
+                    </div>
+
+
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="far fa-fw fa-user-lock"></i></span>
+                        <input class="form-control" type="password"
+                               asp-for="PasswordConfirm" novalidate
+                               autocomplete="new-password"
+                               placeholder="Confirm Password"/>
+                    </div>
+
+                </div>
+            }
+
+
+
+
+            <h3 class="page-header-text mb-0">
+                <i class="fad fa-credit-card"></i>
+                Billing Address
+            </h3>
+            <div class="header-byline">as it appears on your credit card statement</div>
+
+            <div class="form-group">
+                <label for="BillingAddress_StreetAddress">Address<sup>*</sup></label>
+                <div class="input-group">
+                    <textArea type="text"
+                              class="form-control"
+                              placeholder="Enter your Address"
+                              id="Address" 
+                              asp-for="BillingAddress.StreetAddress"  
+                              aria-label="Address" 
+                              autocomplete="street-address"
+                              ></textArea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label" for="Billing_City">City<sup>*</sup>, State, Postalcode<sup>*</sup></label>
+                <div class="responsive-container">
+                    <input asp-for="BillingAddress.City" 
+                           class="form-control"
+                           style="min-width: 280px"
+                           placeholder="City"/>
+                    <select asp-for="BillingAddress.State"
+                            class="form-select" 
+                            title="US State or Candian Province - all others can leave this unset."
+                            asp-items="@(new SelectList(wsApp.States, "StateCode", "State"))">
+                    </select>
+                    <input asp-for="BillingAddress.PostalCode" 
+                           class="form-control"
+                           autocomplete="postal-code"
+                           placeholder="Postal code"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="BillingAddress_CountryCode">@AppResources.Account.Country<sup>*</sup></label>
+                <select asp-for="BillingAddress.CountryCode"
+                        class="form-select"
+                        title="Country - if not listed use 'Other' at the end of the list"
+                        autocomplete="country"
+                        asp-items="@(new SelectList(wsApp.Countries, "CountryCode", "Country"))">
+                </select>
+            </div>
+
+            @* <div class="form-group"> *@
+            @*     <label class="control-label" for="Telephone">Telephone</label> *@
+            @*     <input asp-for="BillingAddress.Telephone" *@
+            @*            class="form-control"/> *@
+            @* *@
+            @* </div> *@
+
+
+
+            <button class="btn btn-primary mt-3" type="submit">
+                <i class="fa fa-check-circle text-success"></i>
+                @if (isOrderProfile)
+                {
+                    <text>Continue to Payment</text>
+                }
+                else
+                {
+                    <text>Save your Profile</text>
+                }
+            </button>
+
+            <input type="hidden" asp-for="Customer.Id"/>
+            <input type="hidden" asp-for="BillingAddress.Id"/>
+            <input type="hidden" asp-for="BillingAddress.CustomerId"/>
+            <input type="hidden" asp-for="ReturnUrl"/>
+            <input type="hidden" asp-for="Evc"/>
+        </form>
+
+    </div>
+
+
+@{
+    var invoiceBus = BusinessFactory.GetInvoiceBusiness();
+    List<InvoiceListItem> invoiceList = null;
+    if (Model.IsNewUser || Model.IsOrderProfile)
+    {
+        invoiceList = new List<InvoiceListItem>();
+    }
+    else
+    {
+        invoiceList = await invoiceBus.GetInvoices(Model.Customer.Id, 15000).ToListAsync();
+    }
+}
+
+@if (invoiceList.Count > 0)
+{
+    <h3 class="page-header-text mt-5">
+        <i class="fad fa-credit-card"></i>
+        Your Orders
+    </h3>
+
+    <style>
+        .highlighted {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: firebrick;
+        }
+    </style>
+
+    <script>
+        function invoiceClick(invNo) {               
+           location.href='/invoice/' + invNo;
+        }
+    </script>
+    <table class="table table-hover">
+        <tbody>
+        
+        
+        @foreach (InvoiceListItem invoice in invoiceList)
+        {
+            var color = "background: " + Invoice.StatusColor(invoice.Status);
+
+            <tr style="@color">
+                <div style="background: #e9e1ff"></div>
+                @* <tr onclick="window.open('/admin/ordermanager/@invoice.InvoiceNumber','','width=1020,height=1220'); return false;"> *@
+                <td class="small" onclick="invoiceClick('@invoice.InvoiceNumber')">
+                    <b class="text-info">@invoice.InvoiceNumber</b><br/>
+                    <i style="font-size: 0.7em">@TimeUtils.FriendlyDateString(invoice.InvoiceDate)</i>
+                </td>
+                <td onclick="invoiceClick('@invoice.InvoiceNumber')">
+                    @if (!string.IsNullOrEmpty(invoice.Company))
+                    {
+                        <b>@invoice.Company -</b>
+                    }
+                    @invoice.Name<br/>
+                    <div class="lh-1">
+                        @foreach (var lineItem in invoice.LineItems)
+                        {
+                            <div>
+                                <i style="font-size: 0.7em; padding-right: 1.2em">@lineItem.Quantity.ToString("n2").Replace(".00", "") - <span class="text-info">@lineItem.Sku</span> - @lineItem.ItemTotal.ToString("c2")</i>
+                            </div>
+                        }
+                    </div>
+
+                </td>
+                <td class="right bold">
+                    @{
+                        var total = invoice.InvoiceTotal.ToString("c2");
+                    }
+
+
+                    @if (invoice.Status == "APPROVED")
+                    {
+                        <span class="text-success">
+                            @total
+                            <i class="fas fa-check-circle text-success hidable-xs" title="APPROVED"></i>
+                        </span>
+                    }
+                    else if (invoice.Status == "AUTHORIZED")
+                    {
+                        <span class="text-warning">
+                            @total
+                            <i class="fas fa-check-circle text-warning hidable-xs" title="AUTHORIZED"></i>
+                        </span>
+                    }
+                    else if (string.IsNullOrEmpty(invoice.Status) || invoice.Status == "UNPROCESSED")
+                    {
+                        <span class="text-info">
+                            @total
+                            <i class="fas fa-wait text-info hidable-xs" title="UNPROCESSED"></i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">
+                            @total
+                            <i class="fas fa-times-circle text-danger hidable-xs" title="@invoice.Status"></i>
+                        </span>
+                    }
+                </td>
+                <td class="right bold">
+                    <span>
+                        <a href="/invoice/@invoice.InvoiceNumber"
+                           class="invoice-link btn btn-sm btn-default hidable" title="show, print invoice, show licensing information
+and resend product confirmations.">
+                            <i class="fas fa-print text-info"></i>
+
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+</div>
+
+
+@section BottomOfBody
+{
+    @if (wsApp.Configuration.Security.ValidateEmailAddresses)
+    {
+        <partial name="EmailValidationForm_Partial" id="EmailValidationForm"/>
+    }
+}
+
+@section Scripts {
+@if (wsApp.Configuration.Security.ValidateEmailAddresses)
+{
+ 
+    <link href="/lib/toastr/build/toastr.css" rel="stylesheet"/>
+    <script src="~/lib/toastr/build/toastr.min.js" ></script>
+}
+}

@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Version>1.26</Version>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>AnyCpu</PlatformTarget>
+
+    <UseWPF>true</UseWPF>
+
+    <!--<TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>-->
+    <OutDir>$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\Addins\WebViewPreviewer</OutDir>
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon_32.png" />
+  </ItemGroup>
+
+
+ <ItemGroup>
+   <Reference Include="$(SolutionDir)MarkdownMonster\bin\$(Configuration)\$(TargetFramework)\win-x86\MarkdownMonster.exe">
+     <Private>false</Private>
+   </Reference>
+
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Windows.Forms" />        
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+
+    <PackageReference Include="MahApps.Metro" Version="2.4.4">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" Version="3.0.55">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Markdig" Version="0.24.0">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.774.44" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.705.50" />
+     
+  </ItemGroup>
+
+ 
+
+  <ItemGroup>
+    <Resource Include="icon.png" />
+    <Resource Include="icon_32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="WebViewPreviewControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>    
+  </PropertyGroup>
+
+</Project>

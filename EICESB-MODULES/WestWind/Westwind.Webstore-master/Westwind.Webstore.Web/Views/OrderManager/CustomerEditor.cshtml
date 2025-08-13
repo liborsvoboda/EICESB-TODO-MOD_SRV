@@ -1,0 +1,320 @@
+﻿@using Microsoft.EntityFrameworkCore
+@model CustomerEditorViewModel
+@inject BusinessFactory BusinessFactory
+
+@{
+    if (Model.Customer.IsNew)
+    {
+        ViewBag.Title = "New Customer - Customer Manager";
+    }
+    else
+    {
+        ViewBag.Title = Model.Customer.Company  + " " +  Model .Customer.Fullname  + " - Customer Manager";
+    }
+    Layout = "_Layout";
+}
+
+<div style="margin: 1em;">
+    
+<div class="float-end">
+    <a class="btn btn-secondary btn-sm" onclick="addNewInvoiceForCustomer('@Model.Customer.Id', '@Model.Customer.Fullname')" 
+           href="#0" title="Create a new order for this customer.">
+        <i class="fad fa-circle-plus fa-button text-warning"></i>
+    </a>
+    <a class="btn btn-secondary btn-sm" 
+       href="/admin/ordermanager/customers" title="back to customer list">
+        <i class="fad fa-list fa-button text-warning"></i>
+    </a>
+           
+</div>
+
+    
+<h1 class="page-header-text mb-1">
+    <i class="fad fa-user"></i>
+    @if (Model.Customer.IsNew)
+    {
+        @ViewBag.Title
+    }
+    else
+    {
+        if (!string.IsNullOrEmpty(Model.Customer.Company))
+        {
+            <text>@Model.Customer.Company - </text>
+            <span style="font-weight: normal; font-size:  1em;">@Model.Customer.Fullname</span>
+        }
+        else
+        {
+            <text>@Model.Customer.Fullname</text>
+        }
+    }
+</h1>
+
+@if (!Model.Customer.IsNew)
+{
+    <div class="header-byline  mb-3">
+        <i class="far fa-clock fa-fw"></i>
+        since: @TimeUtils.FriendlyDateString(Model.Customer.Entered)
+        @if(Model.Customer.Updated.Date != Model.Customer.Entered.Date) 
+        
+        {
+            <span> &bull; <i class="far fa-timer fa-fw"></i> updated: @TimeUtils.FriendlyDateString(Model.Customer.Updated) </span>
+        }
+    </div>
+}
+
+<error-display error-display-model="Model.ErrorDisplay"></error-display>
+    
+
+<form action="" method="post">
+    <div class="form-group">
+        <div class="responsive-container">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fad fa-fw fa-user"></i></span>
+                <input type="text" class="form-control" 
+                       asp-for="Customer.Firstname"
+                       placeholder="First name" title="First name" />
+            </div>
+    
+            <div class="input-group">
+                <span class="input-group-text"><i class="fad fa-fw fa-user "></i></span>
+                <input type="text" class="form-control" id="txtLastname" asp-for="Customer.Lastname" 
+                       placeholder="Last name" title="Last name"/>
+            </div>
+        </div>
+    
+        <div class="form-group mt-3 mb-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fad fa-fw fa-users "></i></span>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter your Company" title="Company"
+                       asp-for="Customer.Company"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       spellcheck="false"
+                       autocorrect="off"/>
+            </div>
+        </div>
+    
+        <div class="form-group mb-0">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-fw fa-envelope-open"></i></span>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter your Email address"
+                       asp-for="Customer.Email"
+                       aria-label="Email"
+                       title="Email address"
+                       autocapitalize="off"
+                       autocomplete="off"
+                       spellcheck="false"
+                       autocorrect="off" required/>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="page-header-text mb-0 mt-4">
+        <i class="fad fa-credit-card"></i>
+        Billing Address
+    </h3>
+       
+    <div class="form-group mt-2">
+        <div class="input-group">
+            <textArea type="text"
+                                      class="form-control"
+                                      placeholder="Enter your Address"
+                                      asp-for="BillingAddress.StreetAddress"
+                                      autocapitalize="off"
+                                      autocomplete="off"
+                                      spellcheck="false"
+                                      autocorrect="off"></textArea>
+        </div>
+    </div>
+    
+    <div class="form-group mt-2">
+        <div class="responsive-container">
+            <input asp-for="BillingAddress.City" class="form-control" style="min-width: 280px" placeholder="City" />
+            <select asp-for="BillingAddress.State"
+                    class="form-select"
+                    style="max-width: 15em"
+                    asp-items="@(new SelectList(wsApp.States,"StateCode","State"))">
+            </select>
+            <input asp-for="BillingAddress.PostalCode" class="form-control"
+                   style="max-width: 10em"
+                   placeholder="Postal code" />
+        
+            <select asp-for="BillingAddress.CountryCode"
+                    class="form-select"
+                    asp-items="@(new SelectList(wsApp.Countries,"CountryCode","Country"))">
+            </select>
+        </div>
+        
+        <div class="form-group mt-2">
+            <input asp-for="BillingAddress.Telephone"
+                   class="form-control" placeholder="phone number" />
+        </div>
+    
+        <h3 class="page-header-text">
+            <i class="fad fa-notes"></i>
+            Customer Notes
+        </h3>
+        <textarea asp-for="Customer.Notes" class="form-control" placeholder="Customer notes"></textarea>
+    
+        <div class="input-group mt-2"  title="customer referral: where did they hear about us?">
+            <span class="input-group-text"><i class="fa-duotone fa-magnifying-glass-location"></i></span>
+            <input asp-for="Customer.ReferralCode" 
+               
+                   class="form-control" placeholder="Customer Referral" />
+        </div>
+        
+    </div>
+
+    <button type="submit" name="btnSubmit" id="txtSubmit" class="btn btn-primary mt-3">
+        <i class="far fa-check-circle text-success"></i>
+        Save Customer
+    </button>
+    
+    <a href="/admin/ordermanager/customers?action=deletecustomer&customerid=@Model.Customer.Id&s=@Model.SearchTerm"
+       onclick="if (!confirm('Are you sure you want to delete @Model.Customer.Fullname?')) { return false; }"
+       class="btn btn-secondary btn-sm mt-3 float-end">
+            <i class="far fa-times-circle"></i>
+            Delete
+        </a>
+
+</form>
+        
+@{
+    var invoiceBus = BusinessFactory.GetInvoiceBusiness();
+    var invoiceList = invoiceBus.GetInvoices(Model.Customer.Id, 15000).ToList();
+}
+
+@if (invoiceList.Count > 0)
+{
+    <h2 class="page-header-text mt-5">
+        <i class="fad fa-credit-card"></i>
+        Orders
+    </h2>
+
+
+    <style>
+                    .highlighted {
+                        font-size: 1.2em;
+                        font-weight: bold;
+                        color: firebrick;
+                    }
+                </style>
+
+    <table class="table">
+        <tbody>
+        @foreach (InvoiceListItem invoice in invoiceList)
+        {
+            var color = string.Empty;
+            if (@invoice.Status == "AUTHORIZED")
+                color = "background: cornsilk;";
+            else if(invoice.Status == "UNPROCESSED" || string.IsNullOrEmpty(invoice.Status))
+                color = "background:  #f9f9f9;";
+            else if( invoice.Status == "DUE AND PAYABLE")
+                color = "background:   #ffeeee;";
+            else if(invoice.Status == "APPROVED")
+                color = "background: #effffa";
+            else if (invoice.Status == "REFUNDED" || invoice.Status == "VOID" || invoice.Status == "VOIDED")
+                color = "background: #e9e1ff";
+        
+            <tr onclick="location.href = '/admin/ordermanager/@invoice.InvoiceNumber?listsearchterm=@Model.SearchTerm'; return false;"
+                style="@color">
+                <div style="background: #e9e1ff"></div>
+                @* <tr onclick="window.open('/admin/ordermanager/@invoice.InvoiceNumber','','width=1020,height=1220'); return false;"> *@
+                <td class="small">
+                    <b class="text-info">@invoice.InvoiceNumber</b><br/>
+                    <i style="font-size: 0.7em">@TimeUtils.FriendlyDateString(invoice.InvoiceDate)</i>
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(invoice.Company))
+                    {
+                        <b>@invoice.Company -</b>
+                    }
+                    @invoice.Name<br/>
+                    <div class="lh-1">
+                        @foreach (var lineItem in invoice.LineItems)
+                        {
+                            <div>
+                                <i style="font-size: 0.7em; padding-right: 1.2em">@lineItem.Quantity.ToString("n2").Replace(".00", "") - <span class="text-info">@lineItem.Sku</span> - @lineItem.ItemTotal.ToString("c2")</i>
+                            </div>
+                        }
+                    </div>
+        
+                </td>
+                <td class="right bold">
+                    @{
+                        var total = invoice.InvoiceTotal.ToString("c2");
+                    }
+        
+        
+                    @if (invoice.Status == "APPROVED")
+                    {
+                        <span class="text-success">
+                            @total
+                            <i class="fas fa-check-circle text-success hidable-xs" title="APPROVED"></i>
+                        </span>
+                    }
+                    else if (invoice.Status == "AUTHORIZED")
+                    {
+                        <span class="text-warning">
+                            @total
+                            <i class="fas fa-check-circle text-warning hidable-xs" title="AUTHORIZED"></i>
+                        </span>
+                    }
+                    else if (string.IsNullOrEmpty(invoice.Status) || invoice.Status == "UNPROCESSED")
+                    {
+                        <span class="text-info">
+                            @total
+                            <i class="fas fa-wait text-info hidable-xs" title="UNPROCESSED"></i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">
+                            @total
+                            <i class="fas fa-times-circle text-danger hidable-xs" title="@invoice.Status"></i>
+                        </span>
+                    }
+                </td>
+                <td class="right bold">
+                    <span >
+        
+                        <a href="/admin/ordermanager/invoice/@invoice.InvoiceNumber"
+                           class="btn btn-sm btn-default hidable">
+                            <i class="fas fa-edit text-info"></i>
+        
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<div class="mt-4">
+    <a href="#0" onclick="$('#CustomerDetail').toggle();">
+        <i class="fad fa-eye"></i>
+        Full Customer Detail
+    </a>
+    <pre style="display: none" id="CustomerDetail">@JsonSerializationUtils.Serialize(Model.Customer, formatJsonOutput: true)</pre>
+</div>
+
+</div>      
+@section Scripts
+{
+    <script>
+     function addNewInvoiceForCustomer(custId, invoiceName) {       
+            if( confirm(`Create a new invoice for ${invoiceName}`) )
+            {
+                location.href = `/admin/ordermanager/customers?action=addinvoice&customerid=${custId}`;
+            }                         
+            event.cancelBubble = true;
+            event.preventDefault();
+            return false;                            
+        }
+    </script>
+}

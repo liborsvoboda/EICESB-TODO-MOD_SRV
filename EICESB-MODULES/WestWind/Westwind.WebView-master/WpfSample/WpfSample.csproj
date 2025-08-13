@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+	  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\MarkdownMonster_Icon_256.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\MarkdownMonster_Icon_256.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />-->
+    <PackageReference Include="FontAwesome6.Fonts" Version="2.5.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="Westwind.Utilities" Version="5.0.5" />
+	  
+	<!-- Library Package that references Micrsoft.WebView2.Wpf    using old  Version="1.0.2592.51"  works -->  
+	<!--<PackageReference Include="Westwind.WebView" Version="0.1.21" />-->    
+
+	<!-- This was never required - required now or get errors-->  
+	<!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2651.64" />-->
+	  
+	<ProjectReference Include="..\Westwind.WebView\Westwind.WebView.csproj" />
+  </ItemGroup>
+
+
+ 
+
+  <ItemGroup>
+    <None Update="ExportedHtml.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\EmojiViewer.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\Interop.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\Interop.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\scripts\jquery.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\scripts\vue\vue.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\scripts\vue\vue.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\Westwind\Theme.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\Westwind\Theme.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PreviewThemes\_EmojiViewer.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="WebContent\ExportedHtml.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="WebContent\LargeImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
