@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluffySpoon.AspNet.Authentication.Jwt" Version="1.51.17" />
+    <PackageReference Include="FluffySpoon.AspNet.EncryptWeMust" Version="1.171.0" />
+    <PackageReference Include="FluffySpoon.AspNet.EncryptWeMust.DistributedCache" Version="1.240.0" />
+    <PackageReference Include="FluffySpoon.AspNet.EncryptWeMust.EntityFramework" Version="1.240.0" />
+    <PackageReference Include="FluffySpoon.AspNet.LetsEncrypt" Version="1.161.0" />
+    <PackageReference Include="FluffySpoon.AspNet.LetsEncrypt.DistributedCache" Version="1.162.0" />
+    <PackageReference Include="FluffySpoon.AspNet.LetsEncrypt.EntityFramework" Version="1.162.0" />
+    <PackageReference Include="FluffySpoon.AspNet.Templates" Version="1.16.0" />
+    <PackageReference Include="FluffySpoon.Automation.Web" Version="1.89.0" />
+    <PackageReference Include="FluffySpoon.Automation.Web.Css" Version="1.89.0" />
+    <PackageReference Include="FluffySpoon.Automation.Web.JQuery" Version="1.89.0" />
+    <PackageReference Include="FluffySpoon.Automation.Web.Puppeteer" Version="1.89.0" />
+    <PackageReference Include="FluffySpoon.Automation.Web.Selenium" Version="1.89.0" />
+    <PackageReference Include="FluffySpoon.ChangeDetection" Version="1.33.0" />
+    <PackageReference Include="FluffySpoon.EventSourcing" Version="1.2.0" />
+    <PackageReference Include="FluffySpoon.Extensions.MicrosoftDependencyInjection" Version="1.30.0" />
+    <PackageReference Include="FluffySpoon.Http" Version="1.0.21" />
+    <PackageReference Include="FluffySpoon.Http.Spoofing" Version="1.0.21" />
+    <PackageReference Include="FluffySpoon.Neuro.Evolution" Version="1.39.0" />
+    <PackageReference Include="FluffySpoon.Neuro.Evolution.Accord" Version="1.7.0" />
+    <PackageReference Include="FluffySpoon.Publisher" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Publisher.DotNet" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Publisher.GitHub" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Publisher.NodeJs" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Publisher.Npm" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Publisher.NuGet" Version="1.165.0" />
+    <PackageReference Include="FluffySpoon.Roslyn.AutoMapper" Version="1.48.0" />
+    <PackageReference Include="FluffySpoon.Security.Hashing" Version="1.39.0" />
+    <PackageReference Include="FluffySpoon.Templates" Version="1.0.7" />
+    <PackageReference Include="FluffySpoon.Testing.Autofake.MicrosoftDependencyInjection" Version="1.34.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>

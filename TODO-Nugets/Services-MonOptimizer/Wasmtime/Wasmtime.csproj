@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoWasmApiGenerator" Version="0.0.5" />
+    <PackageReference Include="Forge.Wasm.BrowserStorages" Version="1.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.JSInterop.WebAssembly" Version="6.0.33" />
+    <PackageReference Include="MSBuildWasm" Version="0.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+    <PackageReference Include="nkast.Wasm.Dom" Version="8.0.2" />
+    <PackageReference Include="Wasm" Version="0.1.7" />
+    <PackageReference Include="WASM.Console" Version="0.0.12" />
+    <PackageReference Include="Wasm.Sdk" Version="1.0.0" />
+    <PackageReference Include="Wasm.Text" Version="0.1.7" />
+    <PackageReference Include="WasmerSharp" Version="0.7.0" />
+    <PackageReference Include="WasmWrangler.Interop.Browser" Version="0.3.0" />
+    <PackageReference Include="WebAssembly" Version="1.2.1" />
+  </ItemGroup>
+
+</Project>

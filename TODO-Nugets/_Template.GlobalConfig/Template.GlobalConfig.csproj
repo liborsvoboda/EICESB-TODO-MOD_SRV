@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net8.0;net2.0;</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>E:\Projekty\zEasy\EASY-IT-CENTER\GroupWare-Solution-IT\Templates\Default-AddInfo\EIC&amp;ESBGroupWare.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>True</DelaySign>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>GroupwareSolution.Plugin.Config</Title>
+    <Company>GroupWare-Solution.Eu</Company>
+    <Description>Shared Plugin Config Definition</Description>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Default-AddInfo\Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator.Extensions.SqlServer" Version="6.2.0" />
+    <PackageReference Include="FluentMigrator.Runner.SqlServer" Version="6.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+    <PackageReference Include="PayPal.NET" Version="6.0.0" />
+    <PackageReference Include="PayPal.SDK.NETCore" Version="1.9.1.2" />
+    <PackageReference Include="PayPalHttp" Version="1.0.1" />
+    <PackageReference Include="ServiceBase.PayPal" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>

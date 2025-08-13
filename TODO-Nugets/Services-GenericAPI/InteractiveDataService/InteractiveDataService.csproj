@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApiFirstMediatR.Generator" Version="1.0.11" />
+    <PackageReference Include="DurableMediator" Version="2.1.0" />
+    <PackageReference Include="FluentStateMachine.MediatR" Version="1.9.0" />
+    <PackageReference Include="FluentUtils.MediatR.Pagination" Version="1.2.15" />
+    <PackageReference Include="MediatorCore" Version="1.7.7" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="MediatR.AspNet" Version="1.5.0" />
+    <PackageReference Include="MediatR.AspNetCore.Endpoints" Version="3.2.0" />
+    <PackageReference Include="MediatR.BackgroundService" Version="1.0.0" />
+    <PackageReference Include="MediatR.Behaviors.Authorization" Version="12.1.1" />
+    <PackageReference Include="MediatR.Behaviors.Metrics.AppMetrics" Version="1.0.3" />
+    <PackageReference Include="MediatR.CommandPattern" Version="1.0.4" />
+    <PackageReference Include="MediatR.CommandQuery" Version="15.9.8" />
+    <PackageReference Include="MediatR.CommandQuery.Audit" Version="15.9.8" />
+    <PackageReference Include="MediatR.CommandQuery.EntityFrameworkCore" Version="11.0.750" />
+    <PackageReference Include="MediatR.CommandQuery.Mvc" Version="15.9.8" />
+    <PackageReference Include="MediatR.Commands" Version="8.0.109" />
+    <PackageReference Include="MediatR.Commands.AspnetCoreExtensions" Version="1.0.4" />
+    <PackageReference Include="MediatR.Commands.Web" Version="8.0.109" />
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    <PackageReference Include="MediatR.Contrib.Http" Version="2.0.0" />
+    <PackageReference Include="MediatR.Courier" Version="6.0.0" />
+    <PackageReference Include="MediatR.Dynamic" Version="12.0.2" />
+    <PackageReference Include="MediatR.EventAggregator" Version="0.0.2" />
+    <PackageReference Include="MediatR.Extensions.Cqs" Version="1.0.5" />
+    <PackageReference Include="MediatR.Extensions.FluentBuilder.Core" Version="1.1.10" />
+    <PackageReference Include="MediatR.Extensions.FluentValidation.AspNetCore" Version="5.1.0" />
+    <PackageReference Include="MediatR.Extensions.GenerateMediator" Version="1.0.5" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.AspNetCore.Mvc" Version="4.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection.Libraries" Version="1.0.0" />
+    <PackageReference Include="MediatR.Extensions.RPC.Core" Version="2.1.1" />
+    <PackageReference Include="MediatR.HttpBindings.CodeGeneration" Version="1.0.0" />
+    <PackageReference Include="MediatR.IPC" Version="3.2.0" />
+    <PackageReference Include="MediatR.LightInject" Version="1.0.1" />
+    <PackageReference Include="MediatR.OpenTelemetry" Version="1.1.6" />
+    <PackageReference Include="MediatR.Remote" Version="0.4.5" />
+    <PackageReference Include="MediatR.Remote.Extensions.DependencyInjection" Version="0.4.5" />
+    <PackageReference Include="MediatR.Remote.Grpc" Version="0.4.5" />
+    <PackageReference Include="MediatR.RequestAuthorization" Version="2.0.0" />
+    <PackageReference Include="MediatR.SimpleInjector" Version="10.0.1" />
+    <PackageReference Include="MediatR.SimpleInjector.FlowingScope" Version="1.1.0" />
+    <PackageReference Include="MediatR.Useful.Behavior" Version="1.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+    <PackageReference Include="RemoteMediatr.Client" Version="0.0.8" />
+    <PackageReference Include="RemoteMediatr.Core" Version="0.0.8" />
+    <PackageReference Include="SharedCode.MediatR" Version="7.0.7" />
+    <PackageReference Include="SingleApi" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>

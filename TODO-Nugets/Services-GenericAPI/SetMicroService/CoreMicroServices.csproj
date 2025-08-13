@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyMicroservices.AuthenticationsMicroservice.Clients" Version="0.0.0.23" />
+    <PackageReference Include="EasyMicroservices.AuthenticationsMicroservice.Domain" Version="0.0.0.4" />
+    <PackageReference Include="EasyMicroservices.CodeGenerator.Core" Version="1.0.0" />
+    <PackageReference Include="EasyMicroservices.CodeGenerator.DotNetReflection" Version="0.0.0.1" />
+    <PackageReference Include="EasyMicroservices.CommentsMicroservice.Clients" Version="0.0.0.6" />
+    <PackageReference Include="EasyMicroservices.Compression" Version="0.0.0.2" />
+    <PackageReference Include="EasyMicroservices.ContentsMicroservice.Clients" Version="0.0.0.24" />
+    <PackageReference Include="EasyMicroservices.Cores.AspCoreApi" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.AspEntityFrameworkCoreApi" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Clients" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Contracts" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Database" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.EntityFrameworkCore" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Infrastructure" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Relational.EntityFrameworkCore" Version="0.0.1.59" />
+    <PackageReference Include="EasyMicroservices.Cores.Services" Version="0.0.0.1" />
+    <PackageReference Include="EasyMicroservices.CustomerMicroservice.Clients" Version="0.0.0.10" />
+    <PackageReference Include="EasyMicroservices.Database" Version="0.0.0.24" />
+    <PackageReference Include="EasyMicroservices.Database.EntityFrameworkCore" Version="0.0.0.24" />
+    <PackageReference Include="EasyMicroservices.Domain" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.EmailsMicroservice.Clients" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.FileManager" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Clients" Version="0.0.0.10" />
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Database" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Domain" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Logics" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.Logger.Sentry" Version="0.0.0.6" />
+    <PackageReference Include="EasyMicroservices.Mapper" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.Mapper.AutoMapper" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.Mapper.SerializerMapper" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.OrderingMicroservice.Clients" Version="0.0.0.11" />
+    <PackageReference Include="EasyMicroservices.Payments" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.Payments.PayPal" Version="0.0.0.2" />
+    <PackageReference Include="EasyMicroservices.Payments.Stripe" Version="0.0.0.4" />
+    <PackageReference Include="EasyMicroservices.PaymentsMicroservice.Clients" Version="0.0.0.4" />
+    <PackageReference Include="EasyMicroservices.PlacesMicroservice.Clients" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.PostsMicroservice.Clients" Version="0.0.0.1" />
+    <PackageReference Include="EasyMicroservices.ProfilesMicroservice.Clients" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.QuestionsMicroservice.Clients" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.Security" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.Serialization" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.Serialization.DependencyInjection" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.Serialization.MessagePack" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.Serialization.Newtonsoft.Json" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.Serialization.System.Text.Xml" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.Serialization.YamlDotNet" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.ServiceContracts" Version="0.0.0.21" />
+    <PackageReference Include="EasyMicroservices.SMS" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.StorageMicroservice.Clients" Version="0.0.0.11" />
+    <PackageReference Include="EasyMicroservices.SupportsMicroservice.Clients" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.TemplateGeneratorMicroservice.Clients" Version="0.0.0.32" />
+    <PackageReference Include="EasyMicroservices.UI.Cores.Mvvm" Version="0.0.0.24" />
+    <PackageReference Include="EasyMicroservices.UI.Customers.ViewModels" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.UI.Identity.ViewModels" Version="0.0.0.18" />
+    <PackageReference Include="EasyMicroservices.UI.Ordering.ViewModels" Version="0.0.0.16" />
+    <PackageReference Include="EasyMicroservices.UI.Places.ViewModels" Version="0.0.0.4" />
+    <PackageReference Include="EasyMicroservices.UI.Posts.ViewModels" Version="0.0.0.1" />
+    <PackageReference Include="EasyMicroservices.UI.TemplateGenerator.ProcessExecutor" Version="0.0.0.36" />
+    <PackageReference Include="EasyMicroservices.Utilities" Version="0.0.0.13" />
+    <PackageReference Include="EasyMicroservices.WhiteLabelsMicroservice.Clients" Version="0.0.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>
