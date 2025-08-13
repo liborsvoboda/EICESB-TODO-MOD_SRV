@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Contains utilities used by ASP.NET Core Code Generation packages.</Description>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Microsoft.VisualStudio.Web.CodeGeneration.Utils</AssemblyName>
+    <RootNamespace>Microsoft.VisualStudio.Web.CodeGeneration.Utils</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <PackageTags>aspnetcore;codegenerator;scaffolding;visualstudioweb</PackageTags>
+    <Nullable>disable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\Shared\Microsoft.DotNet.Scaffolding.Shared\General\**\*.resx">
+      <Link>Shared\%(RecursiveDir)%(FileName).resx</Link>
+    </EmbeddedResource>
+    <ProjectReference Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\Microsoft.DotNet.Scaffolding.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Microsoft.Build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Pack="true" Include="$(RepoRoot)src\Scaffolding\README.md"  PackagePath="\"/>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SharpKit</id>
+    <version>5.5.0</version>
+    <title>SharpKit: C# to JS compiler</title>
+    <authors>Sharpkit Ltd</authors>
+    <owners>Dan-el</owners>
+    <projectUrl>http://http://sharpkit.net/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Develop large and complex web apps in teams, harnessing design-time features of Visual Studio, and the power of C# language.
+
+Use classes, enums, interfaces, delegates, lambda expressions, extension methods, generics, ref and out parameters, anonymous objects, collection and object initializers, basically anything!
+
+SharpKit is a powerful cross-compiler, that adapts any JavaScript syntax, to any library using simple and powerful metadata.</description>
+    <summary>SharpKit is a C# to Javascript compiler.</summary>
+  </metadata>
+  <files>
+    <file src="bin\*.exe" target="tools\" />
+    <file src="bin\*.dll" target="tools\" />
+    <file src="bin\*.Tasks" target="tools\" />
+    <file src="bin\*.targets" target="tools\" />
+    <file src="..\..\contrib\nuget\compiler\tools\*.ps1" target="tools\" />
+    <file src="..\..\SDK\Defs\bin\SharpKit.JavaScript.dll" target="lib\" />
+    <file src="..\..\SDK\Defs\bin\SharpKit.JavaScript.xml" target="lib\" />
+  </files>
+</package>

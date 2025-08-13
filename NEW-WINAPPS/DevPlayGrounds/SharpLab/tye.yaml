@@ -1,0 +1,30 @@
+name: sharplab
+
+services:
+
+# Used by the cache implementation
+- name: azurite
+  tags: ["cache"]
+  executable: pwsh
+  args: -Command "azurite"
+  workingDirectory: "!azurite"
+
+- name: container-manager
+  project: source/Container.Manager/Container.Manager.csproj
+  tags: ["server"]
+  bindings:
+  - protocol: http
+    port: 44400
+
+- name: webapp-assets
+  executable: pwsh
+  tags: ["assets"]
+  args: -Command "npm run start"
+  workingDirectory: source/WebApp
+
+- name: webapp-server
+  tags: ["server"]
+  project: source/WebApp.Server/WebApp.Server.csproj
+  bindings:
+  - protocol: http
+    port: 44100

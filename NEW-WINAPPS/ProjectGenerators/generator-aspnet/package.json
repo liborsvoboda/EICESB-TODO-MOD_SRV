@@ -1,0 +1,80 @@
+{
+  "name": "generator-aspnet",
+  "version": "0.3.3",
+  "description": "Yeoman generator for ASP.NET Core apps",
+  "license": "Apache-2.0",
+  "main": "app/index.js",
+  "repository": "OmniSharp/generator-aspnet",
+  "contributors": [
+    {
+      "name": "Sourabh Shirhatti",
+      "email": "shirhatti@outlook.com",
+      "url": "https://github.com/shirhatti"
+    },
+    {
+      "name": "Sayed Hashimi",
+      "email": "sayed.hashimi@gmail.com"
+    },
+    {
+      "name": "Shayne Boyer",
+      "email": "spboyer@live.com",
+      "url": "https://github.com/spboyer"
+    },
+    {
+      "name": "Jonathan Channon",
+      "email": "jonathan@jonathanchannon.com",
+      "url": "https://github.com/jchannon"
+    },
+    {
+      "name": "Peter Blazejewicz",
+      "email": "peter.blazejewicz@gmail.com",
+      "url": "https://github.com/peterblazejewicz"
+    },
+    {
+      "name": "Suhas Joshi",
+      "email": "suhasbjoshi@hotmail.com"
+    }
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "ASP.NET",
+    "ASP.NET Core",
+    "aspnet",
+    "aspnet core",
+    "ASP",
+    ".net",
+    "net",
+    "core",
+    "dnx"
+  ],
+  "dependencies": {
+    "chai": "^3.3.0",
+    "chalk": "^1.1.3",
+    "findup-sync": "^0.3.0",
+    "mkdirp": "^0.5.1",
+    "nconf": "^0.8.2",
+    "uuid": "^2.0.1",
+    "vs_projectname": "^1.0.0",
+    "yeoman-generator": "^0.19.2",
+    "yosay": "^1.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dotnet": {
+    "lts": {
+      "version": "1.0.4",
+      "targetFramework": "netcoreapp1.0"
+    },
+    "current": {
+      "version": "1.1.1",
+      "targetFramework": "netcoreapp1.1"
+    }
+  }
+}

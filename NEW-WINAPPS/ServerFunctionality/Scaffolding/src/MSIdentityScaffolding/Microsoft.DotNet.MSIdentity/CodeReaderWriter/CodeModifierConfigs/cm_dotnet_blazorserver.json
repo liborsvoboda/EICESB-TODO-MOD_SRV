@@ -1,0 +1,271 @@
+{
+  "Identifier": "dotnet-blazorserver",
+  "Files": [
+    {
+      "FileName": "Program.cs",
+      "Options": [
+        "MinimalApp"
+      ],
+      "Methods": {
+        "Global": {
+          "CodeChanges": [
+            {
+              "Block": "var initialScopes = WebApplication.CreateBuilder.Configuration[\"DownstreamApi:Scopes\"]?.Split(' ') ?? WebApplication.CreateBuilder.Configuration[\"MicrosoftGraph:Scopes\"]?.Split(' ')",
+              "Options": [
+                "DownstreamApi",
+                "MicrosoftGraph"
+              ],
+              "InsertBefore": [
+                "WebApplication.CreateBuilder.Services.AddAuthentication",
+                "WebApplication.CreateBuilder.Services.AddAuthorization",
+                "WebApplication.CreateBuilder.Services.AddRazorPages",
+                "WebApplication.CreateBuilder.Build"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "WebApplication.CreateBuilder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)",
+              "InsertBefore": [
+                "WebApplication.CreateBuilder.Services.AddControllersWithViews",
+                "WebApplication.CreateBuilder.Services.AddAuthorization",
+                "WebApplication.CreateBuilder.Services.AddRazorPages"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "AddMicrosoftIdentityWebApp(builder.Configuration.GetSection(\"AzureAd\"))",
+              "Parent": "WebApplication.CreateBuilder.Services.AddAuthentication",
+              "CodeChangeType": "MemberAccess",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "WebApplication.CreateBuilder.Services.AddControllersWithViews()",
+              "InsertAfter": "WebApplication.CreateBuilder.Services.AddAuthentication",
+              "InsertBefore": [
+                "WebApplication.CreateBuilder.Services.AddAuthorization",
+                "WebApplication.CreateBuilder.Services.AddRazorPages",
+                "WebApplication.CreateBuilder.Build"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "AddMicrosoftIdentityUI()",
+              "Parent": "WebApplication.CreateBuilder.Services.AddControllersWithViews",
+              "CodeChangeType": "MemberAccess",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Parent": "AddMicrosoftIdentityWebApp",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "MicrosoftGraph",
+                "DownstreamApi"
+              ],
+              "Block": "EnableTokenAcquisitionToCallDownstreamApi(initialScopes)",
+              "LeadingTrivia": {
+                "NumberOfSpaces": 8,
+                "Newline": true
+              }
+            },
+            {
+              "Parent": "EnableTokenAcquisitionToCallDownstreamApi",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "MicrosoftGraph"
+              ],
+              "MultiLineBlock": [
+                "AddMicrosoftGraph(builder.Configuration.GetSection(\"MicrosoftGraph\"))",
+                "            .AddInMemoryTokenCaches()"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Parent": "EnableTokenAcquisitionToCallDownstreamApi",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "DownstreamApi"
+              ],
+              "MultiLineBlock": [
+                "AddDownstreamApi(\"DownstreamApi\",builder.Configuration.GetSection(\"DownstreamApi\"))",
+                "            .AddInMemoryTokenCaches()"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "WebApplication.CreateBuilder.Services.AddAuthorization()",
+              "InsertAfter": "WebApplication.CreateBuilder.Services.AddControllersWithViews",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "options.FallbackPolicy = options.DefaultPolicy",
+              "Parameter": "options",
+              "CodeChangeType": "Lambda",
+              "Parent": "WebApplication.CreateBuilder.Services.AddAuthorization",
+              "LeadingTrivia": {
+                "Newline": true,
+                "NumberOfSpaces": 4
+              }
+            },
+            {
+              "Block": "AddMicrosoftIdentityConsentHandler()",
+              "Parent": "WebApplication.CreateBuilder.Services.AddServerSideBlazor()",
+              "CodeChangeType": "MemberAccess",
+              "LeadingTrivia": {
+                "Newline": true,
+                "NumberOfSpaces": 4
+              }
+            },
+            {
+              "Block": "app.UseAuthentication()",
+              "InsertAfter": "app.UseRouting()",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "app.UseAuthorization()",
+              "InsertAfter": "app.UseAuthentication()",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "app.MapControllers()",
+              "InsertAfter": "app.UseAuthorization",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            }
+          ]
+        }
+      },
+      "Usings": [
+        "Microsoft.AspNetCore.Authentication",
+        "Microsoft.Identity.Web",
+        "Microsoft.Identity.Web.UI",
+        "Microsoft.AspNetCore.Authentication.OpenIdConnect",
+        "Microsoft.AspNetCore.Authorization",
+        "Microsoft.AspNetCore.Mvc.Authorization"
+      ]
+    },
+    {
+      "FileName": "App.razor",
+      "Replacements": [
+        {
+          "MultiLineBlock": [
+            "<CascadingAuthenticationState>",
+            "    <Router AppAssembly=\"@typeof(App).Assembly\">"
+          ],
+          "ReplaceSnippet": [
+            "<Router AppAssembly=\"@typeof(App).Assembly\">"
+          ]
+        },
+        {
+          "MultiLineBlock": [
+            "    </Router>",
+            "</CascadingAuthenticationState>"
+          ],
+          "ReplaceSnippet": [
+            "</Router>"
+          ]
+        }
+      ]
+    },
+    {
+      "FileName": "NavMenu.razor",
+      "Options": [
+        "MicrosoftGraph",
+        "DownstreamApi"
+      ],
+      "Replacements": [
+        {
+          "MultiLineBlock": [
+            "</NavLink>",
+            "        </div>",
+            "        <div class=\"nav-item px-3\">",
+            "            <NavLink class=\"nav-link\" href=\"showprofile\">",
+            "                <span class=\"oi oi-person\" aria-hidden=\"true\"></span> Show profile",
+            "            </NavLink>",
+            "        </div>",
+            "    </nav>",
+            "</div>"
+          ],
+          "ReplaceSnippet": [
+            "</NavLink>",
+            "        </div>",
+            "    </nav>",
+            "</div>"
+          ],
+          "Options": [
+            "MicrosoftGraph"
+          ]
+        },
+        {
+          "MultiLineBlock": [
+            "<NavLink class=\"nav-link\" href=\"callwebapi\">",
+            "                <span class=\"oi oi-list-rich\" aria-hidden=\"true\"></span> Call Web API",
+            "            </NavLink>"
+          ],
+          "ReplaceSnippet": [
+            "<NavLink class=\"nav-link\" href=\"fetchdata\">",
+            "                <span class=\"oi oi-list-rich\" aria-hidden=\"true\"></span> Fetch data",
+            "            </NavLink>"
+          ],
+          "Options": [
+            "DownstreamApi"
+          ]
+        }
+      ]
+    },
+    {
+      "FileName": "MainLayout.razor",
+      "Replacements": [
+        {
+          "MultiLineBlock": [
+            "    <main>",
+            "        <div class=\"top-row px-4 auth\">",
+            "            <LoginDisplay />"
+          ],
+          "ReplaceSnippet": [
+            "    <main>",
+            "        <div class=\"top-row px-4\">"
+          ]
+        }
+      ]
+    },
+    {
+      "FileName": "blazorserver_LoginDisplay.razor",
+      "AddFilePath": "Shared/LoginDisplay.razor"
+    },
+    {
+      "FileName": "ShowProfile.razor",
+      "AddFilePath": "Pages/ShowProfile.razor",
+      "Options": [
+        "MicrosoftGraph"
+      ]
+    },
+    {
+      "FileName": "CallWebApi.razor",
+      "AddFilePath": "Pages/CallWebApi.razor",
+      "Options": [
+        "DownstreamApi"
+      ]
+    }
+  ]
+}

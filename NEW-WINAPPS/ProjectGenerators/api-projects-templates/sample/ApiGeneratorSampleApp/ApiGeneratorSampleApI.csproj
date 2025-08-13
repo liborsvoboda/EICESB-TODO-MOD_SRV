@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>aspnet-ApiGeneratorSampleApp-56AA10DB-26A2-414F-AFD8-1D3546BD678D</UserSecretsId>
+    <Configurations>Debug;Release;DebugWithSampleApp;SampleAppNuget;SampleAppJson</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>ApiGeneratorSampleApp.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWithSampleApp|AnyCPU'">
+    <DocumentationFile>ApiGeneratorSampleApI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='SampleAppJson|AnyCPU'">
+    <DocumentationFile>ApiGeneratorSampleApI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.Caching\TCDev.APIGenerator.Redis.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.Data.SQL\TCDev.APIGenerator.Data.SQL.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.Data\TCDev.APIGenerator.Data.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.DbFirst\TCDev.APIGenerator.Json.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.OData\TCDev.APIGenerator.OData.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator.RabbitMQ\TCDev.APIGenerator.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\src\TCDev.APIGenerator\TCDev.APIGenerator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\SwaggerDarkTheme.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="ApiDefinition.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

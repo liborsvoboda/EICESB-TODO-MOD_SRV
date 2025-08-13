@@ -1,0 +1,1 @@
+../../tools/dotnet-msidentity/README.md

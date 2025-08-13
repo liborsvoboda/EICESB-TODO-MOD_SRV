@@ -1,0 +1,111 @@
+name: Container Host (.NET) - Edge
+
+on:
+  push:
+    paths:
+      - '.github/workflows/container-host-edge.yml'
+      - '.github/actions/deploy-artifact-to-azure-windows-vm/**'
+      - 'source/Container/**'
+      - 'source/Container.*/**'
+      - 'source/Runtime/**'
+      - 'source/#external/Fragile/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 'Build (.NET 8)'
+    # https://github.community/t/duplicate-checks-on-push-and-pull-request-simultaneous-event/18012/5
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: windows-latest
+    env:
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - uses: microsoft/setup-msbuild@v1.1
+
+      # https://github.com/actions/setup-dotnet/issues/155
+      - run: dotnet nuget locals all --clear
+
+      # https://github.com/dotnet/sdk/issues/13281
+      - run: dotnet nuget add source https://ci.appveyor.com/nuget/vanara-prerelease
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{github.workspace}}/.nuget/packages
+          key: nuget-container-host-${{hashFiles('**/*.csproj')}}
+          # can restore caches from server as well, but should not overwrite them
+          restore-keys: |
+            nuget-
+
+      #- run: msbuild source/Native.Profiler/Native.Profiler.vcxproj /p:SolutionName=SharpLab /p:Configuration=Release /p:Platform=x64
+      - run: dotnet build source/Tests --configuration Release
+      - run: dotnet test source/Tests --no-build --configuration Release
+      - run: dotnet publish source/Container.Manager --no-build --configuration Release
+      - run: Compress-Archive -Path 'source/Container.Manager/bin/Release/net8.0/publish/*' -DestinationPath 'Container.Manager.zip'
+        shell: pwsh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Container.Manager
+          path: Container.Manager.zip
+
+  deploy:
+    name: 'Deploy (Edge)'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment: edge-container-host
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: 'git show ${{ github.sha }} --format="version_number=%cd" --date=format:%Y-%m-%d-%H%M --no-patch >> $GITHUB_OUTPUT'
+        id: version
+
+      - run: npm ci
+        working-directory: ./.github/actions/deploy-artifact-to-azure-windows-vm
+
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - uses: ./.github/actions/deploy-artifact-to-azure-windows-vm
+        with:
+          artifact-name: Container.Manager
+          azure-subscription: ${{ secrets.TEMP_AZURE_SUBSCRIPTION_ID }}
+          azure-resource-group: ${{ secrets.TEMP_AZURE_RESOURCE_GROUP }}
+          azure-vm: 'sharplab-container-host'
+          artifact-download-path: 'D:\Container.Manager.zip'
+          deploy-script-inline: |
+            Set-StrictMode -Version 2
+            $ErrorActionPreference = 'Stop'
+            $SiteName = 'SharpLab.Container.Manager'
+
+            $deploymentPath = "C:\Deployments\${{ steps.version.outputs.version_number }}"
+            [IO.Directory]::CreateDirectory($deploymentPath) | Out-Null
+            Expand-Archive -Path $ArtifactDownloadPath -DestinationPath $deploymentPath -Force
+
+            Import-Module WebAdministration
+            $website = (Get-Website -Name $SiteName)
+            if (!$website) {
+                Stop-Website 'Default Web Site'
+                $appPool = (New-WebAppPool -Name $SiteName)
+                Set-ItemProperty "IIS:\AppPools\$($appPool.Name)" -Name "processModel.loadUserProfile" -Value "True"
+                $website = (New-Website -Name $SiteName -HostHeader '*' -PhysicalPath $deploymentPath -ApplicationPool $($appPool.Name))
+            }
+            else {
+                Set-ItemProperty IIS:\Sites\$SiteName -Name physicalPath -Value $deploymentPath
+            }
+            Restart-WebAppPool ($website.ApplicationPool)
+
+      - run: Invoke-RestMethod "http://sharplab-container-host.eastus.cloudapp.azure.com/status" -MaximumRetryCount 10 -RetryIntervalSec 2
+        shell: pwsh

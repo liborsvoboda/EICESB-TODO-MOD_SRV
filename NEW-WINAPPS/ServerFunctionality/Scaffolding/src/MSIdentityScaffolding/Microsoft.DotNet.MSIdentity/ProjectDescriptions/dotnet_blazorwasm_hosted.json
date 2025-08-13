@@ -1,0 +1,21 @@
+{
+  "Identifier": "dotnet-blazorwasm-hosted",
+  "ProjectRelativeFolder": "",
+  "BasedOnProjectDescription": "",
+  "ConfigurationProperties": [
+  ],
+  "MatchesForProjectType": [
+    {
+      "FileRelativePath": "Program.cs",
+      "FolderRelativePath": "Client",
+      "MatchAny": [ "WebAssemblyHostBuilder.CreateDefault" ],
+      "Sets": "IsBlazorWasm"
+    },
+    {
+      "FolderRelativePath":"Server\\Controllers",
+      "FileExtension": ".cs",
+      "MatchAny": [ "[ApiController]" ],
+      "Sets": "IsWebApi"
+    }
+  ]
+}

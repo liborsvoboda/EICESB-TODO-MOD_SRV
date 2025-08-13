@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddedCodeFile" xml:space="preserve">
+    <value>Added code file {0}</value>
+    <comment>0 = File name</comment>
+  </data>
+  <data name="AddingKeyToUserSecrets" xml:space="preserve">
+    <value>Added {0} to user secrets.</value>
+  </data>
+  <data name="AddingPackage" xml:space="preserve">
+    <value>Adding package {0} . . .</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="add_Authentication_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\wasm\Authentication.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="add_blazorserver_LoginDisplay_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\Server\LoginDisplay.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="add_blazorwasm_LoginDisplay_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\wasm\LoginDisplay.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="add_CallWebApi_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\Server\CallWebApi.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="add_GraphClientExtensions_cs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\wasm\GraphClientExtensions.cs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="add_LoginPartial_cshtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\WebApp\_LoginPartial.cshtml.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
+  </data>
+  <data name="add_RedirectToLogin_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\wasm\RedirectToLogin.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="add_ShowProfile_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\Server\ShowProfile.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="add_UserProfile_razor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeFiles\Blazor\wasm\UserProfile.razor.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="AppNotFound" xml:space="preserve">
+    <value>Couldn't find app {0} in tenant {1}</value>
+    <comment>0 = EffectiveClientId, 1 = EffectiveTenantId</comment>
+  </data>
+  <data name="AuthNotEnabled" xml:space="preserve">
+    <value>Authentication is not enabled yet in this project. An app registration will be created, but the tool does not add the code yet (work in progress).</value>
+  </data>
+  <data name="ClientDoesNotExist" xml:space="preserve">
+    <value>A Microsoft identity platform tenant, and a user in that tenant, needs to be created for this account before an application can be created. See https://aka.ms/ms-identity-app/create-a-tenant.</value>
+  </data>
+  <data name="ClientSecret" xml:space="preserve">
+    <value>Client secret - {0}.</value>
+  </data>
+  <data name="cm_dotnet_blazorserver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_blazorserver.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_blazorwasm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_blazorwasm.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_blazorwasm_client" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_blazorwasm_client.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_blazorwasm_hosted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_blazorwasm_hosted.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_minimal_api" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_minimal_api.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_webapi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_webapi.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_webapp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_webapp.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cm_dotnet_webapp_mvc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\CodeReaderWriter\CodeModifierConfigs\cm_dotnet_webapp_mvc.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CodeModifierConfigParsingError" xml:space="preserve">
+    <value>Error parsing Code Modifier Config for project type {0}, exception: {1}</value>
+    <comment>0 = projectType, 1 = exception.Message</comment>
+  </data>
+  <data name="ConfiguredBlazorWasmClient" xml:space="preserve">
+    <value>Configured Blazor WASM client app registration "{0}" ({1})</value>
+    <comment>0 = ApplicationDisplayName, 1 = ClientId</comment>
+  </data>
+  <data name="CreatedAppRegistration" xml:space="preserve">
+    <value>Created app {0} - {1}.</value>
+  </data>
+  <data name="DetectedProjectType" xml:space="preserve">
+    <value>Detected project type {0}.</value>
+  </data>
+  <data name="DotnetUserSecretsError" xml:space="preserve">
+    <value>Error while running dotnet-user-secrets init</value>
+  </data>
+  <data name="dotnet_blazorwasm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_blazorwasm.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_blazorwasm_client" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_blazorwasm_client.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_blazorwasm_hosted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_blazorwasm_hosted.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_blazor_server" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_blazor_server.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_minimal_api" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_minimal_api.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_web" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_web.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_webapi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_webapi.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_webapp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_webapp.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dotnet_webapp_mvc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ProjectDescriptions\dotnet_webapp_mvc.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ExposingScopes" xml:space="preserve">
+    <value>Exposing API scopes for Server App Registration "{0}" ({1})</value>
+    <comment>0 = ApplicationDisplayName, 1 = ClientId</comment>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>FAILED\n\n</value>
+  </data>
+  <data name="FailedAddPackage" xml:space="preserve">
+    <value>Failed to add package {0}</value>
+  </data>
+  <data name="FailedClientSecret" xml:space="preserve">
+    <value>Failed to add client secret.</value>
+  </data>
+  <data name="FailedClientSecretWithApp" xml:space="preserve">
+    <value>Failed to add client secret for app registration : {0}({1})</value>
+    <comment>0: Display Name, 1: Client ID</comment>
+  </data>
+  <data name="FailedToAcquireToken" xml:space="preserve">
+    <value>Failed to acquire a token.</value>
+  </data>
+  <data name="FailedToCreateApp" xml:space="preserve">
+    <value>Failed to create remote app registration.</value>
+  </data>
+  <data name="FailedToGetServicePrincipal" xml:space="preserve">
+    <value>Failed to get or create service principal.</value>
+  </data>
+  <data name="FailedToModifyCodeFile" xml:space="preserve">
+    <value>Failed to modify code file {0}, {1} </value>
+    <comment>0 = File name, 1 = Exception message</comment>
+  </data>
+  <data name="FailedToProvisionClientApp" xml:space="preserve">
+    <value>Failed to provision Client Application for Blazor WASM hosted project</value>
+  </data>
+  <data name="FailedToRetrieveADObjectsError" xml:space="preserve">
+    <value>Failed to retrieve all graph objects (apps/service principals), exception: {0}</value>
+    <comment>0 = error message</comment>
+  </data>
+  <data name="FailedToRetrieveApplicationParameters" xml:space="preserve">
+    <value>Failed to retrieve application parameters.</value>
+  </data>
+  <data name="FailedToUpdateApp" xml:space="preserve">
+    <value>Failed to update remote app registration {0} ({1})</value>
+    <comment>0 = Display Name, 1 = App Id</comment>
+  </data>
+  <data name="FailedToUpdateAppNull" xml:space="preserve">
+    <value>Failed to update remote app registration, null {0}</value>
+    <comment>0 = null object</comment>
+  </data>
+  <data name="FailedToUpdateClientAppCode" xml:space="preserve">
+    <value>Failed to update client app program.cs file for Blazor WASM hosted project</value>
+  </data>
+  <data name="InitializeUserSecrets" xml:space="preserve">
+    <value>Initializing User Secrets . . .</value>
+  </data>
+  <data name="MicrosoftGraphNotSupported" xml:space="preserve">
+    <value>You'll need to remove the calls to Microsoft Graph as it's not supported by B2C apps.</value>
+  </data>
+  <data name="MismatchedProjectTypeIdentifier" xml:space="preserve">
+    <value>Config identifier: {0} does not match toolOptions identifier: {1}</value>
+    <comment>0 = codeModifierConfig.Identifier, 1 = _toolOptions.ProjectTypeIdentifier</comment>
+  </data>
+  <data name="ModifiedCodeFile" xml:space="preserve">
+    <value>Modified code file {0}</value>
+    <comment>0 = File name</comment>
+  </data>
+  <data name="NoProjectDescriptionFound" xml:space="preserve">
+    <value>No valid project description found with project type identifier "{0}"</value>
+    <comment>0 = ProjectTypeIdentifier</comment>
+  </data>
+  <data name="NoProjectFound" xml:space="preserve">
+    <value>No project found in {0}.</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Could not find an app registration with matching ID (ID: {0})</value>
+    <comment>0 = App Id</comment>
+  </data>
+  <data name="NoUpdateNecessary" xml:space="preserve">
+    <value>App registration {0} ({1}) did not require any remote updates</value>
+    <comment>0 = Display Name, 1 = App Id</comment>
+  </data>
+  <data name="PermissionExists" xml:space="preserve">
+    <value>Permission already exists for resource {0}</value>
+    <comment>{0} = Resource Name</comment>
+  </data>
+  <data name="Policies" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Policies.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ProjectPathError" xml:space="preserve">
+    <value>Failed to validate project path {0}</value>
+    <comment>0 = projectPath</comment>
+  </data>
+  <data name="ResourceFileParseError" xml:space="preserve">
+    <value>Resource file {0} could not be parsed.</value>
+    <comment>0 = CodeModifierConfigPropertyInfo.Name</comment>
+  </data>
+  <data name="SignInError" xml:space="preserve">
+    <value>Error encountered with sign-in. See error message for details:</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>SUCCESS</value>
+  </data>
+  <data name="SuccessfullyUpdatedApp" xml:space="preserve">
+    <value>Successfully updated app registration {0} ({1})</value>
+    <comment>0 = Display Name, 1 = App Id</comment>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="UpdatingAppSettingsJson" xml:space="preserve">
+    <value>Updating appsettings.json</value>
+  </data>
+  <data name="UpdatingProjectFiles" xml:space="preserve">
+    <value>Updating project files ...</value>
+  </data>
+  <data name="UpdatingProjectPackages" xml:space="preserve">
+    <value>Updating project packages ...</value>
+  </data>
+</root>

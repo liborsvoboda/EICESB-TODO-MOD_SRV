@@ -1,0 +1,28 @@
+[submodule "external/NRefactory"]
+	path = external/NRefactory
+	url = https://github.com/SharpKit/NRefactory.git
+	ignore = dirty
+[submodule "external/corex"]
+	path = external/corex
+	url = https://github.com/SharpKit/corex.git
+	ignore = dirty
+[submodule "external/cecil"]
+	path = external/cecil
+	url = https://github.com/jbevain/cecil
+	ignore = dirty
+[submodule "SDK"]
+	path = SDK
+	url = https://github.com/SharpKit/SharpKit-SDK.git
+	ignore = dirty
+[submodule "external/SharpZipLib"]
+	path = external/SharpZipLib
+	url = https://github.com/Arakis/SharpZipLib.git
+	ignore = dirty
+[submodule "external/AjaxMin"]
+	path = external/AjaxMin
+	url = https://github.com/SharpKit/AjaxMin.git
+	ignore = dirty
+[submodule "external/octokit.net"]
+	path = external/octokit.net
+	url = https://github.com/Arakis/octokit.net.git
+	ignore = dirty

@@ -1,0 +1,37 @@
+﻿@import 'common.less';
+@import 'mobile.less';
+
+:root {
+    --offline-header-color: @offline-color;
+}
+
+/* TODO: https://github.com/ashmind/mirrorsharp/issues/48 */
+.CodeMirror.mirrorsharp-connection-has-issue {
+    padding-top: 0;
+}
+.mirrorsharp-connection-has-issue .mirrorsharp-connection-issue {
+    display: none;
+}
+
+.offline-only {
+    display: none;
+}
+
+.root-status-offline {
+    .code, .result, .warnings, .errors {
+        header {
+            background-color: var(--offline-header-color);
+        }
+    }
+
+    header .offline-only {
+        display: inline-block;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .online-only {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiGeneratorSampleApI</name>
+    </assembly>
+    <members>
+        <member name="T:ApiGeneratorSampleApI.Model.MinimalSample">
+            <summary>
+                This is the minimal sample, yes this is a working api ;)
+            </summary>
+        </member>
+    </members>
+</doc>

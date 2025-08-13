@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="Sdk.props" Sdk="Microsoft.DotNet.Arcade.Sdk" />
+
+  <PropertyGroup>
+    <Copyright>$(CopyrightMicrosoft)</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbol>true</DebugSymbol>
+    <StrongNameKeyId>MicrosoftAspNetCore</StrongNameKeyId>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package and Assembly Metadata">
+    <Product>Microsoft ASP.NET Core</Product>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="$(RepoRoot)NOTICE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

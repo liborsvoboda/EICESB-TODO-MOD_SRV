@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <param key="SkRootDir" value="D:\sharpkit" />
+  <param key="SkTrunkDir" value="D:\sharpkit\compiler\src" />
+  <param key="SdkTrunkDir" value="D:\sharpkit\sdk\src" />
+
+  <param key="GitHubAccessToken" value="" />
+  <param key="GitHubUser" value="SharpKit" />
+  <param key="GitHubRepoCompiler" value="SharpKit" />
+  <param key="GitHubRepoSDK" value="SharpKit-SDK" />
+
+  <param key="NuGetApiKey" value="4003d786-cc37-4004-bfdf-c4f3e8ef9b3a" />
+</config>

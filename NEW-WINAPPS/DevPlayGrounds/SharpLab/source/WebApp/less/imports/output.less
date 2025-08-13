@@ -1,0 +1,336 @@
+@import 'common.less';
+
+:root {
+    --inspection-border-color: #cecece;
+    --inspection-header-color: #ececec;
+    --inspection-exception-header-color: @error-color;
+    --inspection-exception-border-color: @error-color;
+    --inspection-warning-header-color: @warning-color;
+    --inspection-warning-border-color: @warning-color;
+    --inspection-secondary-text-color: #aaa;
+}
+
+.output {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+
+    pre {
+        .code-text();
+        margin: 0;
+    }
+
+    > * + *,
+    > * + pre {
+        margin-top: 4px;
+    }
+}
+
+.output-empty {
+    color: #666;
+    padding: 0px 4px;
+    font-size: 90%;
+}
+
+@inspection-single-line-padding: 2px 4px;
+.inspection {
+    width: fit-content;
+    border: 1px solid var(--inspection-border-color);
+    header {
+        background-color: var(--inspection-header-color);
+        padding: @inspection-single-line-padding;
+
+        .select-wrapper {
+            border: none;
+        }
+    }
+
+    select {
+        .code-font();
+    }
+}
+
+.inspection-simple {
+    display: flex;
+    & header::after {
+        content: ':';
+    }
+}
+
+.inspection-header-only header::after {
+    content: '';
+}
+
+.inspection-value {
+    .code-font();
+    text-align: right;
+    padding: @inspection-single-line-padding;
+    white-space: nowrap;
+}
+
+.inspection-memory {
+    flex-direction: column;
+    header {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+    }
+
+    .inspection-title {
+        flex-grow: 1;
+    }
+
+    .select-wrapper {
+        margin-left: 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    tr + tr {
+        border-top: 1px solid var(--inspection-border-color);
+    }
+}
+
+.inspection-data-label {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inspection-data-label, .inspection-data-cell {
+    padding: 2px 4px;
+}
+
+.inspection-data-cell {
+    text-align: right;
+}
+
+.inspection-data-label + .inspection-data-label,
+.inspection-data-cell + .inspection-data-cell {
+    border-left: 1px solid var(--inspection-border-color);
+}
+
+.inspection-data-zero {
+    color: var(--inspection-secondary-text-color);
+}
+
+.inspection-graph {
+    min-width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.inspection-graph.loading {
+    .inspection-graph-reference-layer,
+    .inspection-graph-stack,
+    .inspection-graph-heap {
+        visibility: hidden;
+    }
+}
+
+.inspection-graph-reference-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.inspection-graph-reference {
+    stroke: var(--inspection-border-color);
+    fill: none;
+}
+
+.inspection-graph-reference-end-marker {
+    fill: var(--inspection-border-color);
+}
+
+.inspection-graph-stack,
+.inspection-graph-heap {
+    display: flex;
+    flex-direction: column;
+    > header {
+        order: 10000;
+        margin-left: auto;
+    }
+}
+
+.inspection-graph-stack {
+    max-width: 300px;
+    border-right: 1px solid var(--inspection-border-color);
+}
+
+.inspection-graph-heap {
+    flex-grow: 1;
+    .inspection-graph-node-top-level {
+        max-width: 200px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+.inspection-graph-nodes {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.inspection-graph-node {
+    display: flex;
+    border: 1px solid var(--inspection-border-color);
+    header::after {
+        content: ':';
+    }
+}
+
+.inspection-graph-stack .inspection-graph-nodes > * + *,
+.inspection-nested-items > * + * {
+    margin-top: 5px;
+}
+
+@inspection-multiline-padding: 4px 6px;
+.inspection-multiline {
+    flex-direction: column;
+    > header {
+        padding: @inspection-multiline-padding;
+        font-weight: bold;
+        &::after {
+            content: '';
+        }
+    }
+    .inspection-value {
+        padding: @inspection-multiline-padding;
+        text-align: left;
+        white-space: pre-wrap;
+    }
+}
+
+.inspection-group > header {
+    padding: @inspection-multiline-padding;
+    font-weight: bold;
+}
+
+.inspection-nested-items {
+    padding: 10px;
+    width: 100%;
+
+    .inspection-value {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.inspection-nested-text-item {
+    text-align: center;
+    color: #888;
+    &::before {
+        content: '… ';
+    }
+    &::after {
+        content: ' …';
+    }
+}
+
+.inspection-exception {
+    border-color: var(--inspection-exception-border-color);
+    header {
+        background-color: var(--inspection-exception-header-color);
+        color: #fff;
+    }
+}
+
+.inspection-exception-notice {
+    padding: @inspection-multiline-padding;
+    border-bottom: 1px solid var(--inspection-exception-border-color);
+}
+
+.inspection-warning {
+    border-color: var(--inspection-warning-border-color);
+    header {
+        background-color: var(--inspection-warning-header-color);
+        color: #fff;
+    }
+}
+
+.output-execution-group {
+    border: 1px solid var(--inspection-border-color);
+    padding: 5px;
+
+    & + & {
+        margin-top: 5px;
+    }
+}
+
+.output-execution-step {
+    .code-font();
+
+    display: grid;
+    grid-template-columns: max-content max-content;
+}
+
+.output-execution-step-line {
+    white-space: pre-wrap;
+}
+
+.output-execution-step-notes {
+    background-color: var(--inspection-header-color);
+    margin-left: 10px;
+}
+
+.output-flow-event {
+    .code-font();
+    padding: 5px;
+
+    & + & {
+        border-top: 1px solid var(--inspection-border-color);
+    }
+}
+
+.output-flow-event-part {
+    display: inline-block;
+    padding: 2px 4px;
+
+    & + & {
+        margin-left: 5px;
+    }
+}
+
+.output-flow-event-part-jump-down {
+    background-color: #3f5f5e;
+}
+
+.output-flow-event-part-jump-up {
+    background-color: #5f3f4f;
+}
+
+.output-flow-event-part-notes {
+    .output-flow-event-part + & {
+        background-color: var(--inspection-header-color);
+    }
+}
+
+.root-status-offline {
+    .output-disclaimer,
+    .output-message-positive {
+        background-color: @offline-color;
+        color: #fff;
+    }
+
+    .inspection, .inspection-graph-node {
+        border-color: @offline-color;
+    }
+
+    .inspection {
+        header {
+            background-color: @offline-color;
+            color: #fff;
+        }
+    }
+}

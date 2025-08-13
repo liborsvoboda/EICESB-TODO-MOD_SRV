@@ -1,0 +1,121 @@
+{
+  "Identifier": "dotnet-minimal_api",
+  "Files": [
+    {
+      "FileName": "Program.cs",
+      "Usings": [
+        "Microsoft.AspNetCore.Authentication",
+        "Microsoft.AspNetCore.Authentication.JwtBearer",
+        "Microsoft.Identity.Web",
+        "Microsoft.Identity.Web.Resource"
+      ],
+      "Methods": {
+        "Global": {
+          "CodeChanges": [
+            {
+              "Block": "WebApplication.CreateBuilder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)",
+              "InsertAfter": "WebApplication.CreateBuilder",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "AddMicrosoftIdentityWebApi(WebApplication.CreateBuilder.Configuration.GetSection(\"AzureAd\"))",
+              "Parent": "AddAuthentication",
+              "CodeChangeType": "MemberAccess",
+              "LeadingTrivia": {
+                "Newline": true,
+                "NumberOfSpaces": 4
+              }
+            },
+            {
+              "Block": "EnableTokenAcquisitionToCallDownstreamApi()",
+              "Parent": "AddMicrosoftIdentityWebApi",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "MicrosoftGraph",
+                "DownstreamApi"
+              ],
+              "LeadingTrivia": {
+                "Newline": true,
+                "NumberOfSpaces": 8
+              }
+            },
+            {
+              "MultiLineBlock": [
+                "AddMicrosoftGraph(builder.Configuration.GetSection(\"MicrosoftGraph\"))",
+                "            .AddInMemoryTokenCaches()"
+              ],
+              "Parent": "EnableTokenAcquisitionToCallDownstreamApi",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "MicrosoftGraph"
+              ],
+              "LeadingTrivia": {
+                "NumberOfSpaces": 12,
+                "Newline": true
+              }
+            },
+            {
+              "MultiLineBlock": [
+                "AddDownstreamApi(\"DownstreamApi\", WebApplication.CreateBuilder.Configuration.GetSection(\"DownstreamApi\"))",
+                "            .AddInMemoryTokenCaches()"
+              ],
+              "Parent": "EnableTokenAcquisitionToCallDownstreamApi",
+              "CodeChangeType": "MemberAccess",
+              "Options": [
+                "DownstreamApi"
+              ],
+              "LeadingTrivia": {
+                "NumberOfSpaces": 12,
+                "Newline": true
+              }
+            },
+            {
+              "Block": "WebApplication.CreateBuilder.Services.AddAuthorization()",
+              "InsertAfter": "WebApplication.CreateBuilder.Services.AddAuthentication"
+            },
+            {
+              "Block": "app.UseAuthentication()",
+              "InsertAfter": "app.UseHttpsRedirection",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "app.UseAuthorization()",
+              "InsertAfter": "app.UseAuthentication"
+            },
+            {
+              "Block": "var scopeRequiredByApi = app.Configuration[\"AzureAd:Scopes\"]",
+              "InsertBefore": [
+                "app.MapGet"
+              ],
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            },
+            {
+              "Block": "httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi)",
+              "Parent": "app.MapGet",
+              "Parameter": "HttpContext httpContext",
+              "CodeChangeType": "Lambda",
+              "Prepend": true,
+              "LeadingTrivia": {
+                "NumberOfSpaces": 4
+              }
+            },
+            {
+              "Parent": "app.MapGet",
+              "CodeChangeType": "MemberAccess",
+              "Block": "RequireAuthorization()",
+              "LeadingTrivia": {
+                "Newline": true
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

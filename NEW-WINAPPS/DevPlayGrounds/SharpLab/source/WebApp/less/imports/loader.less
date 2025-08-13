@@ -1,0 +1,31 @@
+.loader {
+    display: none;
+
+    font-family: Consolas, Menlo, Monaco, monospace;
+    font-weight: bold;
+
+    &::before, &::after {
+        display: inline-block;
+        animation: pulse 0.4s alternate infinite ease-in-out;
+    }
+
+    &::before {
+        content: '[';
+    }
+
+    &::after {
+        content: ']';
+        animation-delay: 0.4s;
+    }
+
+    .loading &, &.loading {
+        display: block;
+    }
+}
+
+@keyframes pulse {
+    to {
+        transform: scale(0.7);
+        opacity: 0.5;
+    }
+}

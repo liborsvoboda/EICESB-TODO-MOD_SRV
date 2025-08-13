@@ -1,0 +1,36 @@
+.CodeMirror-jump-arrow-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.CodeMirror-jump-arrow-default.CodeMirror-jump-arrow-down {
+    fill: #87afb0;
+    stroke: #87afb0;
+}
+
+.CodeMirror-jump-arrow-default.CodeMirror-jump-arrow-up {
+    fill: #b0879b;
+    stroke: #b0879b;
+}
+
+.CodeMirror-jump-arrow-throw {
+    fill: #dc3912;
+    stroke: #dc3912;
+}
+
+.CodeMirror-jump-arrow-line {
+    fill: none;
+}
+
+.CodeMirror-jump-arrow-start {
+    fill: #fff;
+}
+
+.CodeMirror-jump-arrow-throw .CodeMirror-jump-arrow-start {
+    fill: inherit;
+}

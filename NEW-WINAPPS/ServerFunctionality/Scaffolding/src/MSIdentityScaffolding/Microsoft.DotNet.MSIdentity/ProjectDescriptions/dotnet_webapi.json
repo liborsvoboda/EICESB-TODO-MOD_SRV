@@ -1,0 +1,40 @@
+{
+  "Identifier": "dotnet-webapi",
+  "ProjectRelativeFolder": "",
+  "BasedOnProjectDescription": "dotnet-web",
+  "MatchesForProjectType": [
+    {
+      "FolderRelativePath": "Controllers",
+      "FileExtension":".cs",
+      "MatchAny": [ "[ApiController]" ],
+      "Sets": "IsWebApi"
+    },
+    {
+      "FileRelativePath": "WeatherForecast.cs"
+    },
+    {
+      "FileRelativePath": "Startup.cs",
+      "MatchAny": [ ".AddAzureAdBearer", ".AddMicrosoftIdentityWebApi", ".AddMicrosoftIdentityWebApiAuthentication" ]
+    },
+    {
+      "FileRelativePath": "Program.cs",
+      "MatchAny": [ ".AddEndpointsApiExplorer", ".AddSwaggerGen" ]
+    }
+  ],
+  "ConfigurationProperties": [
+    {
+      "FileRelativePath": "Startup.cs",
+      "Properties": [
+        {
+          "MatchAny": [ ".AddAzureAdBearer", ".AddMicrosoftIdentityWebApi", ".AddMicrosoftIdentityWebApiAuthentication" ],
+          "Sets": "HasAuthentication"
+        }
+      ]
+    }
+  ],
+  "Packages": [
+    "Microsoft.AspNetCore.Authentication.JwtBearer",
+    "Microsoft.AspNetCore.Authentication.OpenIdConnect",
+    "Microsoft.Identity.Web"
+  ]
+}

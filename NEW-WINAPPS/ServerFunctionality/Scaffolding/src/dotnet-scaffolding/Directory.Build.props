@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <Import Project="$(RepoRoot)eng\Versions.DotNetScaffold.props" />
+
+  <PropertyGroup>
+    <DotNetScaffoldTfm>net8.0;net9.0</DotNetScaffoldTfm>
+    <BuildTfm>$(DotNetScaffoldTfm)</BuildTfm>
+  </PropertyGroup>
+
+</Project>

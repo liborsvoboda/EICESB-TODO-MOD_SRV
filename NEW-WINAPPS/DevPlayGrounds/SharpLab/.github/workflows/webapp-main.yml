@@ -1,0 +1,29 @@
+name: WebApp (JS) - Main
+
+on: workflow_dispatch
+
+jobs:
+  deploy-to-main:
+    name: Deploy (Main)
+    environment: main-webapp
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: "Run azure/CLI@e43928ebbc386700c6bb2f42a97a8de31576cfd2: az storage copy"
+        uses: azure/CLI@e43928ebbc386700c6bb2f42a97a8de31576cfd2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az storage copy -s https://slpublic.blob.core.windows.net/assets/latest-edge -d https://slpublic.blob.core.windows.net/assets/latest-main
+
+      - run: Invoke-RestMethod -Method POST -Uri 'https://sharplab.io/assets/reload' -Authentication Bearer -Token $(ConvertTo-SecureString $env:SHARPLAB_ASSETS_RELOAD_TOKEN -AsPlainText)
+        shell: pwsh
+        env:
+          SHARPLAB_ASSETS_RELOAD_TOKEN: ${{ secrets.SHARPLAB_ASSETS_RELOAD_TOKEN }}

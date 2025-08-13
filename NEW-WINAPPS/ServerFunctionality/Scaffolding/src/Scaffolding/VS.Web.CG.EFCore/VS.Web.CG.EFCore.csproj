@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Contains Entity Framework Core Services used by ASP.NET Core Code Generators.</Description>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore</AssemblyName>
+    <RootNamespace>Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <PackageTags>aspnetcore;codegenerator;scaffolding;visualstudioweb</PackageTags>
+    <Nullable>disable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepoRoot)src\Scaffolding\VS.Web.CG.Core\VS.Web.CG.Core.csproj" />
+    <ProjectReference Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\Microsoft.DotNet.Scaffolding.Shared.csproj" />
+    <!-- The EntityFramework.Design is intentionally set to PrivateAssets=All. Scaffolding will rely on the user's
+       project to provide this dependency, rather than introducing the dependency.
+       This way if the user wants to scaffold non-ef related controller/view, they could do so
+       without adding EntityFrameworkCore dependency.
+       https://github.com/dotnet/scaffolding/issues/434
+       -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Pack="true" Include="Templates\DbContext\*" PackagePath="Templates\DbContext\" />
+    <None Pack="true" Include="$(RepoRoot)src\Scaffolding\README.md"  PackagePath="\"/>
+  </ItemGroup>
+</Project>

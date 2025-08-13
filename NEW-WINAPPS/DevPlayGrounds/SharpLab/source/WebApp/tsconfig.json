@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "lib": ["dom", "dom.iterable", "es2019", "es2020.string"],
+        "moduleResolution": "node",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "jsx": "react"
+    },
+    "include": [
+        "app",
+        ".storybook",
+        "test-runner-jest.config.js"
+    ],
+    "references": [
+        { "path": "./tsconfig.scripts.json" },
+    ]
+}

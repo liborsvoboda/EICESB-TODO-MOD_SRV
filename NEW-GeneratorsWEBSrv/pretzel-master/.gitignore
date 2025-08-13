@@ -1,0 +1,35 @@
+[Oo]bj/
+[Bb]in/
+*.user
+/TestResults
+*.vspscc
+*.vssscc
+deploy
+deploy/*
+*.suo
+*.cache
+packages/
+msbuild.log
+artifacts/log
+artifacts/
+post-build*
+_ReSharper.*
+deploy-to-ec2*
+TestResults/
+build/
+tests/
+*.ncrunchproject
+*.ncrunchsolution
+*.GhostDoc.xml
+
+CommonAssemblyInfo.cs
+Thumbs.db
+
+# Roslyn cache directories
+*.ide/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+chocoTemp/
+*.zip
+src/Pretzel/ApiPortabilityAnalysis.htm

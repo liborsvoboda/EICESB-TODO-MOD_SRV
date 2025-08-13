@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Build Your Knowledge Of MSBuild</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../reveal/css/reveal.css">
+        <link rel="stylesheet" href="../reveal/css/theme/white.css" id="theme">
+        <link rel="stylesheet" href="../reveal/lib/css/zenburn.css" id="theme">
+
+        <style>
+            .reveal .slides > section {
+                width: calc(100% - 40px);
+                margin-left: 20px;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+            code {
+                background-color: #ddd;
+            }
+            ul {
+                width: 100%;
+            }
+            .reveal img {
+                border: none !important;
+                box-shadow: none !important;
+                max-width: 60vw;
+                max-height: 60vw;
+            }
+            .left {
+                left:-8.33%;
+                text-align: left;
+                float: left;
+                width:48%;
+                z-index:-10;
+            }
+            .right {
+                left:31.25%;
+                top: 75px;
+                text-align: left;
+                float: right;
+                z-index:-10;
+                width:50%;
+            }
+        </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Build Your Knowledge Of MSBuild
+                        
+                        Dave Glick
+                        
+                        Twitter: **@daveaglick**
+
+                        GitHub: **/daveaglick**
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">       
+                    <script type="text/template">
+                        # Sponsors
+                        
+                        ![](sponsors.png)
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:" data-background-image="blackbox.jpg">            
+                    <script type="text/template">
+                        ## What Developers Think MSBuild Is
+
+                        Notes:
+                        It's mostly a black box, you hit "build" in Visual Studio and it works.
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:" data-background-image="machine.jpg">            
+                    <script type="text/template">
+                        ## What Developers Think Is Inside The Box
+
+                        Notes:
+                        One large universal build machine. Code goes in one end, libraries and applications come out the other.
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:" data-background-image="shop.jpg"> 
+                    <script type="text/template">
+                        ## What's Actually Inside The Box
+
+                        Notes:
+                        A lot of moving parts. Loose coordination. It's amazing anything actually gets built.
+                    </script>
+                </section>    
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # What Is MSBuild?
+
+                        It's XML!
+
+                        ```
+                        <Project Sdk="Microsoft.NET.Sdk">
+                            <PropertyGroup>
+                                <OutputType>Exe</OutputType>
+                                <TargetFramework>netcoreapp2.2</TargetFramework>
+                            </PropertyGroup>
+                        </Project>
+                        ```
+                    </script>
+                </section>       
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # What Is MSBuild, Really?
+
+                        It's...
+                        - A declaritive language for describing build tasks
+                        - Generic tasks like [Message](https://docs.microsoft.com/en-us/visualstudio/msbuild/message-task)
+                        - A collection of [reserved and well-known properties](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-reserved-and-well-known-properties) related to building .NET projects
+                        - [An API](https://www.nuget.org/packages?q=microsoft.build) for evaluating and executing MSBuild files
+                        - A console application (`MSBuild.exe`)
+
+                        Notes:
+                        - Declaritive because there's no control flow
+                    </script>
+                </section>                  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # What MSBuild Is Not
+
+                        It's not...
+                        - .NET-specific build tasks ([.NET SDK](https://github.com/dotnet/sdk))
+                        - A compiler ([Roslyn](https://github.com/dotnet/roslyn))
+
+                        Notes:
+                        - Important to define a scope around MSBuild
+                        - SDK tasks include NuGet restore, calling the compiler, etc.
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # The [.NET Project System](https://github.com/dotnet/project-system)
+
+                        ![](project-system.png)
+
+                        Notes:
+                        - A set of interconnected services to manage projects, builds, IDEs, etc.
+                        - We're going to focus on MSBuild specifically (though I may mention parts of the project system)
+                        - All the overlaps may not have functionality, but you get the idea
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Project File Building Blocks
+
+                        ![](project-file.png)
+
+                        Notes:
+                        - We'll talk about all these parts
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Variables
+
+                        - All variables are "global"
+                        - I just lied to you...
+                          - Execution starts with a set of variables
+                          - That set is copied to each target
+                          - Any changes target makes to the local set are merged back when it's done
+
+                        Notes:
+                        - Essentially the same, but subtle effects so worth understanding
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Types
+
+                        There are only two types:
+
+                        - `string`  
+                          (represented as a _property_)
+                        
+                        - `List<Tuple<string, Dictionary<string, string>>>`  
+                          (represented as an _item_)
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Properties
+
+                        - Defined in a `<PropertyGroup>`
+                        ```xml
+                        <PropertyGroup>
+                            <Name>value</Name>
+                        </PropertyGroup>
+                        ```
+                        - Is similar to
+                        ```csharp
+                        string Name = "value";
+                        ```
+                    </script>
+                </section>                
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Using Properties
+
+                        - Uses `$(Name)` syntax
+                        ```xml
+                        <PropertyGroup>
+                            <PaintColor>red</PaintColor>
+                            <WallColor>$(PaintColor)</WallColor>
+                        </PropertyGroup>
+                        ```
+                        - Is similar to
+                        ```csharp
+                        string PaintColor = "red";
+                        string WallColor = PaintColor;
+                        ```
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Items
+
+                        - Typically refers to files/paths (with special support for wildcards, etc.)
+                        - `Include` attribute defines values in the collection (`;` delimited)
+                        - `Exclude` attribute filters _the local `Include` attribute_
+                        - `Remove` removes _existing_ values from the collection
+                        - Each value can have metadata (usually defined as child elements)
+                        - Each definition refines the existing variable
+
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Items
+
+                        - Defined in an `<ItemGroup>`
+                        ```xml
+                        <ItemGroup>
+                            <Garage Include="bay-one" />
+                            <Garage Include="bay-two;bay-three">
+                                <Usage>Toys</Usage>
+                            </Garage>
+                            <Garage Include="bay-four">
+                                <Usage>Car</Usage>
+                                <Make>Hyundai</Make>
+                            </Garage>
+                        </ItemGroup>
+                        ```
+                        - Is similar to
+                        ```csharp
+                        var Garage = new List<Tuple<string, Dictionary<string, string>>>();
+                        Garage.Add(Tuple.Create("bay-one", new Dictionary<string, string>()));
+                        Garage.Add(Tuple.Create("bay-two", new Dictionary<string, string>
+                        {
+                            { "Usage", "Toys" }
+                        }));
+                        Garage.Add(Tuple.Create("bay-three", new Dictionary<string, string>
+                        {
+                            { "Usage", "Toys" }
+                        }));
+                        Garage.Add(Tuple.Create("bay-four", new Dictionary<string, string>
+                        {
+                            { "Usage", "Car" }
+                            { "Make", "Hyundai" }
+                        }));
+                        ```
+
+                    </script>
+                </section>       
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Using Items
+
+                        - Uses `@(Name)` syntax
+                        ```xml
+                        <PropertyGroup>
+                            <Garage Include="bay-one" />
+                            <Locations Include="@(Garage)" />
+                        </PropertyGroup>
+                        ```
+                        - Is similar to
+                        ```csharp
+                        var Garage = new List<Tuple<string, Dictionary<string, string>>>();
+                        Garage.Add(Tuple.Create("bay-one", new Dictionary<string, string>()));
+                        var Locations = new List<Tuple<string, Dictionary<string, string>>>();
+                        Locations.AddRange(Garage);
+                        ```
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Conditions
+
+                        - Defined as a `Condition` attribute that must evaluate to a string that can be parsed as a boolean
+                        - Can be defined on most elements
+                        - Supports a [variety of operators](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions) like `==`, `!=`, `<`, `>`, `!`, etc.
+                        
+                        ```xml
+                        <PropertyGroup Condition="true">
+                            <Name>Clark Kent</Name>
+                            <IsUndercover>false</IsUndercover>
+                            <IsUndercover Condition="'$(Name)' == 'Clark Kent'">true</IsUndercover>
+                        </PropertyGroup>
+                        ```
+                        
+                        Notes:
+                        - A common pattern to redefine variables based on conditions
+                        - Notice the single quotes - not required for simple strings or boolean values, but safer to use
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Conditional Choices
+
+                        - Outer `<Choose>` element
+                        - One or more `<When>` elements with `Condition` attributes
+                        - The first `<When>` that has a true `Condition` is used
+                        - A final `<Otherwise>` can be defined and will be used if no `<When>` elements are true
+                        - `<Choose>` elements can be nested inside `<When>` and `<Otherwise>`
+                        - `<When>` and `<Otherwise>` can also contain `<PropertyGroup>` and/or `<ItemGroup>` elements
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Conditional Choices
+
+                        ```xml
+                        <Choose>
+                            <When Condition="'$(IsUndercover)'">
+                                <PropertyGroup>
+                                    <Uniform>Suit</Uniform>
+                                </PropertyGroup>
+                            </When>
+                            <Otherwise>
+                                <PropertyGroup>
+                                    <Uniform>Cape</Uniform>
+                                    <CapeColor>Red</CapeColor>
+                                <PropertyGroup>
+                            </Otherwise>
+                        </Choose>
+                        ```
+                        
+                        Notes:
+                        - Notice that CapeColor isn't defined unless the condition is false
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # ⚡ Tasks
+
+                        - Elements in the project file that actually do stuff
+                        - Essentially a method invocation
+                        - Defined in .NET assemblies using the MSBuild API `ITask` interface
+                        - Properties in the task class can be defined in the project file as attributes
+                        - Tasks return `true` on success and `false` on failure
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Custom Tasks
+
+                        - Task code:
+                        ```csharp
+                        public class Drive : Task
+                        {
+                            public string Destination { get; set; }
+                            
+                            public string Method { get; set; }
+                            
+                            public override bool Execute()
+                            {
+                                return true;
+                            }
+                        }
+                        ```                 
+                        - Project file:
+                        ```xml
+                        <Project ...>
+                            <Target Name="NeedForSpeed">
+                                <Drive Method="Highway" Destination="Danger Zone" />
+                            </Target>
+                        </Project>
+                        ```       
+                    </script>
+                </section>
+                       
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Common Tasks
+
+                        - `Copy` copies files to a new location
+                        - `Delete` deletes the specified files
+                        - `Error` stops a build and logs an error
+                        - `Exec` runs a program or command with arguments
+                        - `Message` logs a message during build
+                        - `Move` moves files
+                        - `Warning` logs a warning
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # 🎯 Targets
+                        
+                        - Groups tasks in a specific order
+                        - Has a name
+                        - Can be redefined
+                        - Only runs once, even if multiple dependants
+                        - Supports incremental builds using `Inputs` and `Outputs` attributes
+
+                        Notes:
+                        - For incremental builds, target is skipped if all outputs are up to date
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Target Ordering
+
+                        - `InitialTargets` attribute on `<Project>` are always run
+                        - `DefaultTargets` attribute on `<Project>` are run if no target specified
+                        - Target specified on the command line (or via API)
+                        ```
+                        msbuild -target:Clean;Build
+                        ```
+                        - If no initial, default, or command line target, first one in order (including imports) is run
+                        
+                        Notes:
+                        - Initial targets are run even if command line specifies others
+                        - All initial targets from imports are aggregated and run in sequence
+                    </script>
+                </section>  
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Dependencies
+                        
+                        ![](machine.gif)
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Dependencies
+
+                        - `DependsOnTarget` attribute runs dependencies before the defined target
+                        ```xml
+                        <Target Name="DefeatLordGarmadon" DependsOnTargets="Train;Plan">
+                            ...
+                        </Target>
+                        ```
+                        - `BeforeTargets` and `AfterTargets` insert targets into the execution order
+                        ```xml
+                        <Target Name="Train" BeforeTargets="DefeatLordGarmadon;Plan">
+                            ...
+                        </Target>
+                        ```
+
+                        Notes:
+                        - Show example of adding Message task in target in new console app
+                        - Create folder, open code, dotnet new console 
+                        - Omit Name on target first, show error message
+                        - Omit Importance, no output
+                        - Make Importance="High", show output
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Imports
+
+                        - Defined with the `<Import>` element
+                        - The `Project` attribute contains a path to a MSBuild file to import
+                        - Relative paths are interpreted relative to the importing file
+                        - Can optional contain a `Condition` attribute
+                        - Can be grouped in a `<ImportGroup>` with it's own condition
+                        
+                        ```xml
+                        <Import Project="../CommonProps/my.props" />
+                        ```
+                    </script>
+                </section>
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Implicit Imports
+
+                        - `Directory.Build.props` is automatically imported if anywhere up the folder hierarchy
+                        - Also `Directory.Build.targets` (name difference is mostly conventional)
+                        - Stops looking at the first one found, need to explicity include higher ones
+
+                        Notes:
+                        - Helpful for things like common code analyzers, shared frameworks
+                    </script>
+                </section>
+                
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # ⚠ Be Careful
+                        
+                        ![](nick.png)
+
+                        Notes:
+                        - Can be difficult to diagnose behavior
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # 🤔 `.targets` vs. `.props`
+
+                        - No technical difference, filename doesn't matter
+                        - Both intended to be used as imports
+                        - By convention...
+                          - `.props` contains property and/or item definitions
+                          - `.targets` contains target definitions
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Types Of Builds
+
+                        - Global properties control which targets (and tasks) are run via conditions
+                        - Different "types" of builds: full, incremental, design-time
+                        - Each runs different targets
+                        - Design-time is what Visual Studio does in a tight loop, doesn't actually call the compiler
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Console Logging
+
+                        - Log messages are classified as `Quiet`, `Minimal`, `Normal`, `Detailed`, and `Diagnostic`
+                        - Set verbosity on the command line
+                        ```
+                        msbuild MySolution.sln -verbosity:detailed
+                        ```
+
+                        Notes:
+                        - Show -verbosity:detailed with sample console app, lots of output
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Binary Logging
+
+                        - Each definition, target and task entry/exit, and other activities generate log events
+                        - Binary logging records all events in a binary file
+                        ```
+                        msbuild MySolution.sln /bl:out.binlog
+                        ```
+                        - MSBuild can "replay" a binary log
+                        ```
+                        msbuild out.binlog
+                        ```
+
+                        Notes:
+                        - Replaying won't actually build, just send events to other loggers
+                        - Demonstrate replay on sample console app
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # 👀 Debugging Tools
+
+                        - [Project System Tools](https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools)
+                        - [MSBuild Structured Log Viewer](http://www.msbuildlog.com/)
+
+                        Notes:
+                        - Open binlog from sample console app in previous slide
+                        - Show example by building in VS with logging and then opening in log viewer
+                    </script>
+                </section>  
+                
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Using Programmatically
+
+                        - [MSBuild APIs](https://docs.microsoft.com/en-us/dotnet/api/?view=netframework-4.7.1&term=Microsoft.Build) are in the `Microsoft.Build` namespace and use that [package prefix](https://www.nuget.org/packages?q=microsoft.build)
+                        - [Microsoft.Build.Locator](https://github.com/Microsoft/MSBuildLocator) finds already installed MSBuild instances
+                        - [VSWhere](https://github.com/Microsoft/vswhere) finds installed versions of Visual Studio (which include MSBuild)
+                    </script>
+                </section>  
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Tools I Maintain
+
+                        - [MsBuildPipeLogger](https://github.com/daveaglick/MsBuildPipeLogger) sends MSBuild logging data over a pipe
+                        - [Buildalyzer](https://github.com/daveaglick/Buildalyzer) finds and executes MSBuild programmatically and returns results
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        # Where To Learn More
+
+                        - [MSBuild Concepts](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-concepts)
+                        - [Understanding The Project File](https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/web-deployment-in-the-enterprise/understanding-the-project-file)
+                    </script>
+                </section>
+
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+                        ## ❓ Questions?
+
+                        ![](magic.gif)
+                    </script>
+                </section>
+                
+                <!-- Markdown section template - make sure there are no spaces after the <script> element or it won't render as markdown
+                <section data-markdown data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Notes:">
+                    <script type="text/template">
+
+                    </script>
+                </section>
+                -->
+
+            </div>
+		</div>
+
+		<script src="../reveal/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+				center: true,
+				transition: 'fade',
+                history: true,
+                dependencies: [		
+                    // Interpret Markdown in <section> elements
+                    { src: '../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+                    // Syntax highlight for <code> elements
+                    { src: '../reveal/plugin/highlight/highlight.js', async: true },
+
+                    // Zoom in and out with Alt+click
+                    { src: '../reveal/plugin/zoom-js/zoom.js', async: true },
+
+                    // Speaker notes
+                    { src: '../reveal/plugin/notes/notes.js', async: true },
+                ]
+			});
+		</script>
+
+	</body>
+</html>

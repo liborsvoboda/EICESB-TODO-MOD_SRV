@@ -1,0 +1,32 @@
+name: Issues - Exceptions
+
+on:
+  schedule:
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+
+jobs:
+  report:
+    name: 'Analyze and report exceptions'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: npm ci
+        working-directory: ./.github/actions/create-issues-from-app-insights
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - run: az extension add --name application-insights
+
+      - uses: ./.github/actions/create-issues-from-app-insights
+        with:
+          app-insights-query-path: './.github/workflows/exceptions/query.kql'
+          app-insights-apps: 'f33db8a2-47c9-48ea-81c4-8f431f8fd1f9'
+          app-insights-period: '24h'
+          github-label: ':boom: exception'
+          github-label-cannot-reproduce: '✖ cannot reproduce'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

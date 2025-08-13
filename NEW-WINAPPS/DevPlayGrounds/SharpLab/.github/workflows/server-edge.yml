@@ -1,0 +1,223 @@
+name: Server (.NET) - Edge
+
+on:
+  push:
+    paths:
+      - '.github/workflows/server-edge.yml'
+      - 'source/**'
+      - '!source/WebApp/**'
+      - '!source/Container/**'
+      - '!source/Container.Manager/**'
+      - '!source/#external/Fragile/**'
+      - '!source/#external/mirrorsharp/WebAssets/**'
+      - '!source/#external/mirrorsharp-codemirror-6-preview/WebAssets/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-core:
+    name: 'Build (.NET 8)'
+    # https://github.community/t/duplicate-checks-on-push-and-pull-request-simultaneous-event/18012/5
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: windows-latest
+    env:
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - uses: microsoft/setup-msbuild@v1.1
+
+      # https://github.com/actions/setup-dotnet/issues/155
+      - run: dotnet nuget locals all --clear
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{github.workspace}}/.nuget/packages
+          key: nuget-server-${{hashFiles('**/*.csproj')}}
+          # can restore caches from container-host as well, but should not overwrite them
+          restore-keys: |
+            nuget-
+
+      # https://github.com/dotnet/sdk/issues/13281
+      - run: dotnet nuget add source https://ci.appveyor.com/nuget/vanara-prerelease
+
+      - run: msbuild source/Native.Profiler/Native.Profiler.vcxproj /p:SolutionName=SharpLab /p:Configuration=Release /p:Platform=x64
+      - run: dotnet build source/Tests --configuration Release
+      # Tests do not reference that one yet
+      - run: dotnet build source/WebApp.Server --configuration Release
+      - run: dotnet test source/Tests --no-build --configuration Release
+      - run: dotnet publish source/Server --no-build --configuration Release
+      - run: dotnet publish source/WebApp.Server --no-build --configuration Release /p:ErrorOnDuplicatePublishOutputFiles=false
+      - run: Compress-Archive -Path 'source/Server/bin/Release/net8.0/publish/*' -DestinationPath 'Server.zip'
+        shell: pwsh
+      - run: Compress-Archive -Path 'source/WebApp.Server/bin/Release/net8.0/publish/*' -DestinationPath 'WebApp.Server.zip'
+        shell: pwsh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Server
+          path: Server.zip
+      - uses: actions/upload-artifact@v3
+        with:
+          name: WebApp.Server
+          path: WebApp.Server.zip
+
+  deploy-core:
+    strategy:
+      matrix:
+       include:
+         - name: 'WebApp Server / Default'
+           artifact: WebApp.Server
+           app: sharplab-edge
+           url: https://edge.sharplab.io
+           environment: edge-server
+         - name: x64
+           artifact: Server
+           app: sl-a-edge-core-x64
+           url: https://sl-a-edge-core-x64.azurewebsites.net/status
+           environment: edge-server-x64
+    name: 'Deploy to Edge (${{ matrix.name }})'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    needs: build-core
+    if: github.ref == 'refs/heads/main'
+    environment: ${{ matrix.environment }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ matrix.artifact }}
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ matrix.app }}
+          package: ${{ matrix.artifact }}.zip
+      - run: Invoke-RestMethod "${{ matrix.url }}" -MaximumRetryCount 10 -RetryIntervalSec 2
+        shell: pwsh
+
+  build-netfx:
+    name: 'Build (.NET Framework)'
+    # https://github.community/t/duplicate-checks-on-push-and-pull-request-simultaneous-event/18012/5
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      # https://github.com/actions/setup-dotnet/issues/155
+      - run: dotnet nuget locals all --clear
+
+      - run: dotnet build source/NetFramework/Tests --configuration Release
+      - run: dotnet test source/NetFramework/Tests --no-build --configuration Release
+      - run: dotnet publish source/NetFramework/Server --no-build --configuration Release
+      - run: Compress-Archive -Path 'source/NetFramework/Server/bin/publish/*' -DestinationPath 'Server.NetFramework.zip'
+        shell: pwsh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Server.NetFramework
+          path: Server.NetFramework.zip
+
+  deploy-netfx:
+    strategy:
+      matrix:
+       include:
+         - name: '.NET Framework, x86'
+           app: sl-a-edge-netfx
+           url: https://sl-a-edge-netfx.azurewebsites.net/status
+           environment: edge-server-netfx
+         - name: '.NET Framework, x64'
+           app: sl-a-edge-netfx-x64
+           url: https://sl-a-edge-netfx-x64.azurewebsites.net/status
+           environment: edge-server-netfx-x64
+    name: 'Deploy to Edge (${{ matrix.name }})'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    needs: build-netfx
+    if: github.ref == 'refs/heads/main'
+    environment: ${{ matrix.environment }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: Server.NetFramework
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ matrix.app }}
+          package: Server.NetFramework.zip
+      - run: Invoke-RestMethod "${{ matrix.url }}" -MaximumRetryCount 10 -RetryIntervalSec 2
+        shell: pwsh
+
+  # Since we are deploying to the edge, we can actually create
+  # a proper release _after_ deployment -- only main needs to
+  # have the release, and this avoids too many failed releases.
+  create-release:
+    name: 'Create Release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - deploy-core
+      - deploy-netfx
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: 'git show ${{ github.sha }} --format="version_number=%cd" --date=format:%Y-%m-%d-%H%M --no-patch >> $GITHUB_OUTPUT'
+        id: version
+
+      - uses: actions/download-artifact@v3
+
+      - uses: actions/create-release@v1
+        id: create_release
+        with:
+          tag_name: server-release-${{ steps.version.outputs.version_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Run actions/upload-release-asset@v1: WebApp.Server.zip'
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./WebApp.Server/WebApp.Server.zip
+          asset_name: WebApp.Server.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Run actions/upload-release-asset@v1: Server.zip'
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Server/Server.zip
+          asset_name: Server.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Run actions/upload-release-asset@v1: Server.NetFramework.zip'
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Server.NetFramework/Server.NetFramework.zip
+          asset_name: Server.NetFramework.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

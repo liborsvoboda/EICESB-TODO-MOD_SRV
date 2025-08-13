@@ -1,0 +1,22 @@
+name: 'Create GitHub Issues from App Insights'
+description: 'Creates or updates GitHub issues based on App Insights query results'
+inputs:
+  app-insights-query-path:
+    description: 'Path to a KQL file containing App Insights query. Query must return "title", "body" and "comment" columns.'
+    required: true
+  app-insights-apps:
+    description: 'Application ID of the App Insights App'
+    required: true
+  app-insights-period:
+    description: 'Time period to query, e.g. 24h.'
+    required: true
+  github-label:
+    description: 'Label that will be applied to the created issues. Note: also used to find issues; changing this later will create duplicates.'
+    required: true
+  github-label-cannot-reproduce:
+    description: 'If an issue is closed and has this label, the issue will be reopened and label removed.'
+    required: false
+
+runs:
+  using: 'node16'
+  main: 'index.js'

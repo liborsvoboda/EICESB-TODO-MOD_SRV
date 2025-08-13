@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(RepoRoot)test\Scaffolding\TestPackage.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>$(StandardTestTfms)</TargetFrameworks>
+    <AssemblyName>Microsoft.VisualStudio.Web.CodeGeneration.MSBuild.Test</AssemblyName>
+    <RootNamespace>Microsoft.VisualStudio.Web.CodeGeneration.MSBuild</RootNamespace>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\Cli.Utils\*.cs" />
+    <Compile Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\MsIdentity\*.cs" />
+    <Compile Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\MessageStrings.Designer.cs" />
+    <Compile Include="..\Shared\*.cs">
+      <Link>Shared\%(FileName)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepoRoot)src\Scaffolding\VS.Web.CG.Msbuild\VS.Web.CG.Msbuild.csproj" />
+    <Compile Include="$(RepoRoot)src\Shared\Microsoft.DotNet.Scaffolding.Shared\MsBuild\**\*.cs;">
+      <Link>MsBuildSources\%(RecursiveDir)%(FileName)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Runtime" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" />
+    <PackageReference Include="NuGet.Packaging" />
+  </ItemGroup>
+</Project>

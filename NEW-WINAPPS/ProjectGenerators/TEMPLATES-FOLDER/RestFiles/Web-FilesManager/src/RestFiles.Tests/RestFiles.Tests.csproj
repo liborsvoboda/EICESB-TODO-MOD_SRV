@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5</TargetFramework>
+    <AssemblyName>RestFiles.Tests</AssemblyName>
+    <PackageId>RestFiles.Tests</PackageId>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../RestFiles.ServiceInterface/RestFiles.ServiceInterface.csproj" />
+    <ProjectReference Include="../RestFiles.ServiceModel/RestFiles.ServiceModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.12.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.*" />
+    <PackageReference Include="ServiceStack" Version="5.*" />
+    <PackageReference Include="ServiceStack.Kestrel" Version="5.*" />
+  </ItemGroup>
+
+</Project>
